@@ -22,8 +22,19 @@ const HeaderContainer = styled.header<StyleProps>`
 `
 
 export default function Header() {
-  const { nickname } = useContext(userInfoContext)
+  const { user } = useContext(userInfoContext)
   const [isShow, setIsShow] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    if(!user) return;
+
+    if(user.nickname) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [user])
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -46,7 +57,7 @@ export default function Header() {
         <div>menu</div>
         <div>
           <h3>user detail</h3>
-          { nickname !== "" ? <div>안녕하세요 : {nickname}님</div> : <div>로그인 해주세요.</div>}
+          { isLoading  ? <div>안녕하세요 : {user.nickname}님</div> : <div>로그인 해주세요.</div>}
           <div>환영합니다!</div>
         </div>
     </HeaderContainer>

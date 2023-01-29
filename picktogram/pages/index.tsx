@@ -2,20 +2,19 @@ import Head from 'next/head'
 import Layout from '@/components/layout'
 import Card from '@/components/card'
 import {useState} from "react"
+import LocalStorage from './api/localStorage'
 
 
 
 export default function Home() {
-
   const dummyArray = new Array(100).fill(1)
-
   const [images, setImages] = useState<number[]>(dummyArray)
 
   const loggoutUser = () => {
-    localStorage.removeItem('token')
-    window.location.reload()
+      LocalStorage.removeItem('token');
+      LocalStorage.removeItem('user');
+      window.location.reload()
   }
-
 
   return (
     <Layout>

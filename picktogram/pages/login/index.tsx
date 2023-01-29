@@ -37,19 +37,22 @@ export default function LoginPage() {
         criteriaMode : "all"
       });
 
-    const { setNickName } = useContext(userInfoContext);
+    const { setUser } = useContext(userInfoContext);
 
     const decodeToken = () => {
         const token = localStorage.getItem('token');
-        var base64Payload  = token?.split('.')[1]
+        const base64Payload  = token?.split('.')[1]
+
         if(!base64Payload) {
           console.log('token is invaild')
           return;
         }
-        var payload = Buffer.from(base64Payload , 'base64')
-        var userData = JSON.parse(payload.toString())
-        setNickName(userData.nickname)
-        console.log('decode')
+
+        const payload = Buffer.from(base64Payload , 'base64')
+        const userData = JSON.parse(payload.toString())
+
+        setUser({nickname : userData.nickname})
+        console.log('decode success')
       }
 
 
@@ -65,7 +68,7 @@ export default function LoginPage() {
             )
 
             localStorage.setItem('token', responce.data.data);
-            decodeToken()
+            decodeToken();
             return responce.data;
 
         } catch (err) {

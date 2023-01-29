@@ -1,21 +1,30 @@
-import React, { createContext, useState, PropsWithChildren  } from 'react'
+import React, { createContext, useState, PropsWithChildren, useEffect  } from 'react'
+import LocalStorage from '@/pages/api/localStorage'
 
 interface UserInfo {
-    nickname : string
-    setNickName : (name:string) => void
+    user : {nickname : string}
+    setUser : (user: {nickname : string}) => void
 }
 
 export const userInfoContext = createContext<UserInfo>({
-    nickname : "",
-    setNickName : (name) => {
+    user : {nickname : ""},
+    setUser : (user) => {
+      return null;
     }
 });
 
 export default function UserInfoContextProvider(props : PropsWithChildren) {
-  const [nickname, setNickName] = useState("")
+  const [user, setUser] = useState(() => {
+      const userFromStorage = LocalStorage.getItem('user');
+      return userFromStorage ? JSON.parse(userFromStorage) : {nickname : ""}
+  })
+
+  useEffect(() => {
+    LocalStorage.setItem('user', JSON.stringify(user))
+  }, [user])
 
   return (
-    <userInfoContext.Provider value={{nickname, setNickName}}>
+    <userInfoContext.Provider value={{user, setUser}}>
         {props.children}
     </userInfoContext.Provider>
   )
