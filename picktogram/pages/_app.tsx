@@ -1,6 +1,8 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider, QueryCache, MutationCache } from "react-query"
+import UserInfoContextProvider from "@/context/userInfoContext"
+
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
@@ -26,7 +28,9 @@ const queryClient = new QueryClient({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
+     <UserInfoContextProvider>
+        <Component {...pageProps} />
+     </UserInfoContextProvider>
     </QueryClientProvider>
   )
 

@@ -2,7 +2,13 @@ import Head from 'next/head'
 import Layout from '@/components/layout'
 
 
+
 export default function Home() {
+
+  const loggoutUser = () => {
+    localStorage.removeItem('token')
+    window.location.reload()
+  }
 
 
   return (
@@ -16,6 +22,9 @@ export default function Home() {
       <main >
         hello world!
       </main>
+      <div>
+        <button onClick={loggoutUser}>logout</button>
+      </div>
     </Layout>
   )
 }

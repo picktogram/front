@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import {userInfoContext} from "@/context/userInfoContext"
 import styled from '@emotion/styled'
 import axios from 'axios'
 
@@ -37,6 +38,22 @@ export default function LoginPage() {
         criteriaMode : "all"
       });
 
+    const { setNickName } = useContext(userInfoContext);
+
+    const decodeToken = () => {
+        const token = localStorage.getItem('token');
+        var base64Payload  = token?.split('.')[1]
+        if(!base64Payload) {
+          console.log('token is invaild')
+          return;
+        }
+        var payload = Buffer.from(base64Payload , 'base64')
+        var userData = JSON.parse(payload.toString())
+        setNickName(userData.nickname)
+        console.log('decode')
+      }
+
+
     const loginRequest = async (data: LoginData) => {
         try {
             const responce = await axios.post('http://13.209.193.45:3000/api/v1/auth/login',
@@ -49,6 +66,7 @@ export default function LoginPage() {
             )
 
             localStorage.setItem('token', responce.data.data);
+            decodeToken()
             return responce.data;
 
         } catch (err) {
