@@ -2,22 +2,46 @@ import React, { useEffect, useState , useContext} from 'react'
 import styled from '@emotion/styled'
 import {userInfoContext} from "@/context/userInfoContext"
 
+interface StyleProps {
+  background : boolean
+}
 
-const HeaderContainer = styled.header`
+
+const HeaderContainer = styled.header<StyleProps>`
+    position : fixed;
+    top : 0;
     width: 100%;
     height: 100px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border: 1px solid black;
+    border-bottom: 1px solid black;
+    background-color: ${props => props.background ? "black" : "transparent "};
+    color : ${props => props.background ? "white" : "black "};
+    transition: all .3s ease;
 `
 
 export default function Header() {
+  const { nickname } = useContext(userInfoContext)
+  const [isShow, setIsShow] = useState<boolean>(false)
 
-  const {nickname} = useContext(userInfoContext)
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        setIsShow(true);
+      } else {
+        setIsShow(false);
+      }
+    });
+
+    return () => {
+      window.removeEventListener('scroll', () => {});
+    };
+  }, [])
+
 
   return (
-    <HeaderContainer>
+    <HeaderContainer background={isShow}>
         <div>Logo</div>
         <div>menu</div>
         <div>

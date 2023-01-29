@@ -29,7 +29,6 @@ const InputWrapper = styled.div`
 const Email = styled.input`
     width: 500px;
     height: 2rem;
-
 `
 
 export default function LoginPage() {
