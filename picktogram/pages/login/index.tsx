@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form"
 import { ErrorMessage } from '@hookform/error-message';
 
 import { useRouter } from 'next/router'
+import withAuth from '@/hoc/auth'
 
 interface LoginData {
     email : string
@@ -31,7 +32,7 @@ const Email = styled.input`
     height: 2rem;
 `
 
-export default function LoginPage() {
+ function LoginPage() {
     const router = useRouter();
     const { register, formState: { errors , isSubmitting }, handleSubmit } = useForm<LoginData>({
         criteriaMode : "all"
@@ -119,3 +120,6 @@ export default function LoginPage() {
     </LoginPageContainer>
   )
 }
+
+
+export default withAuth(LoginPage, false)

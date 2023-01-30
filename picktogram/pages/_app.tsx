@@ -1,3 +1,4 @@
+import Layout from '@/components/layout'
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider, QueryCache, MutationCache } from "react-query"
@@ -29,7 +30,9 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <UserInfoContextProvider>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </UserInfoContextProvider>
     </QueryClientProvider>
   )
