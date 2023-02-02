@@ -1,10 +1,7 @@
 import React, { createContext, useState, PropsWithChildren, useEffect  } from 'react'
-import LocalStorage from '@/pages/api/localStorage'
+import LocalStorage from '@/util/localStorage'
+import { UserInfo } from "@/src/types/types"
 
-interface UserInfo {
-    user : {nickname : string}
-    setUser : (user: {nickname : string}) => void
-}
 
 export const userInfoContext = createContext<UserInfo>({
     user : {nickname : ""},
@@ -16,7 +13,7 @@ export const userInfoContext = createContext<UserInfo>({
 export default function UserInfoContextProvider(props : PropsWithChildren) {
   const [user, setUser] = useState(() => {
       const userFromStorage = LocalStorage.getItem('user');
-      return userFromStorage ? JSON.parse(userFromStorage) : {nickname : ""}
+      return userFromStorage ? JSON.parse(userFromStorage) : { nickname : "" }
   })
 
   useEffect(() => {

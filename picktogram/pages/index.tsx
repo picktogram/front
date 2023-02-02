@@ -1,16 +1,38 @@
 import Head from 'next/head'
 import Card from '@/components/card'
-import {useState} from "react"
-import LocalStorage from './api/localStorage'
+import { useState, useContext, useEffect } from "react"
+import { userInfoContext } from "@/src/context/userInfoContext"
+import LocalStorage from '../util/localStorage'
+import { GetServerSidePropsContext } from 'next'
+import { clearUser, userFromRequest } from '@/src/auth/tokens'
+import Header from '@/components/header'
 
 
+export const getServerSideProps = async(context : GetServerSidePropsContext) => {
+  const user = await userFromRequest(context.req);
 
-export default function Home() {
+  if(!user) {
+    return { props : {} }
+  }
+
+  return {
+      props : {
+          user : user
+      }
+    }
+}
+
+export default function Home( props : { user? : {nickname : string} }) {
+
   const dummyArray = new Array(100).fill(1)
   const [images, setImages] = useState<number[]>(dummyArray)
+  const { user ,setUser } = useContext(userInfoContext);
+
+  console.log(props.user)
 
   const loggoutUser = () => {
-      LocalStorage.removeItem('token');
+      clearUser();
+      LocalStorage.removeItem("token");
       LocalStorage.removeItem('user');
       window.location.reload()
   }
@@ -23,6 +45,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header user={props.user}/>
       <main >
         hello world!
       </main>

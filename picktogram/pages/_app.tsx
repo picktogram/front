@@ -2,7 +2,7 @@ import Layout from '@/components/layout'
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider, QueryCache, MutationCache } from "react-query"
-import UserInfoContextProvider from "@/context/userInfoContext"
+import UserInfoContextProvider from "@/src/context/userInfoContext"
 
 
 const queryClient = new QueryClient({

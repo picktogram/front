@@ -1,6 +1,5 @@
 import React, { useEffect, useState , useContext} from 'react'
 import styled from '@emotion/styled'
-import {userInfoContext} from "@/context/userInfoContext"
 
 interface StyleProps {
   background : boolean
@@ -21,20 +20,14 @@ const HeaderContainer = styled.header<StyleProps>`
     transition: all .3s ease;
 `
 
-export default function Header() {
-  const { user } = useContext(userInfoContext)
+export default function Header(props : {user? : {nickname : string}}) {
   const [isShow, setIsShow] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-
-  useEffect(() => {
-    if(!user) return;
-
-    if(user.nickname) {
-      setIsLoading(true);
-    } else {
-      setIsLoading(false);
+  const [name, setName] = useState<string>(() => {
+    if(props.user) {
+      return props.user.nickname
     }
-  }, [user])
+    return ''
+  })
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -50,14 +43,13 @@ export default function Header() {
     };
   }, [])
 
-
   return (
     <HeaderContainer background={isShow}>
         <div>Logo</div>
         <div>menu</div>
         <div>
           <h3>user detail</h3>
-          { isLoading  ? <div>안녕하세요 : {user.nickname}님</div> : <div>로그인 해주세요.</div>}
+          { name  ? <div>안녕하세요 : {name}님</div> : <div>로그인 해주세요.</div>}
           <div>환영합니다!</div>
         </div>
     </HeaderContainer>

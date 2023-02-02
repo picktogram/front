@@ -1,19 +1,14 @@
 import React, { useContext } from 'react'
-import {userInfoContext} from "@/context/userInfoContext"
 import styled from '@emotion/styled'
 import axios from 'axios'
-
 import { useMutation } from "react-query"
 import { useForm } from "react-hook-form"
 import { ErrorMessage } from '@hookform/error-message';
-
 import { useRouter } from 'next/router'
-import withAuth from '@/hoc/auth'
-
-interface LoginData {
-    email : string
-    password : string
-}
+import { LoginData } from "@/src/types/types"
+import { GetServerSidePropsContext, NextApiResponse } from 'next'
+import { authenticateUser, userFromRequest } from '@/src/auth/tokens'
+import useServerRefresher from '@/src/hooks/useServerRefresher'
 
 const LoginPageContainer = styled.div`
     width: 1200px;
@@ -32,32 +27,48 @@ const Email = styled.input`
     height: 2rem;
 `
 
- function LoginPage() {
+export const decodeToken = (token : string) => {
+    const base64Payload  = token?.split('.')[1]
+
+    if(!base64Payload) {
+      console.log('token is invaild')
+      return;
+    }
+
+    const payload = Buffer.from(base64Payload , 'base64')
+    const userData = JSON.parse(payload.toString())
+
+    return { nickname : userData.nickname }
+}
+
+
+
+export const getServerSideProps = async (context : GetServerSidePropsContext) => {
+    const user = await userFromRequest(context.req)
+
+    if(user) {
+        return {
+            redirect : {
+              destination : '/',
+              permanent : false,
+            },
+        }
+    }
+
+    return {
+        props : {}
+    }
+}
+
+ function LoginPage( props : { user? : { nickname : string } }) {
     const router = useRouter();
     const { register, formState: { errors , isSubmitting }, handleSubmit } = useForm<LoginData>({
         criteriaMode : "all"
       });
 
-    const { setUser } = useContext(userInfoContext);
-
-    const decodeToken = () => {
-        const token = localStorage.getItem('token');
-        const base64Payload  = token?.split('.')[1]
-
-        if(!base64Payload) {
-          console.log('token is invaild')
-          return;
-        }
-
-        const payload = Buffer.from(base64Payload , 'base64')
-        const userData = JSON.parse(payload.toString())
-
-        setUser({nickname : userData.nickname})
-        console.log('decode success')
-      }
 
 
-    const loginRequest = async (data: LoginData) => {
+    const loginRequest = async ( data: LoginData ) => {
         try {
             const responce = await axios.post('http://13.209.193.45:3000/api/v1/auth/login',
                 JSON.stringify(data),
@@ -68,8 +79,8 @@ const Email = styled.input`
                 }
             )
 
-            localStorage.setItem('token', responce.data.data);
-            decodeToken();
+            // 로그인 유지용
+            authenticateUser(responce.data.data)
             return responce.data;
 
         } catch (err) {
@@ -77,7 +88,9 @@ const Email = styled.input`
         }
     }
 
-    const mutation = useMutation<any, Error, LoginData>("login", loginRequest)
+    const mutation = useMutation<any, Error, LoginData>("login", loginRequest, {
+        onSuccess : useServerRefresher(),
+    })
 
     const onSubmit =  (data : LoginData) => {
         mutation.mutate(data)
@@ -122,4 +135,4 @@ const Email = styled.input`
 }
 
 
-export default withAuth(LoginPage, false)
+export default LoginPage

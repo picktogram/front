@@ -25,5 +25,3 @@ export default function withAuth (WrappedComponent : React.FunctionComponent, op
   };
   return AuthenticationCheck;
 };
-
-
