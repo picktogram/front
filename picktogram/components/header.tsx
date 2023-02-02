@@ -22,12 +22,17 @@ const HeaderContainer = styled.header<StyleProps>`
 
 export default function Header(props : {user? : {nickname : string}}) {
   const [isShow, setIsShow] = useState<boolean>(false)
-  const [name, setName] = useState<string>(() => {
-    if(props.user) {
-      return props.user.nickname
-    }
-    return ''
-  })
+  const [name, setName] = useState<string>("")
+
+  useEffect(() => {
+    setName(() => {
+      if(props.user) {
+        return props.user.nickname
+      }
+
+      return ""
+    })
+  }, [props.user])
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
