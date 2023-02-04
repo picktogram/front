@@ -22,6 +22,8 @@ const decodeToken = (token : string) => {
     const payload = Buffer.from(base64Payload , 'base64')
     const userData = JSON.parse(payload.toString())
 
+    console.log(userData)
+
     return { nickname : userData.nickname }
 }
 
@@ -36,7 +38,7 @@ export async function userFromRequest(
       const user = decodeToken(token)
       if (!user) return undefined;
 
-      return user;
+      return {user, token};
     } catch (error) {
       return undefined;
     }

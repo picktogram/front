@@ -1,7 +1,7 @@
 import Layout from '@/components/layout'
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { QueryClient, QueryClientProvider, QueryCache, MutationCache } from "react-query"
+import { QueryClient, QueryClientProvider, QueryCache, MutationCache, Hydrate } from "react-query"
 import UserInfoContextProvider from "@/src/context/userInfoContext"
 
 
@@ -25,15 +25,16 @@ const queryClient = new QueryClient({
   })
 })
 
-
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <UserInfoContextProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </UserInfoContextProvider>
+      <Hydrate state={pageProps.dehydratedState}>
+        <UserInfoContextProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </UserInfoContextProvider>
+      </Hydrate>
     </QueryClientProvider>
   )
 

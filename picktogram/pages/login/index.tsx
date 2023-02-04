@@ -9,6 +9,7 @@ import { LoginData } from "@/src/types/types"
 import { GetServerSidePropsContext, NextApiResponse } from 'next'
 import { authenticateUser, userFromRequest } from '@/src/auth/tokens'
 import useServerRefresher from '@/src/hooks/useServerRefresher'
+import LocalStorage from '@/util/localStorage'
 
 const LoginPageContainer = styled.div`
     width: 1200px;
@@ -60,7 +61,7 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
     }
 }
 
- function LoginPage( props : { user? : { nickname : string } }) {
+ function LoginPage() {
     const router = useRouter();
     const { register, formState: { errors , isSubmitting }, handleSubmit } = useForm<LoginData>({
         criteriaMode : "all"
@@ -81,6 +82,7 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
 
             // 로그인 유지용
             authenticateUser(responce.data.data)
+            LocalStorage.setItem('token', responce.data.data)
             return responce.data;
 
         } catch (err) {
