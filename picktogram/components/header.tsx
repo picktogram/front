@@ -1,5 +1,6 @@
 import React, { useEffect, useState , useContext} from 'react'
 import styled from '@emotion/styled'
+import { useRouter } from "next/router"
 
 const HeaderContainer = styled.header`
     position : sticky;
@@ -91,12 +92,14 @@ const UserInfo = styled.div`
 `
 
 const UserIcon = styled.div`
-  border-radius: 45%;
+  border-radius: 50%;
+  padding: 5px;
   border: 1px solid gray;
   font-size: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 
   & i {
     color : gray
@@ -105,6 +108,7 @@ const UserIcon = styled.div`
 
 export default function Header(props : {user? : {nickname : string}}) {
   const [showSearchBar, setShowSearchBar] = useState<boolean>(false)
+  const router = useRouter()
 
   return (
     <HeaderContainer>
@@ -117,7 +121,7 @@ export default function Header(props : {user? : {nickname : string}}) {
           </SearchButton>
         </SearchBar>
         <UserInfo>
-          <UserIcon>
+          <UserIcon onClick={() => router.push('user/profile')}>
             <i className="ri-user-3-line"></i>
           </UserIcon>
           { props.user  ? <div>안녕하세요. {props.user?.nickname}님 환영합니다!</div> : <div>로그인 해주세요.</div>}

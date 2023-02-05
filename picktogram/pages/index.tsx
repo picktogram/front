@@ -1,16 +1,15 @@
 import React, { useState, useContext, useEffect } from "react"
 import axios from 'axios'
 import { userInfoContext } from "@/src/context/userInfoContext"
-import LocalStorage from '../util/localStorage'
 import { GetServerSidePropsContext } from 'next'
-import { clearUser, userFromRequest } from '@/src/auth/tokens'
-import { useQuery, useInfiniteQuery } from "react-query"
+import { userFromRequest } from '@/src/auth/tokens'
+import { useInfiniteQuery, useMutation } from "react-query"
 import Head from 'next/head'
 import Card from '@/components/card'
 import Header from '@/components/header'
 
 
-export const getServerSideProps = async(context : GetServerSidePropsContext) => {
+export const getServerSideProps = async (context : GetServerSidePropsContext) => {
   const data = await userFromRequest(context.req);
 
   if(!data?.token) {
@@ -48,7 +47,6 @@ export default function Home( props : { user : {nickname : string}, token : stri
     }
   }
 
-
   // const { data, isLoading } = useQuery(['boards'], () => fetchBoards(props.token, page))
  const { data, fetchNextPage, isLoading }  = useInfiniteQuery(['board'],
        ({pageParam = 1}) => fetchBoards(props.token, pageParam), {
@@ -57,12 +55,7 @@ export default function Home( props : { user : {nickname : string}, token : stri
         }
       })
 
-  const loggoutUser = () => {
-      clearUser();
-      LocalStorage.removeItem("token");
-      LocalStorage.removeItem('user');
-      window.location.reload()
-  }
+
 
   if(isLoading) {
     return (
@@ -85,9 +78,7 @@ export default function Home( props : { user : {nickname : string}, token : stri
       <main >
         hello world!
       </main>
-      <div>
-        <button onClick={loggoutUser}>logout</button>
-      </div>
+
       <div style={{ margin : "0 auto", padding : "16px 20px", display : "grid", gridTemplateColumns : "1fr 1fr 1fr" , gap : '2rem'}}>
         {data?.pages.map((page, index) => (
           <React.Fragment key={index}>
