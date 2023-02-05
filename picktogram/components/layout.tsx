@@ -7,7 +7,7 @@ export default function Layout(props : {children : React.ReactNode}) {
 
   return (
     <div>
-      <main style={{marginTop : "150px" }}>{props.children}</main>
+      <main>{props.children}</main>
       <Footer />
     </div>
   )

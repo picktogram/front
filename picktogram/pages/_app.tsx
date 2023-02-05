@@ -3,7 +3,7 @@ import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider, QueryCache, MutationCache, Hydrate } from "react-query"
 import UserInfoContextProvider from "@/src/context/userInfoContext"
-
+import 'remixicon/fonts/remixicon.css'
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({

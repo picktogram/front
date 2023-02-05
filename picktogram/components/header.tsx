@@ -1,62 +1,127 @@
 import React, { useEffect, useState , useContext} from 'react'
 import styled from '@emotion/styled'
 
-interface StyleProps {
-  background : boolean
-}
-
-
-const HeaderContainer = styled.header<StyleProps>`
-    position : fixed;
+const HeaderContainer = styled.header`
+    position : sticky;
     top : 0;
     width: 100%;
     height: 100px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    padding: 16px;
     border-bottom: 1px solid black;
-    background-color: ${props => props.background ? "black" : "transparent "};
-    color : ${props => props.background ? "white" : "black "};
+    background-color: white;
+    color : black;
     transition: all .3s ease;
+    z-index: 100;
+`
+
+const Logo = styled.div`
+    position: absolute;
+    left: 16px;
+    top : 50%;
+    transform: translateY(-50%);
+    font-weight: 700;
+`
+
+const SearchBar = styled.form<{showSearchBar : boolean}>`
+  position: relative;
+  left: 100px;
+  width: ${props => props.showSearchBar ? "300px" : '76px'};
+  height: 76px;
+  background-color: white;
+  box-shadow: 0 4px 24px hsla(222, 68%, 12%, .1);
+  border-radius: 4rem;
+  transition: width .5s cubic-bezier(.9, 0 ,.3, .9);
+`
+const SearchInput = styled.input<{showSearchBar : boolean}>`
+    border: none;
+    outline: none;
+    width: calc(100% - 64px);
+    height: 100%;
+    border-radius: 4rem;
+    padding-left: 14px;
+    background-color: white;
+    font-size: small;
+    font-weight: 500;
+    opacity: ${props => props.showSearchBar ? "1" : "0"};
+    pointer-events:  ${props => props.showSearchBar ? "initial" : "none"};
+    transition: opacity 0.5s;
+`
+
+const SearchButton = styled.div<{showSearchBar : boolean}>`
+    width: 56px;
+    height: 56px;
+    background-color: black;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    bottom : 0;
+    right : 10px;
+    margin: auto;
+    display: grid;
+    place-items: center;
+    cursor : pointer;
+    transition: trasform .6s cubic-bezier(.9, 0 ,.3, .9);
+
+    & i {
+      color: white;
+      font-size: 1.5rem;
+      position: absolute;
+      transition: opacity .6s cubic-bezier(.9, 0 ,.3, .9);
+      opacity: ${props => props.showSearchBar ? "0" : "1"};
+    }
+`
+
+const SearchClose = styled.button<{showSearchBar : boolean}>`
+    color: white;
+    background-color: transparent;
+    font-size: 1.5rem;
+    position: absolute;
+    opacity: ${props => props.showSearchBar ? "1" : "0"};
+    transition: opacity .6s cubic-bezier(.9, 0 ,.3, .9);
+`
+
+const UserInfo = styled.div`
+    position: absolute;
+    top : 50%;
+    transform: translateY(-50%);
+    right: 16px;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+`
+
+const UserIcon = styled.div`
+  border-radius: 45%;
+  border: 1px solid gray;
+  font-size: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & i {
+    color : gray
+  }
 `
 
 export default function Header(props : {user? : {nickname : string}}) {
-  const [isShow, setIsShow] = useState<boolean>(false)
-  const [name, setName] = useState<string>("")
-
-  useEffect(() => {
-    setName(() => {
-      if(props.user) {
-        return props.user.nickname
-      }
-
-      return ""
-    })
-  }, [props.user])
-
-  useEffect(() => {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        setIsShow(true);
-      } else {
-        setIsShow(false);
-      }
-    });
-
-    return () => {
-      window.removeEventListener('scroll', () => {});
-    };
-  }, [])
+  const [showSearchBar, setShowSearchBar] = useState<boolean>(false)
 
   return (
-    <HeaderContainer background={isShow}>
-        <div>Logo</div>
-        <div>menu</div>
-        <div>
-          <h3>user detail</h3>
-          { name  ? <div>안녕하세요 : {name}님</div> : <div>로그인 해주세요.</div>}
-          <div>환영합니다!</div>
-        </div>
+    <HeaderContainer>
+        <Logo>Picktogram</Logo>
+        <SearchBar showSearchBar={showSearchBar} onSubmit={(e) => e.preventDefault()}>
+          <SearchInput type="search" showSearchBar={showSearchBar}/>
+          <SearchButton onClick={() => { setShowSearchBar(!showSearchBar) }} showSearchBar={showSearchBar}>
+            <i className="ri-search-line"></i>
+            <SearchClose showSearchBar={showSearchBar}>X</SearchClose>
+          </SearchButton>
+        </SearchBar>
+        <UserInfo>
+          <UserIcon>
+            <i className="ri-user-3-line"></i>
+          </UserIcon>
+          { props.user  ? <div>안녕하세요. {props.user?.nickname}님 환영합니다!</div> : <div>로그인 해주세요.</div>}
+        </UserInfo>
     </HeaderContainer>
   )
 }
