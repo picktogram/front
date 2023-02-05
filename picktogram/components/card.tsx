@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import styled from '@emotion/styled'
 import { CardProps } from "@/src/types/types"
 
@@ -10,10 +11,17 @@ const CardContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.05);
+    }
 `
 
 export default function Card({isLast, newLimit, data} : CardProps) {
     const cardRef = useRef(null);
+    const router = useRouter();
 
     useEffect(() => {
         if (!cardRef?.current) return;
@@ -28,10 +36,14 @@ export default function Card({isLast, newLimit, data} : CardProps) {
         observer.observe(cardRef.current);
       }, [isLast]);
 
-      console.log(data)
+    const handleClick = () => {
+      if(data) {
+        router.push(`/dashboard/${data?.id}`)
+      }
+    }
 
     return (
-        <CardContainer ref={cardRef}>
+        <CardContainer ref={cardRef} onClick={handleClick}>
           <h2>{data?.nickname}</h2>
           <div>{data?.contents}</div>
         </CardContainer>
