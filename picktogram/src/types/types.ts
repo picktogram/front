@@ -9,3 +9,18 @@ export interface UserInfo {
     user : { nickname : string }
     setUser : ( user: { nickname : string } | undefined ) => void
 }
+
+
+export interface Board {
+    createdAt : string
+    id : number
+    contents : string
+    writerID : number
+    nickname : string
+}
+
+export interface CardProps {
+      isLast? : boolean
+      newLimit : () => void
+      data : Board
+}

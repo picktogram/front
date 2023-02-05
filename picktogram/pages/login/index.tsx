@@ -28,26 +28,10 @@ const Email = styled.input`
     height: 2rem;
 `
 
-export const decodeToken = (token : string) => {
-    const base64Payload  = token?.split('.')[1]
-
-    if(!base64Payload) {
-      console.log('token is invaild')
-      return;
-    }
-
-    const payload = Buffer.from(base64Payload , 'base64')
-    const userData = JSON.parse(payload.toString())
-
-    return { nickname : userData.nickname }
-}
-
-
-
 export const getServerSideProps = async (context : GetServerSidePropsContext) => {
-    const user = await userFromRequest(context.req)
+    const data  = await userFromRequest(context.req)
 
-    if(user) {
+    if(data?.user) {
         return {
             redirect : {
               destination : '/',
@@ -66,8 +50,6 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
     const { register, formState: { errors , isSubmitting }, handleSubmit } = useForm<LoginData>({
         criteriaMode : "all"
       });
-
-
 
     const loginRequest = async ( data: LoginData ) => {
         try {
@@ -95,10 +77,9 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
     })
 
     const onSubmit =  (data : LoginData) => {
-        mutation.mutate(data)
-        router.push("/")
+        mutation.mutate(data);
+        router.push("/");
     }
-
 
   return (
     <LoginPageContainer>

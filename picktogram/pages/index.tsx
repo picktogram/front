@@ -1,40 +1,76 @@
-import Head from 'next/head'
-import Card from '@/components/card'
-import { useState, useContext, useEffect } from "react"
+import React, { useState, useContext, useEffect } from "react"
+import axios from 'axios'
 import { userInfoContext } from "@/src/context/userInfoContext"
 import LocalStorage from '../util/localStorage'
 import { GetServerSidePropsContext } from 'next'
 import { clearUser, userFromRequest } from '@/src/auth/tokens'
+import { useQuery, useInfiniteQuery } from "react-query"
+import Head from 'next/head'
+import Card from '@/components/card'
 import Header from '@/components/header'
 
 
 export const getServerSideProps = async(context : GetServerSidePropsContext) => {
-  const user = await userFromRequest(context.req);
+  const data = await userFromRequest(context.req);
 
-  if(!user) {
-    return { props : {} }
+  if(!data?.token) {
+      return {
+        redirect : {
+        destination : '/login',
+        permanent : false
+        }
+      }
   }
 
   return {
       props : {
-          user : user
+          user : data.user,
+          token : data.token,
       }
     }
 }
 
-export default function Home( props : { user? : {nickname : string} }) {
+export default function Home( props : { user : {nickname : string}, token : string }) {
+  const { user, setUser } = useContext(userInfoContext);
 
-  const dummyArray = new Array(100).fill(1)
-  const [images, setImages] = useState<number[]>(dummyArray)
-  const { user ,setUser } = useContext(userInfoContext);
+  const fetchBoards = async (token : string | undefined | null, page : number) => {
+    try {
+      const res = await axios.get(`http://13.209.193.45:3000/api/v1/articles?limit=10&page=${page}`, {
+        headers : {
+          Authorization : `Bearer ${token}`
+        }
+      })
 
-  console.log(props.user)
+      const data = await res.data.data
+      return data
+    } catch (err) {
+      return err
+    }
+  }
+
+
+  // const { data, isLoading } = useQuery(['boards'], () => fetchBoards(props.token, page))
+ const { data, fetchNextPage, isLoading }  = useInfiniteQuery(['board'],
+       ({pageParam = 1}) => fetchBoards(props.token, pageParam), {
+        getNextPageParam : (lastPage) => {
+           return lastPage.page == lastPage.totalPage ? undefined : Number(lastPage.page) + 1;
+        }
+      })
 
   const loggoutUser = () => {
       clearUser();
       LocalStorage.removeItem("token");
       LocalStorage.removeItem('user');
       window.location.reload()
+  }
+
+  if(isLoading) {
+    return (
+      <>
+        <Header user={props.user}/>
+        <div>Loading...</div>
+      </>
+    )
   }
 
   return (
@@ -53,10 +89,13 @@ export default function Home( props : { user? : {nickname : string} }) {
         <button onClick={loggoutUser}>logout</button>
       </div>
       <div style={{ margin : "0 auto", padding : "16px 20px", display : "grid", gridTemplateColumns : "1fr 1fr 1fr" , gap : '2rem'}}>
-        {images.map((_, index) => <Card key={index} isLast={index === images.length - 1 } newLimit={()=> {
-            setImages((prev) => [...prev, ...new Array(10).fill(1)])
-            console.log('card end')}}/>
-          )}
+        {data?.pages.map((page, index) => (
+          <React.Fragment key={index}>
+            {page.list.map((post : any, index : any) => (
+              <Card key={index} isLast={index === page.list.length -1} newLimit={() => fetchNextPage()} data={post}/>
+            ))}
+          </React.Fragment>
+        ))}
       </div>
     </>
   )

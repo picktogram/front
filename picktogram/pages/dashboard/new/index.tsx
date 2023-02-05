@@ -1,11 +1,14 @@
 import { userFromRequest } from '@/src/auth/tokens'
+import useServerRefresher from '@/src/hooks/useServerRefresher'
+import axios from 'axios'
 import { GetServerSidePropsContext } from 'next/types'
-import React from 'react'
+import React, { useState } from 'react'
+import { useMutation } from 'react-query'
 
 export const getServerSideProps = async (context : GetServerSidePropsContext) => {
-    const { token } = await userFromRequest(context.req)
+    const data = await userFromRequest(context.req)
 
-    if(!token) {
+    if(!data?.token) {
       return {
         redirect : {
           destination : '/login',
@@ -16,17 +19,53 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
 
     return {
       props : {
-        token,
+        token : data.token
       },
     }
 }
 
 const NewDashBoardPage = ({ token } : { token : string }) => {
+  const [contents, setContents] = useState<string>("")
+
+  const mutation = useMutation("createBoard", async (data : any) => {
+      try {
+        const responce = await axios.post("http://13.209.193.45:3000/api/v1/articles",
+        JSON.stringify(data),
+          {
+            headers : {
+              'Authorization' : `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            }
+          }
+        );
+
+        const result = await responce.data.data;
+        console.log(result);
+        return result;
+      } catch (err) {
+        throw err
+      }
+    }, {
+      onSuccess : useServerRefresher(),
+    }
+  )
 
   return (
     <div>
       <h1>게시판 작성</h1>
-      <div>로그인 이후 접근 가능한 페이지입니다.</div>
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        let data = {
+          "contents" : contents,
+        }
+        mutation.mutate(data)
+      }}>
+        <label>contents : </label>
+        <input type="text" onChange={(e) => {
+          setContents(e.target.value);
+        }}/>
+        <button type='submit'>제출</button>
+      </form>
     </div>
   )
 }
