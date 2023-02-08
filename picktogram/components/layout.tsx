@@ -8,7 +8,6 @@ export default function Layout(props : {children : React.ReactNode}) {
   return (
     <div>
       <main>{props.children}</main>
-      <Footer />
     </div>
   )
 }

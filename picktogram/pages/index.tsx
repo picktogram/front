@@ -75,9 +75,6 @@ export default function Home( props : { user : {nickname : string}, token : stri
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header user={props.user}/>
-      <main >
-        hello world!
-      </main>
 
       <div style={{ margin : "0 auto", padding : "16px 20px", display : "grid", gridTemplateColumns : "1fr 1fr 1fr" , gap : '2rem'}}>
         {data?.pages.map((page, index) => (

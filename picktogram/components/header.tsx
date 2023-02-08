@@ -124,7 +124,7 @@ export default function Header(props : {user? : {nickname : string}}) {
           <UserIcon onClick={() => router.push('user/profile')}>
             <i className="ri-user-3-line"></i>
           </UserIcon>
-          { props.user  ? <div>안녕하세요. {props.user?.nickname}님 환영합니다!</div> : <div>로그인 해주세요.</div>}
+          { props.user  ? <div>안녕하세요. {props.user?.nickname} 디자이너님 환영합니다!</div> : <div>로그인 해주세요.</div>}
         </UserInfo>
     </HeaderContainer>
   )
