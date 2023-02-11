@@ -34,9 +34,6 @@ const Input = styled.textarea`
       border: 1px solid gray
     }
 `
-
-
-
 export const getServerSideProps = async (context : GetServerSidePropsContext) => {
     const data = await userFromRequest(context.req)
 
@@ -56,7 +53,11 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
     }
 }
 
-const NewDashBoardPage = ({ token } : { token : string }) => {
+const NewDashBoardPage = ({
+    token,
+  } : {
+    token : string;
+  }) => {
   const [contents, setContents] = useState<string>("")
   const [images, setImages] = useState<[]>([]);
   const [count, setCount] = useState<number>(0);
@@ -84,7 +85,6 @@ const NewDashBoardPage = ({ token } : { token : string }) => {
     }
   )
 
-    console.log(count);
   return (
     <div>
       <h1 style={{marginBottom : "1rem"}}>게시판 작성</h1>
@@ -98,7 +98,8 @@ const NewDashBoardPage = ({ token } : { token : string }) => {
       }}>
         <Container>
           <Dropzone images={images} setImages={setImages} token={token} setCount={setCount} />
-          <Carousel images={images} count={count} setCount={setCount} />
+          <Carousel images={images} count={count} setCount={setCount} setImages={setImages} />
+          <div>업로드한 이미지를 클릭하여 삭제할 수 있습니다.</div>
           <Input onChange={(e) => {
             setContents(e.target.value);
           }} />

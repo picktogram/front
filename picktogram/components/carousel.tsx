@@ -8,7 +8,6 @@ const CarouselContainer = styled.div`
     &::-webkit-scrollbar {
         display: none;
     }
-
 `
 
 const ImageBox = styled.div<{index : number}>`
@@ -54,10 +53,12 @@ const RightArrow = styled.div`
 
 const Carousel = ({
      images,
+     setImages,
      count,
      setCount,
     } : {
          images : string[];
+         setImages : Dispatch<SetStateAction<[]>>
          count : number;
          setCount : Dispatch<SetStateAction<number>>;
     }) => {
@@ -70,6 +71,16 @@ const Carousel = ({
         setCount((prev) => (prev === 0 ? prev : prev - 1));
     };
 
+    const deleteHandler = (imgUrl : string) => {
+        const currentIndex = images.indexOf(imgUrl)
+        console.log(currentIndex);
+
+        let newImages = [...images];
+        newImages.splice(currentIndex, 1);
+        setImages(newImages);
+        setCount(currentIndex - 1);
+    }
+
     return (
         <CarouselContainer>
             {images.length > 0 &&
@@ -77,13 +88,17 @@ const Carousel = ({
                     <LeftArrow onClick={prevImage}>{"<"}</LeftArrow>
                     <ImageBox index={count}>
                         {images?.map((image, index) => (
-                            <img src={image} style={{width: "100%", flex : "1 0 100%"}} key={index} />
+                            <img
+                                src={image}
+                                style={{width: "100%", flex : "1 0 100%"}}
+                                key={index}
+                                onClick={() => deleteHandler(image)}
+                            />
                         ))}
                     </ImageBox>
                     <RightArrow onClick={nextImage}>{">"}</RightArrow>
                 </>
             }
-
         </CarouselContainer>
     )
 }
