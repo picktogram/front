@@ -3,19 +3,19 @@ import Dropzone from 'react-dropzone'
 import styled from "@emotion/styled";
 import { useMutation } from 'react-query'
 import axios from "axios";
+import useServerRefresher from "@/src/hooks/useServerRefresher";
 
 const DropzoneBox = styled.div`
-    width: 300px;
-    height: 400px;
+    width: 50px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1px solid black;
-    margin: 16px;
 
     & p {
-        font-size: 3rem;
-        font-weight: 700;
+        font-size: 1.5rem;
+        font-weight: 600;
     }
 `
 
@@ -23,10 +23,10 @@ const DropzoneBox = styled.div`
     setImage,
     token
  }: {
-    setImage :Dispatch<SetStateAction<[]>>;
+    setImage : Dispatch<SetStateAction<[]>>;
     token : string;
 }) => {
-    const {mutate : uploadImage, data, isSuccess} = useMutation<string[], Error>('uploadImage', async (data : any) => {
+    const {mutate : uploadImage} = useMutation<string[], Error>('uploadImage', async (data : any) => {
         try {
             let formData = new FormData();
             formData.append('file', data);
@@ -46,16 +46,17 @@ const DropzoneBox = styled.div`
         } catch (err) {
             console.error(err)
         }
-    } )
+    }, {
+        onSuccess : (data) => {
+            setImage((prev) => [...prev, data]);
+        }
+    })
+
     const handleDrop = async (data : any[]) => {
-        console.log(data);
         uploadImage(data[0]);
-
     }
 
-    if(isSuccess) {
-        console.log(data)
-    }
+
     return (
         <DropzoneBox>
             <Dropzone onDrop={acceptedFiles => handleDrop(acceptedFiles)}>

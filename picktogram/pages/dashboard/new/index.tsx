@@ -5,15 +5,37 @@ import { GetServerSidePropsContext } from 'next/types'
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
 import Dropzone from "@/components/dropzone"
+import Carousel from '@/components/carousel'
 import styled from '@emotion/styled'
 
-const Input = styled.input`
-    display: block;
-    margin: 0 auto;
-    width: 1200px;
-    height: 100vh;
-    padding: 16px;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  width: 1200px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  border: 1px solid black;
 `
+const Input = styled.textarea`
+    position: relative;
+    padding: 2rem;
+    width: 100%;
+    height: 500px;
+    font-size: 15px;
+    border: 0;
+    border-radius: 15px;
+    outline: none;
+    padding-left: 10px;
+    background-color: rgb(233, 233, 233);
+    resize: none;
+
+    &:focus {
+      border: 1px solid gray
+    }
+`
+
+
 
 export const getServerSideProps = async (context : GetServerSidePropsContext) => {
     const data = await userFromRequest(context.req)
@@ -62,22 +84,25 @@ const NewDashBoardPage = ({ token } : { token : string }) => {
   )
 
 
-  console.log(images)
   return (
     <div>
-      <h1>게시판 작성</h1>
+      <h1 style={{marginBottom : "1rem"}}>게시판 작성</h1>
       <form onSubmit={(e) => {
         e.preventDefault();
         let data = {
           "contents" : contents,
+          "images" : images // 수정 요망
         }
         creatBoard(data)
       }}>
-        <Dropzone setImage={setImages} token={token} />
+        <Container>
+          <Dropzone setImage={setImages} token={token} />
+          <Carousel images={images} />
+          <Input onChange={(e) => {
+            setContents(e.target.value);
+          }} />
+        </Container>
 
-        <Input type="text" onChange={(e) => {
-          setContents(e.target.value);
-        }}/>
         <button type='submit'>제출</button>
       </form>
     </div>
