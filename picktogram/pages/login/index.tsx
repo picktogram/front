@@ -10,22 +10,77 @@ import { GetServerSidePropsContext, NextApiResponse } from 'next'
 import { authenticateUser, userFromRequest } from '@/src/auth/tokens'
 import useServerRefresher from '@/src/hooks/useServerRefresher'
 import LocalStorage from '@/util/localStorage'
+import Link from 'next/dist/client/link'
 
 const LoginPageContainer = styled.div`
-    width: 1200px;
-    margin: 0 auto;
+    width: 1400px;
+    height: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 16px auto;
+    box-shadow: 27px 43px 43px -26px rgba(89,89,89,0.39);
+`
+
+const About = styled.div`
+    width: 700px;
+    height: 100%;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    row-gap: 1rem;
+    color : white;
+    border-right: 1px solid black;
+    background-image:
+  radial-gradient(ellipse farthest-corner at 0 140%, #5d9dff 0%, #2178ff 70%, #3585ff 70%);
+`
+
+const Form = styled.form`
+    width: 700px;
+    height: 100%;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 16px;
+
+    & button {
+        width: 280px;
+        height: 50px;
+        margin-bottom: 16px;
+        background-color: #166caa;
+        color : white;
+        border: none;
+        border-radius: 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
 `
 
 const InputWrapper = styled.div`
     position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    column-gap: 1rem;
+    row-gap: 1rem;
 `
 
 const Email = styled.input`
-    width: 500px;
+    width: 300px;
     height: 2rem;
+    padding: 1rem;
+    border: none;
+    border-bottom: 1.5px solid black;
+`
+
+const Password = styled(Email)``
+
+const LoginMenu = styled.div`
+    display: flex;
+    column-gap: 1rem;
 `
 
 export const getServerSideProps = async (context : GetServerSidePropsContext) => {
@@ -83,22 +138,28 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
 
   return (
     <LoginPageContainer>
-        <form onSubmit={handleSubmit(({email, password}) => onSubmit({email, password}))}>
+        <About>
+            <h1>Welcome to Picktogram</h1>
+            <div>
+                Picktogram is SNS for designer
+            </div>
+        </About>
+        <Form onSubmit={handleSubmit(({email, password}) => onSubmit({email, password}))}>
+            <h2>Login</h2>
             <InputWrapper >
-                <label>ID</label>
-                <Email type='text' {...register('email', {required : "This is required"})} />
+                <Email type='text' {...register('email', {required : "This is required"})} placeholder="Email" />
                 <ErrorMessage
-                  errors={errors}
-                  name="email"
-                  render={({ message }) => <p>{message}</p>}
+                errors={errors}
+                name="email"
+                render={({ message }) => <p>{message}</p>}
                 />
             </InputWrapper>
             <InputWrapper >
-                <label>password</label>
-                <input type='password'
+                <Password type='password'
                 {...register('password',
                     {required : "This is required" ,
                     minLength: { value: 8, message: "This input min-width is 8" }})}
+                    placeholder="Password"
                 />
                 <ErrorMessage
                   errors={errors}
@@ -111,8 +172,12 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
                 }
                 />
             </InputWrapper>
-            <button type='submit' disabled={isSubmitting}>로그인</button>
-        </form>
+            <button type='submit' disabled={isSubmitting}>login</button>
+            <LoginMenu>
+                <Link href="##">Forget Password?</Link>
+                <Link href="##">Sign Up</Link>
+            </LoginMenu>
+        </Form>
     </LoginPageContainer>
   )
 }

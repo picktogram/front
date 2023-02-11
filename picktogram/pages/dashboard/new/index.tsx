@@ -59,7 +59,7 @@ const NewDashBoardPage = ({
     token : string;
   }) => {
   const [contents, setContents] = useState<string>("")
-  const [images, setImages] = useState<[]>([]);
+  const [images, setImages] = useState<string[]>([]);
   const [count, setCount] = useState<number>(0);
 
   const { mutate : creatBoard } = useMutation("createBoard", async (data : any) => {
@@ -91,8 +91,11 @@ const NewDashBoardPage = ({
       <form onSubmit={(e) => {
         e.preventDefault();
         let data = {
-          "contents" : contents,
-          "images" : images // 수정 요망
+          "contents" : contents ? contents : "xxx",
+          "images" : {
+            "url" : images.length > 0 ? images[0] : "",
+            "position" : 0,
+          }
         }
         creatBoard(data)
       }}>

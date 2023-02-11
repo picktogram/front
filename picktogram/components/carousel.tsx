@@ -58,7 +58,7 @@ const Carousel = ({
      setCount,
     } : {
          images : string[];
-         setImages : Dispatch<SetStateAction<[]>>
+         setImages : Dispatch<SetStateAction<string[]>>
          count : number;
          setCount : Dispatch<SetStateAction<number>>;
     }) => {
@@ -73,8 +73,6 @@ const Carousel = ({
 
     const deleteHandler = (imgUrl : string) => {
         const currentIndex = images.indexOf(imgUrl)
-        console.log(currentIndex);
-
         let newImages = [...images];
         newImages.splice(currentIndex, 1);
         setImages(newImages);

@@ -8,7 +8,7 @@ export function authenticateUser( token : string ): void {
 
 // 서용자 로그아웃을 위해 쿠키에 토큰을 삭제
 export const clearUser = (): void => {
-    document.cookie = `token=$0;max-age=0`;
+    document.cookie = `token=0;max-age=0`;
 }
 
 const decodeToken = (token : string) => {
