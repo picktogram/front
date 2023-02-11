@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import styled from "@emotion/styled"
 
 const CarouselContainer = styled.div`
@@ -15,7 +15,6 @@ const ImageBox = styled.div<{index : number}>`
   width: 100%;
   height: 500px;
   display: flex;
-  /* overflow-x: scroll; */
   transform: ${(props) => `translateX(-${props.index * 100}%)`};
   transition: transform .3s ease;
 
@@ -53,11 +52,15 @@ const RightArrow = styled.div`
     cursor: pointer;
 `
 
-const Carousel = (
-    { images }
-    : {images : string[]}
-    ) => {
-    const [count, setCount] = useState<number>(0);
+const Carousel = ({
+     images,
+     count,
+     setCount,
+    } : {
+         images : string[];
+         count : number;
+         setCount : Dispatch<SetStateAction<number>>;
+    }) => {
 
     const nextImage = () => {
         setCount((prev) => (prev === images.length - 1 ? prev : prev + 1));

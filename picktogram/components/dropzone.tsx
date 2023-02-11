@@ -20,10 +20,14 @@ const DropzoneBox = styled.div`
 `
 
  const DropzoneComponent = ({
-    setImage,
+    setCount,
+    images,
+    setImages,
     token
  }: {
-    setImage : Dispatch<SetStateAction<[]>>;
+    setCount : Dispatch<SetStateAction<number>>;
+    images : string[];
+    setImages : Dispatch<SetStateAction<[]>>;
     token : string;
 }) => {
     const {mutate : uploadImage} = useMutation<string[], Error>('uploadImage', async (data : any) => {
@@ -48,7 +52,8 @@ const DropzoneBox = styled.div`
         }
     }, {
         onSuccess : (data) => {
-            setImage((prev) => [...prev, data]);
+            setImages((prev) => [...prev, data]);
+            setCount(images.length);
         }
     })
 

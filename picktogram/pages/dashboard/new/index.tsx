@@ -59,6 +59,7 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
 const NewDashBoardPage = ({ token } : { token : string }) => {
   const [contents, setContents] = useState<string>("")
   const [images, setImages] = useState<[]>([]);
+  const [count, setCount] = useState<number>(0);
 
   const { mutate : creatBoard } = useMutation("createBoard", async (data : any) => {
       try {
@@ -83,7 +84,7 @@ const NewDashBoardPage = ({ token } : { token : string }) => {
     }
   )
 
-
+    console.log(count);
   return (
     <div>
       <h1 style={{marginBottom : "1rem"}}>게시판 작성</h1>
@@ -96,8 +97,8 @@ const NewDashBoardPage = ({ token } : { token : string }) => {
         creatBoard(data)
       }}>
         <Container>
-          <Dropzone setImage={setImages} token={token} />
-          <Carousel images={images} />
+          <Dropzone images={images} setImages={setImages} token={token} setCount={setCount} />
+          <Carousel images={images} count={count} setCount={setCount} />
           <Input onChange={(e) => {
             setContents(e.target.value);
           }} />
