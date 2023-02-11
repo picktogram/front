@@ -12,11 +12,15 @@ export interface UserInfo {
 
 
 export interface Board {
+    comments : string[]
     createdAt : string
-    id : number
     contents : string
-    writerID : number
-    nickname : string
+    id : number
+    writer : {
+        id : number
+        nickname : string
+        profileImage : string
+    }
 }
 
 export interface CardProps {

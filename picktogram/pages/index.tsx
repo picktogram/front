@@ -76,7 +76,7 @@ export default function Home( props : { user : {nickname : string}, token : stri
       </Head>
       <Header user={props.user}/>
 
-      <div style={{ margin : "0 auto", padding : "16px 20px", display : "grid", gridTemplateColumns : "1fr 1fr 1fr" , gap : '2rem'}}>
+      <div style={{ margin : "0 auto", padding : "16px 20px", display : "grid", gridTemplateColumns : "650px", justifyContent : "center" , gap : '2rem'}}>
         {data?.pages.map((page, index) => (
           <React.Fragment key={index}>
             {page.list.map((post : any, index : any) => (

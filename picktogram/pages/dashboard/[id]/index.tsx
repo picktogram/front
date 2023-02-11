@@ -4,6 +4,16 @@ import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useQuery } from 'react-query';
+import styled from '@emotion/styled'
+
+const Container = styled.div`
+    width: 1200px;
+    margin: 0 auto;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+`
 
 export const getServerSideProps = async (context : GetServerSidePropsContext) => {
     const data = await userFromRequest(context.req)
@@ -45,10 +55,21 @@ export default function DashBoardDetailPage({ token } : { token : string }) {
         return <div>Loading...</div>
     }
 
+    // console.log(data)
   return (
-    <div>
+    <Container>
+      <div>
         <h2>상세페이지</h2>
         <div>작성자 : {data.data.writer.nickname}</div>
-    </div>
+        <div>{data.data.contents}</div>
+      </div>
+      {/* contents wrapper */}
+
+      <div>
+
+      </div>
+      {/* comment wrapper */}
+
+    </Container>
   )
 }

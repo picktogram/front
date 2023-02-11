@@ -90,12 +90,16 @@ const NewDashBoardPage = ({
       <h1 style={{marginBottom : "1rem"}}>게시판 작성</h1>
       <form onSubmit={(e) => {
         e.preventDefault();
-        let data = {
-          "contents" : contents ? contents : "xxx",
-          "images" : {
-            "url" : images.length > 0 ? images[0] : "",
-            "position" : 0,
+        let reqImages = images.map((image, index) => {
+          return {
+            url : image,
+            position : index,
           }
+        })
+
+        let data = {
+          "contents" : contents,
+          "images" : reqImages,
         }
         creatBoard(data)
       }}>
