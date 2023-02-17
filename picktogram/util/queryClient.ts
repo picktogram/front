@@ -28,7 +28,7 @@ export const getClient = () => {
             },
             onSuccess: data => {
               console.log('success mutation!')
-              console.log(data)
+              // console.log(data)
             },
           })
       }));

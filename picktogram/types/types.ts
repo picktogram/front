@@ -12,14 +12,15 @@ export interface UserInfo {
 
 
 export interface Board {
-    comments : string[]
-    createdAt : string
-    contents : string
-    id : number
+    comments : string[];
+    contents : string;
+    createAt : string;
+    id : number;
+    isMine : boolean;
     writer : {
-        id : number
-        nickname : string
-        profileImage : string
+        id : number;
+        nickname : string;
+        profileImage : string;
     }
 }
 
