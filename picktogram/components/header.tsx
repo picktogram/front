@@ -1,6 +1,7 @@
 import React, { useEffect, useState , useContext} from 'react'
 import styled from '@emotion/styled'
 import { useRouter } from "next/router"
+import UserModal from '@/components/userModal'
 
 const HeaderContainer = styled.header`
     position : sticky;
@@ -106,8 +107,22 @@ const UserIcon = styled.div`
   }
 `
 
+export const UserMenu = styled.div`
+  position: absolute;
+  top: 100px;
+  right: 16px;
+  width: 300px;
+  padding: 20px;
+  z-index: 10;
+  min-height: 500px;
+  border-radius : 20px;
+  background-color: rgba(33, 33, 33, 0.78);
+  color : white;
+`
+
 export default function Header(props : {user? : {nickname : string}}) {
-  const [showSearchBar, setShowSearchBar] = useState<boolean>(false)
+  const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
+  const [showUserModal, setShowUserModal] = useState<boolean>(false);
   const router = useRouter()
 
   return (
@@ -121,9 +136,10 @@ export default function Header(props : {user? : {nickname : string}}) {
           </SearchButton>
         </SearchBar>
         <UserInfo>
-          <UserIcon onClick={() => router.push('user/profile')}>
+          <UserIcon onClick={() => setShowUserModal(!showUserModal)}>
             <i className="ri-user-3-line"></i>
           </UserIcon>
+          {showUserModal && <UserModal setShowUserModal={setShowUserModal}/>}
           { props.user  ? <div>안녕하세요. {props.user?.nickname} 디자이너님 환영합니다!</div> : <div>로그인 해주세요.</div>}
         </UserInfo>
     </HeaderContainer>
