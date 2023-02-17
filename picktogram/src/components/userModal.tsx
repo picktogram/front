@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
-import { UserMenu } from "@/components/header";
+import { UserMenu } from "@/src/components/header";
 import Link from 'next/link'
 import styled from "@emotion/styled";
 import { useRouter } from "next/router"
@@ -37,7 +37,7 @@ const UserModal = ({
     console.log(ref);
 
     useEffect(() => {
-        const listener = (e) => {
+        const listener = (e : any) => {
             if(!ref.current || ref.current.contains(e.target))  {
                 return;
             }

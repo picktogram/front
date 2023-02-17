@@ -1,12 +1,12 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from '@emotion/styled'
 import axios from 'axios'
 import { useMutation } from "react-query"
 import { useForm } from "react-hook-form"
 import { ErrorMessage } from '@hookform/error-message';
 import { useRouter } from 'next/router'
-import { LoginData } from "@/src/types/types"
-import { GetServerSidePropsContext, NextApiResponse } from 'next'
+import { LoginData } from "@/types/types"
+import { GetServerSidePropsContext } from 'next'
 import { authenticateUser, userFromRequest } from '@/src/auth/tokens'
 import useServerRefresher from '@/src/hooks/useServerRefresher'
 import LocalStorage from '@/util/localStorage'

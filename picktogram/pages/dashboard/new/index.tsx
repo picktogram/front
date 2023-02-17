@@ -4,8 +4,8 @@ import axios from 'axios'
 import { GetServerSidePropsContext } from 'next/types'
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
-import Dropzone from "@/components/dropzone"
-import Carousel from '@/components/carousel'
+import Dropzone from "@/src/components/dropzone"
+import Carousel from '@/src/components/carousel'
 import styled from '@emotion/styled'
 
 const Container = styled.div`

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import styled from '@emotion/styled'
-import { CardProps } from "@/src/types/types"
+import { CardProps } from "@/types/types"
 
 const CardContainer = styled.div`
     min-height: 600px;

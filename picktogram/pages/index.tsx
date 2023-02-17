@@ -1,12 +1,11 @@
-import React, { useState, useContext, useEffect } from "react"
+import React from "react"
 import axios from 'axios'
-import { userInfoContext } from "@/src/context/userInfoContext"
 import { GetServerSidePropsContext } from 'next'
 import { userFromRequest } from '@/src/auth/tokens'
-import { useInfiniteQuery, useMutation } from "react-query"
+import { useInfiniteQuery } from "react-query"
 import Head from 'next/head'
-import Card from '@/components/card'
-import Header from '@/components/header'
+import Card from '@/src/components/card'
+import Header from '@/src/components/header'
 
 
 export const getServerSideProps = async (context : GetServerSidePropsContext) => {
@@ -30,7 +29,6 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
 }
 
 export default function Home( props : { user : {nickname : string}, token : string }) {
-  const { user, setUser } = useContext(userInfoContext);
 
   const fetchBoards = async (token : string | undefined | null, page : number) => {
     try {

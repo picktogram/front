@@ -1,7 +1,7 @@
 import React, { useEffect, useState , useContext} from 'react'
 import styled from '@emotion/styled'
 import { useRouter } from "next/router"
-import UserModal from '@/components/userModal'
+import UserModal from '@/src/components/userModal'
 
 const HeaderContainer = styled.header`
     position : sticky;
