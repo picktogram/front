@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider, QueryCache, MutationCache, Hydrate } from "react-query"
 import 'remixicon/fonts/remixicon.css'
 import { getClient } from '@/util/queryClient'
+import { RecoilRoot } from 'recoil';
 
 const queryClient = getClient()
 
@@ -11,9 +12,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
+        <RecoilRoot>
           <Layout>
-            <Component {...pageProps} />
-          </Layout>
+              <Component {...pageProps} />
+            </Layout>
+        </RecoilRoot>
       </Hydrate>
     </QueryClientProvider>
   )

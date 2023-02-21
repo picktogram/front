@@ -2,6 +2,9 @@ import React, { useEffect, useState , useContext} from 'react'
 import styled from '@emotion/styled'
 import { useRouter } from "next/router"
 import UserModal from '@/src/components/commons/userModal'
+import { useRecoilState } from 'recoil';
+import { modalState } from "@/state/modalState"
+import { searchBarState } from '@/state/searchBarState';
 
 const HeaderContainer = styled.header`
     position : sticky;
@@ -121,9 +124,10 @@ export const UserMenu = styled.div`
 `
 
 export default function Header(props : {user? : {nickname : string}}) {
-  const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
-  const [showUserModal, setShowUserModal] = useState<boolean>(false);
-  const router = useRouter()
+  // const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
+  // const [showUserModal, setShowUserModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useRecoilState(modalState);
+  const [showSearchBar, setShowSearchBar] = useRecoilState(searchBarState)
 
   return (
     <HeaderContainer>
@@ -136,10 +140,10 @@ export default function Header(props : {user? : {nickname : string}}) {
           </SearchButton>
         </SearchBar>
         <UserInfo>
-          <UserIcon onClick={() => setShowUserModal(!showUserModal)}>
+          <UserIcon onClick={() => setShowModal((prev) => !prev)}>
             <i className="ri-user-3-line"></i>
           </UserIcon>
-          {showUserModal && <UserModal setShowUserModal={setShowUserModal}/>}
+          {showModal && <UserModal/>}
           { props.user  ? <div>안녕하세요. {props.user?.nickname} 디자이너님 환영합니다!</div> : <div>로그인 해주세요.</div>}
         </UserInfo>
     </HeaderContainer>

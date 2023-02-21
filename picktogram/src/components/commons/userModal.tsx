@@ -4,6 +4,8 @@ import Link from 'next/link'
 import styled from "@emotion/styled";
 import { useRouter } from "next/router"
 import { clearUser } from "@/src/auth/tokens";
+import { useSetRecoilState} from 'recoil';
+import { modalState } from "@/state/modalState"
 
 
 const List = styled.ul`
@@ -26,22 +28,17 @@ const Logout = styled.button`
 `
 
 
-const UserModal = ({
-    setShowUserModal
-}: {
-    setShowUserModal : Dispatch<SetStateAction<boolean>>;
-}) => {
+const UserModal = () => {
     const router = useRouter();
-    const ref = useRef(null);
-
-    console.log(ref);
+    const ref = useRef<any>(null);
+    const setShowModal= useSetRecoilState(modalState)
 
     useEffect(() => {
         const listener = (e : any) => {
             if(!ref.current || ref.current.contains(e.target))  {
                 return;
             }
-            setShowUserModal(false);
+            setShowModal(false);
         };
         document.addEventListener("mousedown", listener);
         document.addEventListener("touchstart", listener);
