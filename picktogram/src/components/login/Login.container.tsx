@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { LoginData } from './Login.type'
 import { authenticateUser } from '@/src/auth/tokens'
 import useServerRefresher from '@/src/hooks/useServerRefresher'
+import { SERVER_URL } from "@/util/constant"
 
 export default function Login() {
 
@@ -17,7 +18,7 @@ export default function Login() {
 
     const loginRequest = async ( data: LoginData ) => {
         try {
-            const responce = await axios.post('http://13.209.193.45:3000/api/v1/auth/login',
+            const responce = await axios.post(`${SERVER_URL}/api/v1/auth/login`,
                 JSON.stringify(data),
                 {
                     headers: {

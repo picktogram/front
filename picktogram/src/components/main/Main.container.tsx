@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useInfiniteQuery } from "react-query"
 // import Header from '@/src/components/commons/header'
 import MainUI from './Main.presenter'
+import { SERVER_URL } from "@/util/constant"
 
 export default function Main({
     token,
@@ -16,7 +17,7 @@ export default function Main({
 
     const fetchBoards = async (token : string, page : number) => {
         try {
-          const res = await axios.get(`http://13.209.193.45:3000/api/v1/articles?limit=10&page=${page}`, {
+          const res = await axios.get(`${SERVER_URL}/api/v1/articles?limit=10&page=${page}`, {
             headers : {
               Authorization : `Bearer ${token}`
             }

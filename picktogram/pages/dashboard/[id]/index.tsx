@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import React, { FormEvent } from 'react'
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled'
+import { SERVER_URL } from "@/util/constant"
 
 const Container = styled.div`
     width: 100%;
@@ -113,9 +114,9 @@ const handleComments = (e : FormEvent) => {
 export default function DashBoardDetailPage({ token } : { token : string }) {
     const router = useRouter();
     // console.log(router.query.id)
-    const { data, isLoading } = useQuery<DetailResponce>("getDetail", async () => {
+    const { data, isLoading, isStale } = useQuery<DetailResponce>("getDetail", async () => {
         try {
-            const res = await axios.get(`http://13.209.193.45:3000/api/v1/articles/${router.query.id}`, {
+            const res = await axios.get(`${SERVER_URL}/api/v1/articles/${router.query.id}`, {
             headers : {
                 Authorization : `Bearer ${token}`
                 }
@@ -130,6 +131,8 @@ export default function DashBoardDetailPage({ token } : { token : string }) {
     if(isLoading) {
         return <div>Loading...</div>
     }
+
+   console.log(isStale)
 
   return (
     <Container>

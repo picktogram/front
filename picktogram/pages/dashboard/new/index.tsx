@@ -30,7 +30,7 @@ const CreateBoardPage = ({
   }) => {
 
 
-  return <CreateBoard token={token}/>
+  return <CreateBoard token={token} />
 }
 
 

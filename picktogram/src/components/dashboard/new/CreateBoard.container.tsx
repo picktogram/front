@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import useServerRefresher from '@/src/hooks/useServerRefresher'
 import axios from 'axios'
-import { useMutation } from 'react-query'
+import { useMutation , useQueryClient } from 'react-query'
 import CreateBoardUI from './CreateBoard.presenter'
+import { SERVER_URL } from "@/util/constant"
 
 export default function CreateBoard({
     token
@@ -12,10 +13,11 @@ export default function CreateBoard({
     const [contents, setContents] = useState<string>("")
     const [images, setImages] = useState<string[]>([]);
     const [count, setCount] = useState<number>(0);
+    const queryClient = useQueryClient();
 
     const { mutate : createBoard } = useMutation("createBoard", async (data : any) => {
         try {
-          const responce = await axios.post("http://13.209.193.45:3000/api/v1/articles",
+          const responce = await axios.post(`${SERVER_URL}/api/v1/articles`,
           JSON.stringify(data),
             {
               headers : {
@@ -32,7 +34,10 @@ export default function CreateBoard({
           throw err
         }
       }, {
-        onSuccess : useServerRefresher(),
+        // onSuccess : useServerRefresher(),
+        onSuccess : () => {
+          queryClient.invalidateQueries({ queryKey : ['infiniteBoard']})
+        }
       }
     )
   return (
