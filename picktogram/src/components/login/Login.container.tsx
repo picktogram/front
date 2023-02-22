@@ -11,6 +11,8 @@ import { SERVER_URL } from "@/util/constant"
 
 export default function Login() {
 
+    console.log(SERVER_URL)
+
     const router = useRouter();
     const { register, formState: { errors , isSubmitting }, handleSubmit } = useForm<LoginData>({
         criteriaMode : "all"
