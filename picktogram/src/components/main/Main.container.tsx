@@ -24,6 +24,7 @@ export default function Main({
           })
 
           const data = await res.data.data
+          console.log(data);
           return data
         } catch (err) {
           return err
@@ -45,6 +46,8 @@ export default function Main({
           </>
         )
       }
+
+      console.log(data);
 
   return (
     <MainUI user={user} data={data} fetchNextPage={fetchNextPage}/>
