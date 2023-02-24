@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { use } from 'react'
 import BoardDetailUI from './boardDetail.presenter'
 import axios from 'axios';
 import { useRouter } from 'next/router'
 import { useQuery, useMutation } from 'react-query';
 import { SERVER_URL } from "@/util/constant"
 import { DetailResponce } from './boardDetail.type';
+import {fetcher} from "@/util/queryClient"
 
 export default function BoardDetail({
     token
@@ -12,19 +13,18 @@ export default function BoardDetail({
     token : string
 }) {
     const router = useRouter();
-    const { data, isLoading, isError } = useQuery<DetailResponce>("getDetail", async () => {
-        try {
-            const res = await axios.get(`${SERVER_URL}/api/v1/articles/${router.query.id}`, {
-            headers : {
-                Authorization : `Bearer ${token}`
-                }
-            })
-
-            return res.data.data
-        } catch (err) {
-            throw err
+    const {data, isLoading, isError} = useQuery("getDetail", () => fetcher({
+        method : 'get',
+        path : `/api/v1/articles/${router.query.id}`,
+        headers : {
+            "Authorization" : `Bearer ${token}`
         }
-    });
+    }), {
+        onSuccess(data) {
+            console.log("success", data)
+        },
+    })
+
     const { mutate : addComments } = useMutation("addComments", async (data : any) => {
         try {
             const res = await axios.post(`${SERVER_URL}/api/v1/articles/${router.query.id}/comments`,

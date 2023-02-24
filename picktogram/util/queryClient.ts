@@ -1,4 +1,34 @@
 import { MutationCache, QueryCache, QueryClient } from 'react-query';
+import { SERVER_URL } from "@/util/constant"
+import axios from "axios"
+
+type AnyOBJ = { [key: string]: any };
+
+export const fetcher = async ({
+  method,
+  path,
+  data,
+  headers,
+} : {
+  method: 'get' | 'post' | 'delete' | 'patch';
+  path : string;
+  data? : AnyOBJ;
+  headers? : AnyOBJ;
+}) => {
+  try {
+    const responce = await axios({
+      method : method,
+      url : `${SERVER_URL}${path}`,
+      data : JSON.stringify(data),
+      headers : headers,
+    });
+
+    const result = await responce.data.data
+    return result
+  } catch (error) {
+      throw error
+  }
+}
 
  export const getClient = (() => {
     let client : QueryClient | null = null;
@@ -15,23 +45,6 @@ import { MutationCache, QueryCache, QueryClient } from 'react-query';
             refetchOnWindowFocus: true,
           },
         },
-        // queryCache: new QueryCache({
-        //     onError: (error, query) => {
-        //       console.log('Error', error);
-        //     },
-        //     onSuccess: (data) => {
-        //       console.log('Success', data);
-        //     }
-        //   }),
-        //   mutationCache : new MutationCache({
-        //     onError: error => {
-        //       console.log('Error', error);
-        //     },
-        //     onSuccess: data => {
-        //       console.log('Success mutation', data);
-        //       // client?.invalidateQueries({queryKey : ['infiniteBoard']})
-        //     },
-        //   })
       })
 
       return client

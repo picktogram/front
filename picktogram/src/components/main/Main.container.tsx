@@ -4,7 +4,7 @@ import { useInfiniteQuery } from "react-query"
 // import Header from '@/src/components/commons/header'
 import MainUI from './Main.presenter'
 import { SERVER_URL } from "@/util/constant"
-import {ResponceData} from "./Main.type"
+import { ResponceData } from "./Main.type"
 
 export default function Main({
     token,
