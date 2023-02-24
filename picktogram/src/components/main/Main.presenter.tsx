@@ -26,7 +26,7 @@ export default function MainUI({
       </Head>
       <Header user={user}/>
 
-      {/* <div style={{ margin : "0 auto", padding : "16px 20px", display : "grid", gridTemplateColumns : "650px", justifyContent : "center" , gap : '2rem'}}>
+      <div style={{ margin : "0 auto", padding : "16px 20px", display : "grid", gridTemplateColumns : "650px", justifyContent : "center" , gap : '2rem'}}>
         {data?.pages.map((page : {list : BoardData[]}, index : number) => (
           <React.Fragment key={index}>
             {page.list.map((post , index) => (
@@ -34,7 +34,7 @@ export default function MainUI({
             ))}
           </React.Fragment>
         ))}
-      </div> */}
+      </div>
     </>
   )
 }

@@ -14,7 +14,7 @@ export default function BoardDetail({
 
     const router = useRouter();
     // console.log(router.query.id)
-    const { data, isLoading, isStale } = useQuery<DetailResponce>("getDetail", async () => {
+    const { data, isLoading, isError } = useQuery<DetailResponce>("getDetail", async () => {
         try {
             const res = await axios.get(`${SERVER_URL}/api/v1/articles/${router.query.id}`, {
             headers : {
@@ -28,12 +28,20 @@ export default function BoardDetail({
         }
     });
 
+    const handleMoveEdit = () => {
+        router.push(`/dashboard/${router.query.id}/edit`);
+    }
+
     if(isLoading) {
         return <div>Loading...</div>
     }
 
-   console.log(isStale)
+    if(isError) {
+        return <div>Error...</div>
+    }
+
+
   return (
-    <BoardDetailUI data={data} />
+    <BoardDetailUI data={data} handleMoveEdit={handleMoveEdit} />
   )
 }

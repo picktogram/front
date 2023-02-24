@@ -13,6 +13,7 @@ export default function CreateBoardUI({
     contents,
     setContents,
     createBoard,
+    isEdit
 } : {
     token : string;
     images : string[];
@@ -22,11 +23,12 @@ export default function CreateBoardUI({
     contents : string;
     setContents : React.Dispatch<React.SetStateAction<string>>;
     createBoard :  UseMutateFunction<any, unknown, any, unknown>;
+    isEdit : boolean
 
 }) {
   return (
     <div>
-      <h1 style={{marginBottom : "1rem"}}>게시판 작성</h1>
+      <h1 style={{marginBottom : "1rem"}}>게시판 {isEdit ? "수정" : "작성"}</h1>
       <form onSubmit={(e) => {
         e.preventDefault();
         let reqImages = images.map((image, index) => {
@@ -45,14 +47,14 @@ export default function CreateBoardUI({
       }}>
         <S.Container>
           <Dropzone images={images} setImages={setImages} token={token} setCount={setCount} />
-          <Carousel images={images} count={count} setCount={setCount} setImages={setImages} />
+          <Carousel images={images} count={count} setCount={setCount} setImages={setImages} isCreate={true} />
           <div>업로드한 이미지를 클릭하여 삭제할 수 있습니다.</div>
           <S.Input onChange={(e) => {
             setContents(e.target.value);
           }} />
         </S.Container>
 
-        <button type='submit'>제출</button>
+        <button type='submit'>{isEdit ? "수정" : "작성"}</button>
       </form>
     </div>
   )

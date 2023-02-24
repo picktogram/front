@@ -6,9 +6,11 @@ import CreateBoardUI from './CreateBoard.presenter'
 import { SERVER_URL } from "@/util/constant"
 
 export default function CreateBoard({
-    token
+    token,
+    isEdit = false
 } : {
     token : string;
+    isEdit? : boolean;
 }) {
     const [contents, setContents] = useState<string>("")
     const [images, setImages] = useState<string[]>([]);
@@ -50,6 +52,7 @@ export default function CreateBoard({
         contents={contents}
         setContents={setContents}
         createBoard={createBoard}
+        isEdit={isEdit}
     />
   )
 }

@@ -12,7 +12,8 @@ const CarouselContainer = styled.div`
 
 const ImageBox = styled.div<{index : number}>`
   width: 100%;
-  height: 500px;
+  /* height: 500px; */
+  height: 100%;
   display: flex;
   transform: ${(props) => `translateX(-${props.index * 100}%)`};
   transition: transform .3s ease;
@@ -56,11 +57,13 @@ const Carousel = ({
      setImages,
      count,
      setCount,
+     isCreate = false
     } : {
-         images : string[];
+         images : string[]
          setImages : Dispatch<SetStateAction<string[]>>
          count : number;
          setCount : Dispatch<SetStateAction<number>>;
+         isCreate : boolean
     }) => {
 
     const nextImage = () => {
@@ -79,8 +82,9 @@ const Carousel = ({
         setCount(currentIndex - 1);
     }
 
-    return (
-        <CarouselContainer>
+    if(isCreate) {
+        return (
+            <CarouselContainer>
             {images.length > 0 &&
                 <>
                     <LeftArrow onClick={prevImage}>{"<"}</LeftArrow>
@@ -98,7 +102,28 @@ const Carousel = ({
                 </>
             }
         </CarouselContainer>
-    )
+        )
+    } else {
+        return (
+            <CarouselContainer>
+            {images.length > 0 &&
+                <>
+                    <LeftArrow onClick={prevImage}>{"<"}</LeftArrow>
+                    <ImageBox index={count}>
+                        {images?.map((image, index) => (
+                            <img
+                                key={index}
+                                src={image}
+                                style={{width: "100%", flex : "1 0 100%"}}
+                            />
+                        ))}
+                    </ImageBox>
+                    <RightArrow onClick={nextImage}>{">"}</RightArrow>
+                </>
+            }
+        </CarouselContainer>
+        )
+    }
 }
 
 export default Carousel

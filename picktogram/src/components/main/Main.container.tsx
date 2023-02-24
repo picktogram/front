@@ -4,6 +4,7 @@ import { useInfiniteQuery } from "react-query"
 // import Header from '@/src/components/commons/header'
 import MainUI from './Main.presenter'
 import { SERVER_URL } from "@/util/constant"
+import {ResponceData} from "./Main.type"
 
 export default function Main({
     token,
@@ -24,18 +25,17 @@ export default function Main({
           })
 
           const data = await res.data.data
-          console.log(data);
-          return data
+          return data // lastPage
         } catch (err) {
           return err
         }
       }
 
-     const { data, fetchNextPage, isLoading }  = useInfiniteQuery(['infiniteBoard'],
+     const { data, fetchNextPage, isLoading }  = useInfiniteQuery<ResponceData>(['infiniteBoard'],
            ({pageParam = 1}) => fetchBoards(token, pageParam), {
-            getNextPageParam : (lastPage : any) => {
+            getNextPageParam : (lastPage) => {
                return lastPage.page == lastPage.totalPage ? undefined : Number(lastPage.page) + 1;
-            }
+            },
           })
 
       if(isLoading) {
@@ -47,7 +47,6 @@ export default function Main({
         )
       }
 
-      console.log(data);
 
   return (
     <MainUI user={user} data={data} fetchNextPage={fetchNextPage}/>
