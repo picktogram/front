@@ -15,23 +15,23 @@ import { MutationCache, QueryCache, QueryClient } from 'react-query';
             refetchOnWindowFocus: true,
           },
         },
-        queryCache: new QueryCache({
-            onError: (error, query) => {
-              console.log('Error', error);
-            },
-            onSuccess: (data) => {
-              console.log('Success', data);
-            }
-          }),
-          mutationCache : new MutationCache({
-            onError: error => {
-              console.log('Error', error);
-            },
-            onSuccess: data => {
-              console.log('Success mutation', data);
-              // client?.invalidateQueries({queryKey : ['infiniteBoard']})
-            },
-          })
+        // queryCache: new QueryCache({
+        //     onError: (error, query) => {
+        //       console.log('Error', error);
+        //     },
+        //     onSuccess: (data) => {
+        //       console.log('Success', data);
+        //     }
+        //   }),
+        //   mutationCache : new MutationCache({
+        //     onError: error => {
+        //       console.log('Error', error);
+        //     },
+        //     onSuccess: data => {
+        //       console.log('Success mutation', data);
+        //       // client?.invalidateQueries({queryKey : ['infiniteBoard']})
+        //     },
+        //   })
       })
 
       return client
