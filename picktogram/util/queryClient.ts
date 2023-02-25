@@ -1,8 +1,12 @@
-import { MutationCache, QueryCache, QueryClient } from 'react-query';
+import { QueryClient } from 'react-query';
 import { SERVER_URL } from "@/util/constant"
 import axios from "axios"
 
 type AnyOBJ = { [key: string]: any };
+
+type AddKey<T, U extends string> = {
+  [key in U] : any
+} & T
 
 export const fetcher = async ({
   method,
@@ -19,6 +23,31 @@ export const fetcher = async ({
     const responce = await axios({
       method : method,
       url : `${SERVER_URL}${path}`,
+      data : JSON.stringify(data),
+      headers : headers,
+    });
+
+    const result = await responce.data.data
+    return result
+  } catch (error) {
+      throw error
+  }
+}
+
+type InfiniteFetcher<T extends typeof fetcher , U extends string> = T extends (arg : infer C) => any
+  ? (arg : AddKey<C, U>) => Promise<any> : never;
+
+export const infiniteFetcher : InfiniteFetcher<typeof fetcher, 'page'> = async ({
+  method,
+  path,
+  data,
+  headers,
+  page
+}) => {
+  try {
+    const responce = await axios({
+      method : method,
+      url : `${SERVER_URL}${path}${page}`,
       data : JSON.stringify(data),
       headers : headers,
     });
@@ -51,5 +80,5 @@ export const fetcher = async ({
     }
   })();
 
-  export const QueryKeys = {
-  };
+export const QueryKeys = {
+};

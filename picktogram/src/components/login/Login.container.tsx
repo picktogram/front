@@ -1,13 +1,11 @@
 import React from 'react'
 import LoginUI from './Login.presenter'
-import axios from 'axios'
 import { useMutation } from "react-query"
 import { useForm } from "react-hook-form"
 import { useRouter } from 'next/router'
 import { LoginData } from './Login.type'
 import { authenticateUser } from '@/src/auth/tokens'
 import useServerRefresher from '@/src/hooks/useServerRefresher'
-import { SERVER_URL } from "@/util/constant"
 import { fetcher } from '@/util/queryClient'
 
 export default function Login() {

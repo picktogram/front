@@ -5,6 +5,7 @@ import { useInfiniteQuery } from "react-query"
 import MainUI from './Main.presenter'
 import { SERVER_URL } from "@/util/constant"
 import { ResponceData } from "./Main.type"
+import { infiniteFetcher } from "@/util/queryClient"
 
 export default function Main({
     token,
@@ -15,28 +16,19 @@ export default function Main({
         nickname : string
     };
 }) {
-
-    const fetchBoards = async (token : string, page : number) => {
-        try {
-          const res = await axios.get(`${SERVER_URL}/api/v1/articles?limit=10&page=${page}`, {
+      const { data, fetchNextPage, isLoading }  = useInfiniteQuery<ResponceData>(['infiniteBoard'],
+          ({pageParam = 1}) => infiniteFetcher({
+            method : 'get',
+            path : `/api/v1/articles?limit=10&page=`,
             headers : {
               Authorization : `Bearer ${token}`
-            }
-          })
-
-          const data = await res.data.data
-          return data // lastPage
-        } catch (err) {
-          return err
-        }
-      }
-
-     const { data, fetchNextPage, isLoading }  = useInfiniteQuery<ResponceData>(['infiniteBoard'],
-           ({pageParam = 1}) => fetchBoards(token, pageParam), {
-            getNextPageParam : (lastPage) => {
-               return lastPage.page == lastPage.totalPage ? undefined : Number(lastPage.page) + 1;
             },
-          })
+            page : pageParam,
+          }), {
+           getNextPageParam : (lastPage) => {
+              return lastPage.page == lastPage.totalPage ? null : Number(lastPage.page) + 1;
+           },
+         })
 
       if(isLoading) {
         return (
