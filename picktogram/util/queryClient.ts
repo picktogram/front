@@ -8,7 +8,7 @@ type AddKey<T, U extends string> = {
   [key in U] : any
 } & T
 
-export const fetcher = async ({
+type FetcherFn = ({
   method,
   path,
   data,
@@ -18,6 +18,17 @@ export const fetcher = async ({
   path : string;
   data? : AnyOBJ;
   headers? : AnyOBJ;
+}) => Promise<any>
+
+type InfiniteFetcherFn<T extends FetcherFn , U extends string> = T extends (arg : infer C) => any
+  ? (arg : AddKey<C, U>) => Promise<any>
+  : never;
+
+export const fetcher : FetcherFn = async ({
+  method,
+  path,
+  data,
+  headers,
 }) => {
   try {
     const responce = await axios({
@@ -34,10 +45,7 @@ export const fetcher = async ({
   }
 }
 
-type InfiniteFetcher<T extends typeof fetcher , U extends string> = T extends (arg : infer C) => any
-  ? (arg : AddKey<C, U>) => Promise<any> : never;
-
-export const infiniteFetcher : InfiniteFetcher<typeof fetcher, 'page'> = async ({
+export const infiniteFetcher : InfiniteFetcherFn<FetcherFn, 'page'> = async ({
   method,
   path,
   data,
@@ -66,12 +74,13 @@ export const infiniteFetcher : InfiniteFetcher<typeof fetcher, 'page'> = async (
       if(!client) client = new QueryClient({
         defaultOptions: {
           queries: {
-            cacheTime: 1000 * 60 * 60 * 24,
+            cacheTime: 1000 * 60 * 5,
             staleTime: 1000 * 60,
-            // staleTime : 0 ,
-            refetchOnMount: true,
-            refetchOnReconnect: false,
+            refetchOnMount: false,
+            refetchOnReconnect: true,
             refetchOnWindowFocus: true,
+            retry : 0,
+            suspense : true,
           },
         },
       })

@@ -1,9 +1,7 @@
 import React from 'react'
-import axios from 'axios'
 import { useInfiniteQuery } from "react-query"
 // import Header from '@/src/components/commons/header'
 import MainUI from './Main.presenter'
-import { SERVER_URL } from "@/util/constant"
 import { ResponceData } from "./Main.type"
 import { infiniteFetcher } from "@/util/queryClient"
 
