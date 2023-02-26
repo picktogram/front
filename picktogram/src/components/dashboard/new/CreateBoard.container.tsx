@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useMutation , useQueryClient } from 'react-query'
 import CreateBoardUI from './CreateBoard.presenter'
 import { SERVER_URL } from "@/util/constant"
-import { useRecoilValue, useRecoilState } from "recoil"
+import { useRecoilState } from "recoil"
 import { boardBeforeSave } from "@/state/boardBeforeSave"
 
 export default function CreateBoard({

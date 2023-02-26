@@ -58,13 +58,11 @@ const Carousel = ({
      setImages,
      count,
      setCount,
-     isCreate = false
     } : {
          images : string[]
          setImages : Dispatch<SetStateAction<string[]>>
          count : number;
          setCount : Dispatch<SetStateAction<number>>;
-         isCreate : boolean
     }) => {
 
 
@@ -84,48 +82,27 @@ const Carousel = ({
         setCount(currentIndex - 1);
     }
 
-    if(isCreate) {
-        return (
-            <CarouselContainer>
-            {images.length > 0 &&
-                <>
-                    <LeftArrow onClick={prevImage}>{"<"}</LeftArrow>
-                    <ImageBox index={count}>
-                        {images?.map((image, index) => (
-                            <img
-                                src={image}
-                                style={{width: "100%", flex : "1 0 100%"}}
-                                key={index}
-                                onClick={() => deleteHandler(image)}
-                            />
-                        ))}
-                    </ImageBox>
-                    <RightArrow onClick={nextImage}>{">"}</RightArrow>
-                </>
-            }
-        </CarouselContainer>
-        )
-    } else {
-        return (
-            <CarouselContainer>
-            {images.length > 0 &&
-                <>
-                    <LeftArrow onClick={prevImage}>{"<"}</LeftArrow>
-                    <ImageBox index={count}>
-                        {images?.map((image, index) => (
-                            <img
-                                key={index}
-                                src={image}
-                                style={{width: "100%", flex : "1 0 100%"}}
-                            />
-                        ))}
-                    </ImageBox>
-                    <RightArrow onClick={nextImage}>{">"}</RightArrow>
-                </>
-            }
-        </CarouselContainer>
-        )
-    }
+    return (
+        <CarouselContainer>
+        {images.length > 0 &&
+            <>
+                <LeftArrow onClick={prevImage}>{"<"}</LeftArrow>
+                <ImageBox index={count}>
+                    {images?.map((image, index) => (
+                        <img
+                            src={image}
+                            style={{width: "100%", flex : "1 0 100%"}}
+                            key={index}
+                            onClick={() => deleteHandler(image)}
+                        />
+                    ))}
+                </ImageBox>
+                <RightArrow onClick={nextImage}>{">"}</RightArrow>
+            </>
+        }
+    </CarouselContainer>
+    )
+
 }
 
 export default Carousel
