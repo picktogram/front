@@ -3,7 +3,8 @@ import Dropzone from 'react-dropzone'
 import styled from "@emotion/styled";
 import { useMutation } from 'react-query'
 import axios from "axios";
-import useServerRefresher from "@/src/hooks/useServerRefresher";
+import {useSetRecoilState} from 'recoil'
+import {boardImages} from "@/state/boardBeforeSave"
 
 const DropzoneBox = styled.div`
     width: 50px;
@@ -30,6 +31,7 @@ const DropzoneBox = styled.div`
     setImages : Dispatch<SetStateAction<string[]>>;
     token : string;
 }) => {
+    const setBoardImagesData = useSetRecoilState(boardImages)
     const {mutate : uploadImage} = useMutation<string[], Error>('uploadImage', async (data : any) => {
         try {
             let formData = new FormData();
@@ -54,6 +56,7 @@ const DropzoneBox = styled.div`
         onSuccess : (data) => {
             let newImages = [...images, ...data]
             setImages(newImages);
+            setBoardImagesData(newImages);
             setCount(images.length);
         }
     })

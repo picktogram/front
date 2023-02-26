@@ -1,5 +1,6 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import styled from "@emotion/styled"
+
 
 const CarouselContainer = styled.div`
     position: relative;
@@ -65,6 +66,7 @@ const Carousel = ({
          setCount : Dispatch<SetStateAction<number>>;
          isCreate : boolean
     }) => {
+
 
     const nextImage = () => {
         setCount((prev) => (prev === images.length - 1 ? prev : prev + 1));
