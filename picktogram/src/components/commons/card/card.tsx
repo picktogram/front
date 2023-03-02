@@ -24,7 +24,7 @@ export default function Card({
         observer.observe(cardRef.current);
       }, [isLast]);
 
-    const handleClick = () => {
+    const handleClick : any = () => {
       if(data) {
         router.push(`/dashboard/${data?.id}`)
       }
@@ -36,7 +36,7 @@ export default function Card({
         <S.CardContainer ref={cardRef} >
           <S.UserInfo>
             <i className="ri-user-line"></i> {/* 임시 아이콘 */}
-            <h2>{data?.writer.nickname}</h2>
+            <h2>{data?.nickname}</h2>
           </S.UserInfo>
           <S.ContentBox>
             <div>{data.contents}</div>

@@ -24,7 +24,7 @@ export default function BoardDetail({
                 JSON.stringify(data),
                 {
                 headers : {
-                    'Authorization' : `Bearer ${token}`,
+                    'Authorization' : token,
                     'Content-Type': 'application/json',
                 }
             });

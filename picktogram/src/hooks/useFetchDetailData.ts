@@ -15,7 +15,7 @@ const useFetchDetailData = ({
             method : 'get',
             path : `/api/v1/articles/${id}`,
             headers : {
-                "Authorization" : `Bearer ${token}`
+                "Authorization" : token
             }
         }), {
             onSuccess: (data) => {

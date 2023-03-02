@@ -30,7 +30,7 @@ export default function UserProfilePage (props : { user : { nickname : string },
         try {
           const res = await axios.get("http://13.209.193.45:3000/api/v1/users/profile", {
             headers : {
-              Authorization : `Bearer ${token}`
+              Authorization : `${token}`
             }
           })
 
@@ -59,7 +59,7 @@ export default function UserProfilePage (props : { user : { nickname : string },
     return (
         <div style={{margin : "20px"}}>
             <h2>유저 페이지</h2>
-            <div>{data.name}님 환영합니다.</div>
+            {/* <div>{data.nickname}님 환영합니다.</div> */}
             <div>
                 <button onClick={loggoutUser}>logout</button>
             </div>

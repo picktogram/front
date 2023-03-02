@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useInfiniteQuery } from "react-query"
 // import Header from '@/src/components/commons/header'
 import MainUI from './Main.presenter'
 import { ResponceData } from "./Main.type"
 import { infiniteFetcher } from "@/util/queryClient"
+import useScrollPos from "@/src/hooks/useScrollPos"
+import {useRecoilValue} from "recoil"
+import {scrollState} from "@/state/scrollState"
 
 export default function Main({
     token,
@@ -19,14 +22,26 @@ export default function Main({
             method : 'get',
             path : `/api/v1/articles?limit=10&page=`,
             headers : {
-              Authorization : `Bearer ${token}`
+              Authorization : token
             },
             page : pageParam,
           }), {
            getNextPageParam : (lastPage) => {
-              return lastPage.page == lastPage.totalPage ? null : Number(lastPage.page) + 1;
+              return lastPage.page == lastPage.totalPage ? undefined : Number(lastPage.page) + 1;
            },
          })
+
+      const scrollValue = useRecoilValue(scrollState);
+      const {savePos, loadPos} = useScrollPos();
+
+      useEffect(() => {
+        loadPos();
+      }, [])
+
+      const handlePos = () => {
+        savePos();
+        console.log(scrollValue);
+      }
 
       if(isLoading) {
         return (
@@ -36,9 +51,7 @@ export default function Main({
           </>
         )
       }
-
-
   return (
-    <MainUI user={user} data={data} fetchNextPage={fetchNextPage}/>
+    <MainUI user={user} data={data} handlePos={handlePos} fetchNextPage={fetchNextPage}/>
   )
 }
