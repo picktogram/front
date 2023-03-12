@@ -5,8 +5,6 @@ import MainUI from './Main.presenter'
 import { ResponceData } from "./Main.type"
 import { infiniteFetcher } from "@/util/queryClient"
 import useScrollPos from "@/src/hooks/useScrollPos"
-import {useRecoilValue} from "recoil"
-import {scrollState} from "@/state/scrollState"
 
 export default function Main({
     token,
@@ -31,17 +29,12 @@ export default function Main({
            },
          })
 
-      const scrollValue = useRecoilValue(scrollState);
-      const {savePos, loadPos} = useScrollPos();
+      const { loadPos } = useScrollPos();
 
       useEffect(() => {
         loadPos();
       }, [])
 
-      const handlePos = () => {
-        savePos();
-        console.log(scrollValue);
-      }
 
       if(isLoading) {
         return (
@@ -52,6 +45,6 @@ export default function Main({
         )
       }
   return (
-    <MainUI user={user} data={data} handlePos={handlePos} fetchNextPage={fetchNextPage}/>
+    <MainUI user={user} data={data} fetchNextPage={fetchNextPage}/>
   )
 }

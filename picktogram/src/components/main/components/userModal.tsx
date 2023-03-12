@@ -1,32 +1,11 @@
 import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
-import { UserMenu } from "@/src/components/commons/header";
+import { UserMenu } from "@/src/components/main/components/header";
 import Link from 'next/link'
 import styled from "@emotion/styled";
 import { useRouter } from "next/router"
 import { clearUser } from "@/src/auth/tokens";
 import { useSetRecoilState} from 'recoil';
 import { modalState } from "@/state/modalState"
-
-
-const List = styled.ul`
-    list-style: none;
-`
-const Item = styled.li`
-    color : white;
-`
-
-const Logout = styled.button`
-    border: none;
-    background-color: transparent;
-    color : white;
-    font-size: 1rem;
-    cursor: pointer;
-
-    &:hover {
-        text-decoration: underline;
-    }
-`
-
 
 const UserModal = () => {
     const router = useRouter();
@@ -67,4 +46,22 @@ const UserModal = () => {
     )
 }
 
+const List = styled.ul`
+    list-style: none;
+`
+const Item = styled.li`
+    color : white;
+`
+
+const Logout = styled.button`
+    border: none;
+    background-color: transparent;
+    color : white;
+    font-size: 1rem;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+`
 export default UserModal

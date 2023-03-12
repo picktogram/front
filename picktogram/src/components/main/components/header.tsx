@@ -1,10 +1,36 @@
-import React, { useEffect, useState , useContext} from 'react'
+import React from 'react'
 import styled from '@emotion/styled'
-import { useRouter } from "next/router"
-import UserModal from '@/src/components/commons/userModal'
+import UserModal from '@/src/components/main/components/userModal'
 import { useRecoilState } from 'recoil';
 import { modalState } from "@/state/modalState"
 import { searchBarState } from '@/state/searchBarState';
+import {useRouter} from "next/router"
+
+export default function Header(props : {user? : {nickname : string}}) {
+  const [showModal, setShowModal] = useRecoilState(modalState);
+  const [showSearchBar, setShowSearchBar] = useRecoilState(searchBarState)
+  const router = useRouter()
+
+  return (
+    <HeaderContainer>
+        <Logo onClick={() => router.push("/")}>Picktogram</Logo>
+        <SearchBar showSearchBar={showSearchBar} onSubmit={(e) => e.preventDefault()}>
+          <SearchInput type="search" showSearchBar={showSearchBar}/>
+          <SearchButton onClick={() => { setShowSearchBar(!showSearchBar) }} showSearchBar={showSearchBar}>
+            <i className="ri-search-line"></i>
+            <SearchClose showSearchBar={showSearchBar}>X</SearchClose>
+          </SearchButton>
+        </SearchBar>
+        <UserInfo>
+          <UserIcon onClick={() => setShowModal((prev) => !prev)}>
+            <i className="ri-user-3-line"></i>
+          </UserIcon>
+          {showModal && <UserModal/>}
+          { props.user  ? <div>안녕하세요. {props.user?.nickname} 디자이너님 환영합니다!</div> : <div>로그인 해주세요.</div>}
+        </UserInfo>
+    </HeaderContainer>
+  )
+}
 
 const HeaderContainer = styled.header`
     position : sticky;
@@ -25,6 +51,7 @@ const Logo = styled.div`
     top : 50%;
     transform: translateY(-50%);
     font-weight: 700;
+    cursor: pointer;
 `
 
 const SearchBar = styled.form<{showSearchBar : boolean}>`
@@ -122,30 +149,3 @@ export const UserMenu = styled.div`
   background-color: rgba(33, 33, 33, 0.78);
   color : white;
 `
-
-export default function Header(props : {user? : {nickname : string}}) {
-  // const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
-  // const [showUserModal, setShowUserModal] = useState<boolean>(false);
-  const [showModal, setShowModal] = useRecoilState(modalState);
-  const [showSearchBar, setShowSearchBar] = useRecoilState(searchBarState)
-
-  return (
-    <HeaderContainer>
-        <Logo>Picktogram</Logo>
-        <SearchBar showSearchBar={showSearchBar} onSubmit={(e) => e.preventDefault()}>
-          <SearchInput type="search" showSearchBar={showSearchBar}/>
-          <SearchButton onClick={() => { setShowSearchBar(!showSearchBar) }} showSearchBar={showSearchBar}>
-            <i className="ri-search-line"></i>
-            <SearchClose showSearchBar={showSearchBar}>X</SearchClose>
-          </SearchButton>
-        </SearchBar>
-        <UserInfo>
-          <UserIcon onClick={() => setShowModal((prev) => !prev)}>
-            <i className="ri-user-3-line"></i>
-          </UserIcon>
-          {showModal && <UserModal/>}
-          { props.user  ? <div>안녕하세요. {props.user?.nickname} 디자이너님 환영합니다!</div> : <div>로그인 해주세요.</div>}
-        </UserInfo>
-    </HeaderContainer>
-  )
-}

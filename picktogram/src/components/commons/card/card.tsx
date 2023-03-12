@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { CardProps } from "./card.type"
 import * as S from "./card.styles"
+import useScrollPos from '@/src/hooks/useScrollPos';
 
 
 export default function Card({
@@ -10,6 +11,7 @@ export default function Card({
 ) {
     const cardRef = useRef(null);
     const router = useRouter();
+    const {savePos} = useScrollPos()
 
     useEffect(() => {
         if (!cardRef?.current) return;
@@ -26,6 +28,7 @@ export default function Card({
 
     const handleClick : any = () => {
       if(data) {
+        savePos();
         router.push(`/dashboard/${data?.id}`)
       }
     }

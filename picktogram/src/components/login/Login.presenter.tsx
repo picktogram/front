@@ -43,7 +43,7 @@ export default function LoginUI({
                 <S.Password type='password'
                 {...register('password',
                     {required : "This is required" ,
-                    minLength: { value: 8, message: "This input min-width is 8" }})}
+                    minLength: { value: 3, message: "This input min-width is 8" }})}
                     placeholder="Password"
                 />
                 <ErrorMessage

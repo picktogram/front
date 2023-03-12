@@ -1,7 +1,7 @@
 import React from "react"
 import Head from 'next/head'
 import Card from '@/src/components/commons/card/card'
-import Header from '@/src/components/commons/header'
+import Header from '@/src/components/main/components/header'
 import { FetchNextPageOptions, InfiniteQueryObserverResult } from "react-query"
 import { BoardData } from "./Main.type"
 import {useRouter} from 'next/router'
@@ -9,14 +9,12 @@ import {useRouter} from 'next/router'
 export default function MainUI({
     user,
     data,
-    handlePos,
     fetchNextPage
 }: {
     user : {
         nickname : string
     },
     data : any;
-    handlePos : React.MouseEventHandler<HTMLButtonElement>
     fetchNextPage : (options?: FetchNextPageOptions | undefined) => Promise<InfiniteQueryObserverResult<any, unknown>>
 }) {
   const router = useRouter()
@@ -29,8 +27,6 @@ export default function MainUI({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header user={user}/>
-      <button onClick={() => router.push("/") } style={{position : "fixed", top : '100px'}}>Home</button>
-      <button onClick={handlePos} style={{position : "fixed", top : '200px'}}>현재 포지션을 저장하는 임시 버튼</button>
       <div style={{ margin : "0 auto", padding : "16px 20px", display : "grid", gridTemplateColumns : "650px", justifyContent : "center" , gap : '2rem'}}>
         {data?.pages.map((page : {list : BoardData[]}, index : number) => (
           <React.Fragment key={index}>

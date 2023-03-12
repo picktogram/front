@@ -30,7 +30,7 @@ export default function Login() {
 
     const onSubmit =  (data : LoginData) => {
         mutation.mutate(data);
-        router.push("/");
+        router.replace("/");
     }
 
   return (
