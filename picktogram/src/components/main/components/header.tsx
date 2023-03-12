@@ -38,7 +38,6 @@ const HeaderContainer = styled.header`
     width: 100%;
     height: 100px;
     padding: 16px;
-    border-bottom: 1px solid black;
     background-color: white;
     color : black;
     transition: all .3s ease;

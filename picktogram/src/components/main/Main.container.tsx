@@ -39,12 +39,11 @@ export default function Main({
       if(isLoading) {
         return (
           <>
-            {/* <Header user={user}/> */}
             <div>Loading...</div>
           </>
         )
       }
   return (
-    <MainUI user={user} data={data} fetchNextPage={fetchNextPage}/>
+    <MainUI user={{...user, token,}} data={data} fetchNextPage={fetchNextPage}/>
   )
 }

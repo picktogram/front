@@ -2,9 +2,9 @@ import React from "react"
 import Head from 'next/head'
 import Card from '@/src/components/commons/card/card'
 import Header from '@/src/components/main/components/header'
+import UserMainProfile from "./components/userMainProfile"
 import { FetchNextPageOptions, InfiniteQueryObserverResult } from "react-query"
 import { BoardData } from "./Main.type"
-import {useRouter} from 'next/router'
 
 export default function MainUI({
     user,
@@ -13,11 +13,11 @@ export default function MainUI({
 }: {
     user : {
         nickname : string
+        token : string
     },
     data : any;
     fetchNextPage : (options?: FetchNextPageOptions | undefined) => Promise<InfiniteQueryObserverResult<any, unknown>>
 }) {
-  const router = useRouter()
   return (
     <>
       <Head>
@@ -27,15 +27,29 @@ export default function MainUI({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header user={user}/>
-      <div style={{ margin : "0 auto", padding : "16px 20px", display : "grid", gridTemplateColumns : "650px", justifyContent : "center" , gap : '2rem'}}>
-        {data?.pages.map((page : {list : BoardData[]}, index : number) => (
-          <React.Fragment key={index}>
-            {page.list.map((post , index) => (
-              <Card key={post.id} isLast={index === page.list.length -1} newLimit={() => fetchNextPage()} data={post}/>
-            ))}
-          </React.Fragment>
-        ))}
+      <div style={{backgroundColor : "#d9d9d9" , paddingTop : "20px"}}>
+
+        <div>
+          {/* 달력 */}
+        </div>
+
+        <div>
+          <UserMainProfile user={user} />
+          {data?.pages.map((page : {list : BoardData[]}, index : number) => (
+            <React.Fragment key={index}>
+              {page.list.map((post , index) => (
+                <Card key={post.id} isLast={index === page.list.length -1} newLimit={() => fetchNextPage()} data={post}/>
+              ))}
+            </React.Fragment>
+          ))}
+        </div>
+
+        <div>
+          {/*  */}
+        </div>
+
       </div>
+
     </>
   )
 }

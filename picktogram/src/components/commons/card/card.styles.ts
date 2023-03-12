@@ -2,14 +2,17 @@ import styled from '@emotion/styled'
 
 
 export const CardContainer = styled.div`
+    width: 650px;
+    margin: 0 auto;
     min-height: 600px;
     padding: 16px 20px;
-    border: 1px solid black;
     border-radius: 20px;
     display: flex;
     row-gap: 1rem;
     flex-direction: column;
     transition: all 0.3s ease;
+    background-color: white;
+    margin-bottom: 20px;
 
     &:hover {
       transform: scale(1.05);
