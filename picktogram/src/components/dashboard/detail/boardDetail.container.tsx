@@ -1,10 +1,11 @@
-import React, { use } from 'react'
+import React, { Suspense, use } from 'react'
 import BoardDetailUI from './boardDetail.presenter'
 import axios from 'axios';
 import { useRouter } from 'next/router'
 import { useMutation } from 'react-query';
 import { SERVER_URL } from "@/util/constant"
 import useFetchDetailData from '@/src/hooks/useFetchDetailData';
+import Loader from "./boardDetail.loader"
 
 export default function BoardDetail({
     token
@@ -12,7 +13,7 @@ export default function BoardDetail({
     token : string
 }) {
     const router = useRouter();
-    const {data, isLoading, isError} = useFetchDetailData({
+    const {data, isError} = useFetchDetailData({
         queryKey : "getDetail",
         id : router.query.id,
         token,
@@ -44,9 +45,6 @@ export default function BoardDetail({
         router.push(`/dashboard/${router.query.id}/edit`);
     }
 
-    if(isLoading || !data) {
-        return <div>Loading...</div>
-    }
 
     if(isError) {
         return <div>Error...</div>
@@ -54,6 +52,9 @@ export default function BoardDetail({
 
 
   return (
-    <BoardDetailUI data={data} handleMoveEdit={handleMoveEdit} addComments={addComments}/>
+
+    <Suspense fallback={<Loader />}>
+        <BoardDetailUI data={data} handleMoveEdit={handleMoveEdit} addComments={addComments}/>
+    </Suspense>
   )
 }

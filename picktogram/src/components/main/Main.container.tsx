@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { useInfiniteQuery } from "react-query"
 // import Header from '@/src/components/commons/header'
 import MainUI from './Main.presenter'
 import { ResponceData } from "./Main.type"
 import { infiniteFetcher } from "@/util/queryClient"
 import useScrollPos from "@/src/hooks/useScrollPos"
+import Loader from "./main.loader"
 
 export default function Main({
     token,
@@ -15,7 +16,7 @@ export default function Main({
         nickname : string
     };
 }) {
-      const { data, fetchNextPage, isLoading }  = useInfiniteQuery<ResponceData>(['infiniteBoard'],
+      const { data, fetchNextPage }  = useInfiniteQuery<ResponceData>(['infiniteBoard'],
           ({pageParam = 1}) => infiniteFetcher({
             method : 'get',
             path : `/api/v1/articles?limit=10&page=`,
@@ -27,6 +28,7 @@ export default function Main({
            getNextPageParam : (lastPage) => {
               return lastPage.page == lastPage.totalPage ? undefined : Number(lastPage.page) + 1;
            },
+           suspense : true,
          })
 
       const { loadPos } = useScrollPos();
@@ -35,16 +37,9 @@ export default function Main({
         loadPos();
       }, [])
 
-
-      if(isLoading) {
-        return (
-          <>
-            <div>Loading...</div>
-          </>
-        )
-      }
-
-  return (
-    <MainUI user={{...user, token,}} data={data} fetchNextPage={fetchNextPage}/>
-  )
+    return (
+      <Suspense fallback={<Loader />}>
+        <MainUI user={{...user, token,}} data={data} fetchNextPage={fetchNextPage}/>
+      </Suspense>
+    )
 }

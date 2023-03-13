@@ -20,7 +20,8 @@ const useFetchDetailData = ({
         }), {
             onSuccess: (data) => {
                 console.log("success", data)
-            }
+            },
+            suspense : true,
         })
     )
 }
