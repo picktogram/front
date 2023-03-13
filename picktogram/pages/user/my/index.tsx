@@ -24,7 +24,7 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
       }
     }
 }
-export default function UserProfilePage (props : { user : { nickname : string }, token : string }) {
+export default function UserMyPage (props : { user : { nickname : string }, token : string }) {
     const router = useRouter()
     const fetchUserProfile = async (token : string) => {
         try {
@@ -58,7 +58,7 @@ export default function UserProfilePage (props : { user : { nickname : string },
 
     return (
         <div style={{margin : "20px"}}>
-            <h2>유저 페이지</h2>
+            <h2>마이 페이지</h2>
             {/* <div>{data.nickname}님 환영합니다.</div> */}
             <div>
                 <button onClick={loggoutUser}>logout</button>

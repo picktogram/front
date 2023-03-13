@@ -30,7 +30,7 @@ const UserModal = () => {
         <UserMenu ref={ref}>
             <List>
                 <Item>
-                    <Link href="/user/profile">마이페이지</Link>
+                    <Link href="/user/my">마이페이지</Link>
                 </Item>
                 <Item>
                     <Logout onClick={() => {

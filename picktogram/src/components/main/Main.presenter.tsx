@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Card from '@/src/components/commons/card/card'
 import Header from '@/src/components/main/components/header'
 import UserMainProfile from "./components/userMainProfile"
+import UserRecommend from "./components/userRecommend"
 import { FetchNextPageOptions, InfiniteQueryObserverResult } from "react-query"
 import { BoardData } from "./Main.type"
 
@@ -27,10 +28,11 @@ export default function MainUI({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header user={user}/>
-      <div style={{backgroundColor : "#d9d9d9" , paddingTop : "20px"}}>
+      <div style={{backgroundColor : "#d9d9d9" , paddingTop : "20px", display : "grid" , gridTemplateColumns : "1fr 1fr 1fr"}}>
 
         <div>
           {/* 달력 */}
+          달력
         </div>
 
         <div>
@@ -46,6 +48,7 @@ export default function MainUI({
 
         <div>
           {/*  */}
+          <UserRecommend user={user} />
         </div>
 
       </div>

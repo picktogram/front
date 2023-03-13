@@ -23,6 +23,7 @@ export const UserInfo = styled.div`
     width: 100%;
     display: flex;
     justify-content: flex-start;
+    gap: 1rem;
 
     & i {
       font-size: 2rem;
