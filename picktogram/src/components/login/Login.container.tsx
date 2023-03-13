@@ -7,15 +7,17 @@ import { LoginData } from './Login.type'
 import { authenticateUser } from '@/src/auth/tokens'
 import useServerRefresher from '@/src/hooks/useServerRefresher'
 import { fetcher } from '@/util/queryClient'
+import { useSetRecoilState } from 'recoil'
+import {tokenState} from "@/state/tokenState"
 
 export default function Login() {
     const router = useRouter();
-
+    const setTokenState = useSetRecoilState(tokenState)
     const { register, formState: { errors , isSubmitting }, handleSubmit } = useForm<LoginData>({
         criteriaMode : "all"
         });
 
-    const mutation = useMutation<any, Error, LoginData>('login', (data : LoginData) => fetcher({
+    const mutation = useMutation<string, Error, LoginData>('login', (data : LoginData) => fetcher({
         method : 'post',
         path : `/api/v1/auth/login`,
         data : data,
@@ -25,6 +27,7 @@ export default function Login() {
     }), {
         onSuccess : (data) => {
             authenticateUser(data);
+            setTokenState(data);
         }
     })
 

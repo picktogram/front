@@ -1,16 +1,15 @@
 import { IncomingMessage } from 'http';
 import { NextApiRequestCookies } from 'next/dist/server/api-utils';
 
-// 사용자 인증을 위해 token을 쿠키, loaclstorage에 저장
+
+// 사용자 인증을 위해 token을 쿠키 저장
 export function authenticateUser( token : string ): void {
     document.cookie = `token=${token};max-age=3600`;
-    localStorage.setItem("token", token);
 }
 
-// 서용자 로그아웃을 위해 쿠키, localstorage에 토큰을 삭제
+// 서용자 로그아웃을 위해 쿠키 토큰을 삭제
 export const clearUser = (): void => {
     document.cookie = `token=0;max-age=0`;
-    localStorage.removeItem("token");
 }
 
 const decodeToken = (token : string) => {

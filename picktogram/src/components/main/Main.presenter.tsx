@@ -28,7 +28,7 @@ export default function MainUI({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header user={user}/>
-      <div style={{backgroundColor : "#d9d9d9" , paddingTop : "20px", display : "grid" , gridTemplateColumns : "1fr 1fr 1fr"}}>
+      <div style={{ position : 'relative', backgroundColor : "#d9d9d9" , paddingTop : "20px", display : "grid", gridTemplateColumns : "1fr 1fr 1fr", gap : "20px"}}>
 
         <div>
           {/* 달력 */}
@@ -46,9 +46,11 @@ export default function MainUI({
           ))}
         </div>
 
-        <div>
+        <div style={{position : "relative"}}>
           {/*  */}
-          <UserRecommend user={user} />
+          <div style={{position : "fixed", width : "100%"}}>
+            <UserRecommend user={user} />
+          </div>
         </div>
 
       </div>

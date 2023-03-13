@@ -43,6 +43,7 @@ export default function Main({
           </>
         )
       }
+
   return (
     <MainUI user={{...user, token,}} data={data} fetchNextPage={fetchNextPage}/>
   )
