@@ -6,6 +6,7 @@ import UserMainProfile from "./components/userMainProfile"
 import UserRecommend from "./components/userRecommend"
 import { FetchNextPageOptions, InfiniteQueryObserverResult } from "react-query"
 import { BoardData } from "./Main.type"
+import NoReplyBoard from "./components/noReplyBoard"
 
 export default function MainUI({
     user,
@@ -48,7 +49,15 @@ export default function MainUI({
 
         <div style={{position : "relative"}}>
           {/*  */}
-          <div style={{position : "fixed", width : "100%"}}>
+          <div style={{
+              position : "fixed",
+              width : "100%",
+              display : "flex",
+              flexDirection : 'column',
+              rowGap : '1rem',
+              overflowY : "scroll",
+              }}>
+            <NoReplyBoard />
             <UserRecommend user={user} />
           </div>
         </div>

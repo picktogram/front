@@ -44,7 +44,7 @@ export default function UserRecommend({
 
 const Container = styled.div`
   width: 350px;
-  height: 500px;
+  height: 250px;
   background-color: white;
   border: none;
 `
