@@ -20,7 +20,6 @@ export default function CreateBoard({
     const queryClient = useQueryClient();
     const [boardRocilData, setBoardRecoilData]= useRecoilState(boardBeforeSave);
 
-    console.log(boardRocilData)
     const { mutate : createBoard } = useMutation("createBoard", async (data : any) => {
         try {
           const responce = await axios.post(`${SERVER_URL}/api/v1/articles`,
@@ -34,13 +33,11 @@ export default function CreateBoard({
           );
 
           const result = await responce.data.data;
-          console.log(result);
           return result;
         } catch (err) {
           throw err
         }
       }, {
-        // onSuccess : useServerRefresher(),
         onSuccess : () => {
           queryClient.invalidateQueries({ queryKey : ['infiniteBoard']})
           setBoardRecoilData({contents : "", images : [],})
@@ -53,16 +50,19 @@ export default function CreateBoard({
       let reqImages = images.map((image, index) => {
         return {
           url : image,
-          position : index,
+          position : String(index),
         }
       })
 
       let data = {
         "contents" : contents,
         "images" : reqImages,
+        'type' : "question" // 일단 고정
       }
       createBoard(data)
     }
+
+
   return (
     <CreateBoardUI
         token={token}

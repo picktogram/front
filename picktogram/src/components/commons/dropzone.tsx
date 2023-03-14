@@ -41,7 +41,7 @@ const DropzoneBox = styled.div`
             formData,
           {
             headers : {
-              'Authorization' : `Bearer ${token}`,
+              'Authorization' : token,
               'Content-Type': 'multipart/form-data',
             }
           }
@@ -71,10 +71,10 @@ const DropzoneBox = styled.div`
             <Dropzone onDrop={acceptedFiles => handleDrop(acceptedFiles)}>
             {({getRootProps, getInputProps}) => (
                 <section>
-                <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    <p>+</p>
-                </div>
+                    <div {...getRootProps()}>
+                        <input {...getInputProps()} />
+                        <p>+</p>
+                    </div>
                 </section>
             )}
             </Dropzone>

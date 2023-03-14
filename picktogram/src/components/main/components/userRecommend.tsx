@@ -29,8 +29,8 @@ export default function UserRecommend({
       return lastPage.page === lastPage.totalPage ? undefined : Number(lastPage.page) + 1;
     }
     ,
-    getPreviousPageParam : (lasPage) => {
-      return lasPage.page === 0 ? undefined : Number(lasPage.page) - 1;
+    getPreviousPageParam : (lastPage) => {
+      return lastPage.page === 0 ? undefined : Number(lastPage.page) - 1;
     }
   })
 

@@ -19,14 +19,23 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
 
     return {
       props : {
-        token : data.token
+        token : data.token,
+        user : data.user,
       },
     }
 }
 
-export default function DashBoardDetailPage({ token } : { token : string }) {
+export default function DashBoardDetailPage({
+   token,
+   user,
+  } : {
+     token : string
+     user : {
+        nickname : string;
+     }
+  }) {
 
   return (
-    <BoardDetail token={token} />
+    <BoardDetail token={token} user={user}/>
   )
 }
