@@ -1,12 +1,12 @@
-import React, { Suspense, use, useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import BoardDetailUI from './boardDetail.presenter'
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/router'
-import { useMutation, useInfiniteQuery, useQueryClient, useQuery} from 'react-query';
+import { useMutation, useQueryClient, useQuery} from 'react-query';
 import { SERVER_URL } from "@/util/constant"
 import useFetchDetailData from '@/src/hooks/useFetchDetailData';
 import Loader from "./boardDetail.loader"
-import { fetcher, infiniteFetcher } from '@/util/queryClient';
+import { fetcher } from '@/util/queryClient';
 
 type CommentData = {
     list : {
@@ -43,6 +43,7 @@ export default function BoardDetail({
     user : {nickname : string};
 }) {
     const [page, setPage] = useState<number>(1);
+    const [isNewComments, setIsNewComments] = useState<boolean>(false);
     const router = useRouter();
     const queryClient = useQueryClient();
     const {data, isError} = useFetchDetailData({
@@ -67,7 +68,7 @@ export default function BoardDetail({
     }, {
         onSuccess: (data) => {
             console.log('onSuccess', data);
-            queryClient.invalidateQueries(['getComments', page]);
+            setIsNewComments(true);
         },
     });
 
@@ -111,6 +112,11 @@ export default function BoardDetail({
         router.push(`/dashboard/${router.query.id}/edit`);
     }
 
+    const handleNewComments = () => {
+        setIsNewComments(false);
+        setPage(1);
+        queryClient.invalidateQueries(['getComments', page]);
+    }
 
     if(isError) {
         return <div>Error...</div>
@@ -125,7 +131,9 @@ export default function BoardDetail({
             user={user}
             commentsData={commentsData}
             setPage={setPage}
-            />
+            isNewComments={isNewComments}
+            handleNewComments={handleNewComments}
+        />
     </Suspense>
   )
 }

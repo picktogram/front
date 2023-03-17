@@ -9,6 +9,10 @@ export default function Pagination({
     setPage : React.Dispatch<React.SetStateAction<number>>;
 }) {
 
+    if(totalPage === undefined) {
+        return <div>Pagination Error...</div>
+    }
+
   const total = totalPage ? totalPage : 0
   return (
     <S.Container >
