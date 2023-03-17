@@ -15,6 +15,7 @@ export default function CreateBoardUI({
     contents,
     setContents,
     handleSubmit,
+    handleEditSubmit,
     createBoard,
     isEdit
 } : {
@@ -26,8 +27,9 @@ export default function CreateBoardUI({
     contents : string;
     setContents : React.Dispatch<React.SetStateAction<string>>;
     handleSubmit : React.FormEventHandler<HTMLFormElement>;
+    handleEditSubmit : React.FormEventHandler<HTMLFormElement>;
     createBoard :  UseMutateFunction<any, unknown, any, unknown>;
-    isEdit : boolean
+    isEdit? : boolean
 
 }) {
   const [boardContentsData, setBoardContentsData] = useRecoilState(boardContents);
@@ -35,7 +37,7 @@ export default function CreateBoardUI({
   return (
     <div>
       <h1 style={{marginBottom : "1rem"}}>게시판 {isEdit ? "수정" : "작성"}</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={ isEdit ? handleEditSubmit : handleSubmit}>
         <S.Container>
           <Dropzone images={images} setImages={setImages} token={token} setCount={setCount} />
           {!isEdit && <Carousel images={images} count={count} setCount={setCount} setImages={setImages} />}
