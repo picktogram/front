@@ -4,6 +4,8 @@ import * as S from "./boardDetail.styles"
 import Carousel from '@/src/components/commons/carousel';
 import BoardModal from "@/src/components/commons/boardModal"
 import { InfiniteData, UseMutateFunction } from 'react-query';
+import Pagination from '@/src/components/commons/Pagination/Pagination.container';
+
 
 export default function BoardDetailUI({
     data,
@@ -11,24 +13,25 @@ export default function BoardDetailUI({
     addComments,
     user,
     commentsData,
+    setPage
     } : {
         data : DetailResponce;
         handleMoveEdit : React.MouseEventHandler<HTMLButtonElement>
         addComments : UseMutateFunction<any, unknown, any, unknown>;
         user : {nickname : string};
-        commentsData :  InfiniteData<{
-            list: {
-                xPosition: string;
-                yPosition: string;
-                id: number;
-                writerId: number;
-                contents: string;
+        commentsData :  {
+            list : {
+                xPosition : string;
+                yPosition : string;
+                id : number;
+                writerId : number;
+                contents : string;
             }[];
-            count: number;
-            totalResult: number;
-            totalPage: number;
-            page: number;
-        }> | undefined
+            page : number;
+            totalPage : number;
+            hasMore : boolean;
+        } | undefined;
+        setPage :  React.Dispatch<React.SetStateAction<number>>;
     }) {
 
     const [images, setImage] = useState<string[]>(data.images.map(e => e.url));
@@ -65,17 +68,8 @@ export default function BoardDetailUI({
 
         <S.ContentsBox>
             <S.Contents>{data?.contents}</S.Contents>
-            <S.CommentsBox>
-                {commentsData?.pages.map((page, index) => (
-                    <React.Fragment key={index}>
-                        {page.list.map((comment, index) => (
-                             <S.Comments key={comment.id}>
-                                {comment.contents}
-                            </S.Comments>
-                        ))}
-                    </React.Fragment>
-                ))}
-                <S.CommentInput onSubmit={(e) => e.preventDefault()}>
+
+            <S.CommentInput onSubmit={(e) => e.preventDefault()}>
                     <S.UserInfo>
                         <i className="ri-user-3-line"></i>
                         <span>
@@ -98,6 +92,13 @@ export default function BoardDetailUI({
                         등록
                     </button>
                 </S.CommentInput>
+            <S.CommentsBox>
+                {commentsData?.list.map((page, index) => (
+                    <S.Comments key={page.id}>
+                            {page.contents}
+                    </S.Comments>
+                ))}
+                <Pagination totalPage={commentsData?.totalPage} setPage={setPage} />
             </S.CommentsBox>
         </S.ContentsBox>
     {/* comment wrapper */}

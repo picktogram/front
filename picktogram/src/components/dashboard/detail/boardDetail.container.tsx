@@ -1,12 +1,39 @@
-import React, { Suspense, use } from 'react'
+import React, { Suspense, use, useEffect, useState } from 'react'
 import BoardDetailUI from './boardDetail.presenter'
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/router'
-import { useMutation, useInfiniteQuery, useQueryClient  } from 'react-query';
+import { useMutation, useInfiniteQuery, useQueryClient, useQuery} from 'react-query';
 import { SERVER_URL } from "@/util/constant"
 import useFetchDetailData from '@/src/hooks/useFetchDetailData';
 import Loader from "./boardDetail.loader"
-import { infiniteFetcher } from '@/util/queryClient';
+import { fetcher, infiniteFetcher } from '@/util/queryClient';
+
+type CommentData = {
+    list : {
+        xPosition : string;
+        yPosition : string;
+        id : number;
+        writerId : number;
+        contents : string;
+    }[];
+    count : number;
+    totalResult : number;
+    totalPage : number;
+    page : number
+}
+
+type CommentSelectData = {
+    list : {
+        xPosition : string;
+        yPosition : string;
+        id : number;
+        writerId : number;
+        contents : string;
+    }[];
+    page : number;
+    totalPage : number;
+    hasMore : boolean;
+}
 
 export default function BoardDetail({
     token,
@@ -15,6 +42,7 @@ export default function BoardDetail({
     token : string;
     user : {nickname : string};
 }) {
+    const [page, setPage] = useState<number>(1);
     const router = useRouter();
     const queryClient = useQueryClient();
     const {data, isError} = useFetchDetailData({
@@ -22,7 +50,6 @@ export default function BoardDetail({
         id : router.query.id,
         token,
     })
-
     const { mutate : addComments } = useMutation("addComments", async (data : any) => {
         try {
             const res = await axios.post(`${SERVER_URL}/api/v1/articles/${router.query.id}/comments`,
@@ -33,49 +60,52 @@ export default function BoardDetail({
                     'Content-Type': 'application/json',
                 }
             });
-            console.log(res)
             return res;
         } catch (err) {
-            console.log(err);
             throw err
         }
     }, {
         onSuccess: (data) => {
             console.log('onSuccess', data);
-            queryClient.invalidateQueries(['getComments', router.query.id ]);
+            queryClient.invalidateQueries(['getComments', page]);
         },
     });
 
-    const {data : commentsData, fetchNextPage, fetchPreviousPage} = useInfiniteQuery<{
-        list : {
-            xPosition : string;
-            yPosition : string;
-            id : number;
-            writerId : number;
-            contents : string;
-        }[];
-        count : number;
-        totalResult : number;
-        totalPage : number;
-        page : number
-    }>(['getComments', router.query.id ], ({pageParam = 1}) => infiniteFetcher({
+    const { data : commentsData } = useQuery<CommentData, AxiosError, CommentSelectData>(['getComments', page ], () => fetcher({
         method : 'get',
-        path : `/api/v1/articles/${router.query.id}/comments?limit=10&page=`,
+        path : `/api/v1/articles/${router.query.id}/comments?limit=10&page=${page}`,
         headers : {
             Authorization : token
         },
-        page : pageParam,
     }), {
-        getNextPageParam : (lastPage) => {
-            return lastPage.page === lastPage.totalPage ? undefined : Number(lastPage) + 1;
+        onSuccess : (data) => {
+            console.log('success getCommets', data);
         },
-        getPreviousPageParam : (lastPage) => {
-            return lastPage.page === 0 ? undefined : Number(lastPage.page) - 1;
+        staleTime: 5000,
+        keepPreviousData: true,
+        select : (data) => {
+            return {
+                list: data.list,
+                page : data.page,
+                totalPage : data.totalPage,
+                hasMore: data.totalPage > page
+            };
         },
-        onSuccess : () => {
-            console.log('success getCommets');
-        }
     })
+
+    useEffect(() => {
+        if (commentsData?.hasMore) {
+            queryClient.prefetchQuery(['getComments', page + 1], () =>
+                fetcher({
+                    method : 'get',
+                    path : `/api/v1/articles/${router.query.id}/comments?limit=10&page=${page}`,
+                    headers : {
+                        Authorization : token
+                    },
+                })
+            );
+          }
+    },[commentsData, page, queryClient])
 
     const handleMoveEdit = () => {
         router.push(`/dashboard/${router.query.id}/edit`);
@@ -86,7 +116,6 @@ export default function BoardDetail({
         return <div>Error...</div>
     }
 
-
   return (
     <Suspense fallback={<Loader />}>
         <BoardDetailUI
@@ -94,7 +123,9 @@ export default function BoardDetail({
             handleMoveEdit={handleMoveEdit}
             addComments={addComments}
             user={user}
-            commentsData={commentsData}/>
+            commentsData={commentsData}
+            setPage={setPage}
+            />
     </Suspense>
   )
 }

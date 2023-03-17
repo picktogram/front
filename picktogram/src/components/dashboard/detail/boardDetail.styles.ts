@@ -64,9 +64,11 @@ export const Contents = styled.div`
 
 export const CommentsBox = styled.div`
    width: 90%;
+   min-height: 1800px;
    margin: 0 auto;
    padding: 1rem;
    margin-bottom: 1.5rem;
+
 
 `
 export const Comments = styled.div`
