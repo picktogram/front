@@ -11,15 +11,16 @@ const queryClient = getClient()
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <Hydrate state={pageProps.dehydratedState}>
-        <RecoilRoot>
-          <Layout>
-              <Component {...pageProps} />
+    <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <Hydrate state={pageProps.dehydratedState}>
+            <Layout>
+                <Component {...pageProps} />
             </Layout>
-        </RecoilRoot>
-      </Hydrate>
-    </QueryClientProvider>
+        </Hydrate>
+      </QueryClientProvider>
+    </RecoilRoot>
+
   )
 }

@@ -8,7 +8,7 @@ import { authenticateUser } from '@/src/auth/tokens'
 import useServerRefresher from '@/src/hooks/useServerRefresher'
 import { fetcher } from '@/util/queryClient'
 import { useSetRecoilState } from 'recoil'
-import {tokenState} from "@/state/tokenState"
+import {tokenState, tokenSelector} from "@/state/tokenState"
 
 export default function Login() {
     const router = useRouter();

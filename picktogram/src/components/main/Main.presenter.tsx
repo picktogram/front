@@ -57,7 +57,7 @@ export default function MainUI({
               rowGap : '1rem',
               overflowY : "scroll",
               }}>
-            <NoReplyBoard />
+            <NoReplyBoard user={user} />
             <UserRecommend user={user} />
           </div>
         </div>

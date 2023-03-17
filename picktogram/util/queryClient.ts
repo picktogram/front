@@ -38,6 +38,8 @@ export const fetcher : FetcherFn = async ({
       headers : headers,
     });
 
+    console.log(responce)
+
     const result = await responce.data.data
     return result
   } catch (error) {

@@ -5,6 +5,7 @@ import Main from "@/src/components/main/Main.container"
 
 
 export const getServerSideProps = async (context : GetServerSidePropsContext) => {
+  console.log('context', context);
   const data = await userFromRequest(context.req);
 
   if(!data?.token) {

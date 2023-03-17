@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {useRecoilValue} from 'recoil'
-import {tokenState} from "@/state/tokenState"
+import {tokenState, tokenSelector} from "@/state/tokenState"
 
 import { useInfiniteQuery } from 'react-query'
 import { infiniteFetcher } from '@/util/queryClient'
@@ -27,14 +27,20 @@ type NoReplyBoardResponse = {
 }
 
 
-export default function NoReplyBoard() {
-    const token = useRecoilValue(tokenState);
+export default function NoReplyBoard({
+    user,
+} : {
+    user : {
+        token : string;
+        nickname : string;
+    }
+}) {
 
     const {data : NoReplyBoardData} = useInfiniteQuery<NoReplyBoardResponse>(['getNoReplyBoard'], ({pageParam = 1}) => infiniteFetcher({
         method : 'get',
         path : `/api/v1/articles/no-reply?limit=100&page=`,
         headers : {
-            Authorization : token,
+            Authorization : user.token,
         },
         page : pageParam,
     }), {
@@ -43,13 +49,15 @@ export default function NoReplyBoard() {
         }
     })
 
-    // console.log(NoReplyBoardData)
+    console.log('NoReplyBoardData', NoReplyBoardData)
   return (
-    <div style={{
-        width : "350px",
-        height : "500px",
-        border : "none",
-        backgroundColor : "white"
-    }}>NoReplyBoard</div>
+        <div style={{
+            width : "350px",
+            height : "500px",
+            border : "none",
+            backgroundColor : "white"
+        }}>
+        NoReplyBoard
+        </div>
   )
 }

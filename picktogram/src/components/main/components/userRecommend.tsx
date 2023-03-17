@@ -34,7 +34,7 @@ export default function UserRecommend({
     }
   })
 
-  console.log(recommendData);
+  console.log('recommendData', recommendData);
 
   return (
     <Container>UserRecommend</Container>
