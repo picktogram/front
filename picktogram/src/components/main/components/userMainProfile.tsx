@@ -46,20 +46,20 @@ export default function UserMainProfile({
 
     const router = useRouter();
 
-  return (
-    <Container>
-        <UserInfoWrapper>
-            <UserIcon>
-                <i className="ri-user-3-line"></i>
-            </UserIcon>
-            <UserName>{user.nickname}</UserName>
-            <UserReputation>{reputationData?.sum}점</UserReputation>
-        </UserInfoWrapper>
-        <UserCreateWrapper>
-            <Button onClick={() => router.push("/dashboard/new")}>게시글 작성</Button>
-        </UserCreateWrapper>
-    </Container>
-  )
+    return (
+        <Container>
+            <UserInfoWrapper>
+                <UserIcon>
+                    <i className="ri-user-3-line"></i>
+                </UserIcon>
+                <UserName>{user.nickname}</UserName>
+                <UserReputation>{reputationData?.sum}점</UserReputation>
+            </UserInfoWrapper>
+            <UserCreateWrapper>
+                <Button onClick={() => router.push("/dashboard/new")}>게시글 작성</Button>
+            </UserCreateWrapper>
+        </Container>
+    )
 }
 
 

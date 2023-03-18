@@ -1,6 +1,7 @@
 import { QueryClient } from 'react-query';
 import { SERVER_URL } from "@/util/constant"
-import axios from "axios"
+import axios, { AxiosRequestHeaders, RawAxiosRequestHeaders  } from "axios"
+import Axios from "@/util/httpRequest"
 
 type AnyOBJ = { [key: string]: any };
 
@@ -17,7 +18,7 @@ type FetcherFn = ({
   method: 'get' | 'post' | 'delete' | 'patch';
   path : string;
   data? : AnyOBJ;
-  headers? : AnyOBJ;
+  headers : RawAxiosRequestHeaders;
 }) => Promise<any>
 
 type InfiniteFetcherFn<T extends FetcherFn , U extends string> = T extends (arg : infer C) => any
@@ -31,11 +32,11 @@ export const fetcher : FetcherFn = async ({
   headers,
 }) => {
   try {
-    const responce = await axios({
-      method : method,
-      url : `${SERVER_URL}${path}`,
+    const responce = await Axios.use({
+      method,
+      url : path,
       data : JSON.stringify(data),
-      headers : headers,
+      headers,
     });
 
     const result = await responce.data.data
