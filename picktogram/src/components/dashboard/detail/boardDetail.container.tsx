@@ -99,7 +99,7 @@ export default function BoardDetail({
             queryClient.prefetchQuery(['getComments', page + 1], () =>
                 fetcher({
                     method : 'get',
-                    path : `/api/v1/articles/${router.query.id}/comments?limit=10&page=${page}`,
+                    path : `/api/v1/articles/${router.query.id}/comments?limit=10&page=${page + 1}`,
                     headers : {
                         Authorization : token
                     },
@@ -115,26 +115,29 @@ export default function BoardDetail({
     const handleNewComments = () => {
         setIsNewComments(false);
         setPage(1);
-        queryClient.invalidateQueries(['getComments', page]);
+        queryClient.invalidateQueries(['getComments', 1]);
     }
 
     if(isError) {
         return <div>Error...</div>
     }
 
+
+    // {/* </Suspense> */}
+
   return (
-    <Suspense fallback={<Loader />}>
-        <BoardDetailUI
-            data={data}
-            handleMoveEdit={handleMoveEdit}
-            addComments={addComments}
-            user={user}
-            commentsData={commentsData}
-            setPage={setPage}
-            isNewComments={isNewComments}
-            handleNewComments={handleNewComments}
-        />
-    </Suspense>
+        <Suspense fallback={<Loader />}>
+            <BoardDetailUI
+                data={data}
+                handleMoveEdit={handleMoveEdit}
+                addComments={addComments}
+                user={user}
+                commentsData={commentsData}
+                setPage={setPage}
+                isNewComments={isNewComments}
+                handleNewComments={handleNewComments}
+            />
+        </Suspense>
   )
 }
 

@@ -13,7 +13,10 @@ export default function Header(props : {user? : {nickname : string}}) {
 
   return (
     <HeaderContainer>
+        {/* 로고 */}
         <Logo onClick={() => router.push("/")}>Picktogram</Logo>
+
+        {/* 검색창 */}
         <SearchBar showSearchBar={showSearchBar} onSubmit={(e) => e.preventDefault()}>
           <SearchInput type="search" showSearchBar={showSearchBar}/>
           <SearchButton onClick={() => { setShowSearchBar(!showSearchBar) }} showSearchBar={showSearchBar}>
@@ -21,6 +24,8 @@ export default function Header(props : {user? : {nickname : string}}) {
             <SearchClose showSearchBar={showSearchBar}>X</SearchClose>
           </SearchButton>
         </SearchBar>
+
+        {/* 유저 정보 */}
         <UserInfo>
           <UserIcon onClick={() => setShowModal((prev) => !prev)}>
             <i className="ri-user-3-line"></i>

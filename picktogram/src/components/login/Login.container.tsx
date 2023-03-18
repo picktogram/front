@@ -5,17 +5,16 @@ import { useForm } from "react-hook-form"
 import { useRouter } from 'next/router'
 import { LoginData } from './Login.type'
 import { authenticateUser } from '@/src/auth/tokens'
-import useServerRefresher from '@/src/hooks/useServerRefresher'
 import { fetcher } from '@/util/queryClient'
 import { useSetRecoilState } from 'recoil'
-import {tokenState, tokenSelector} from "@/state/tokenState"
+import { tokenState } from "@/state/tokenState"
 
 export default function Login() {
     const router = useRouter();
-    const setTokenState = useSetRecoilState(tokenState)
+    const setTokenState = useSetRecoilState(tokenState);
     const { register, formState: { errors , isSubmitting }, handleSubmit } = useForm<LoginData>({
         criteriaMode : "all"
-        });
+    });
 
     const mutation = useMutation<string, Error, LoginData>('login', (data : LoginData) => fetcher({
         method : 'post',
@@ -36,13 +35,13 @@ export default function Login() {
         router.replace("/");
     }
 
-  return (
-    <LoginUI
-        register={register}
-        errors={errors}
-        isSubmitting={isSubmitting}
-        handleSubmit={handleSubmit}
-        onSubmit={onSubmit}
-    />
-  )
+   return (
+     <LoginUI
+         register={register}
+         errors={errors}
+         isSubmitting={isSubmitting}
+         handleSubmit={handleSubmit}
+         onSubmit={onSubmit}
+     />
+   )
 }

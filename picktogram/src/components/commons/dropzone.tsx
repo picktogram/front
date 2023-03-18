@@ -5,22 +5,9 @@ import { useMutation } from 'react-query'
 import axios from "axios";
 import {useSetRecoilState} from 'recoil'
 import {boardImages} from "@/state/boardBeforeSave"
+import { SERVER_URL } from "@/util/constant";
 
-const DropzoneBox = styled.div`
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid black;
-
-    & p {
-        font-size: 1.5rem;
-        font-weight: 600;
-    }
-`
-
- const DropzoneComponent = ({
+export default function DropzoneComponent ({
     setCount,
     images,
     setImages,
@@ -30,14 +17,14 @@ const DropzoneBox = styled.div`
     images : string[];
     setImages : Dispatch<SetStateAction<string[]>>;
     token : string;
-}) => {
+})  {
     const setBoardImagesData = useSetRecoilState(boardImages)
     const {mutate : uploadImage} = useMutation<string[], Error>('uploadImage', async (data : any) => {
         try {
             let formData = new FormData();
             formData.append('file', data);
 
-            const responce = await axios.post("http://13.209.193.45:3000/api/v1/body-image",
+            const responce = await axios.post(`${SERVER_URL}/api/v1/body-image`,
             formData,
           {
             headers : {
@@ -46,7 +33,7 @@ const DropzoneBox = styled.div`
             }
           }
         );
-        console.log(responce)
+
         const result = await responce.data.data;
         return result;
         } catch (err) {
@@ -82,5 +69,16 @@ const DropzoneBox = styled.div`
     )
 }
 
+const DropzoneBox = styled.div`
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
 
-export default DropzoneComponent
+    & p {
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+`

@@ -6,7 +6,6 @@ import useScrollPos from '@/src/hooks/useScrollPos';
 import useFollow from "@/src/hooks/useFollow"
 import useUnfollow from '@/src/hooks/useUnfollow';
 
-
 export default function Card({
   isLast, newLimit, data
 } : CardProps

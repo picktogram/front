@@ -1,7 +1,7 @@
 import Layout from '@/src/components/commons/layout'
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { QueryClient, QueryClientProvider, QueryCache, MutationCache, Hydrate } from "react-query"
+import { QueryClientProvider, Hydrate } from "react-query"
 import 'remixicon/fonts/remixicon.css'
 import { getClient } from '@/util/queryClient'
 import { RecoilRoot } from 'recoil';
@@ -21,6 +21,5 @@ export default function App({ Component, pageProps }: AppProps) {
         </Hydrate>
       </QueryClientProvider>
     </RecoilRoot>
-
   )
 }

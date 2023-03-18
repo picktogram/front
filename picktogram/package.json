@@ -9,7 +9,9 @@
     "lint": "next lint",
     "webpack:dev": "webpack --mode development",
     "webpack:start": "webpack-dev-server --mode development --open",
-    "webpack:build": "webpack --mode production"
+    "webpack:build": "webpack --mode production",
+    "format": "prettier --check --ignore-path .gitignore",
+    "format:fix": "prettier --write --ignore-path .gitignore"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -23,7 +25,7 @@
     "axios": "^1.2.6",
     "cookie": "^0.5.0",
     "dotenv": "^16.0.3",
-    "eslint": "8.33.0",
+    "eslint": "^8.36.0",
     "eslint-config-next": "13.1.6",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
@@ -47,9 +49,15 @@
     "@babel/preset-typescript": "^7.18.6",
     "@emotion/babel-plugin": "^11.10.5",
     "@types/cookie": "^0.5.1",
+    "@typescript-eslint/eslint-plugin": "^5.55.0",
+    "@typescript-eslint/parser": "^5.55.0",
     "babel-loader": "^9.1.2",
     "clean-webpack-plugin": "^4.0.0",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-react": "^7.32.2",
     "html-webpack-plugin": "^5.5.0",
+    "husky": "^8.0.3",
+    "prettier": "^2.8.4",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1"

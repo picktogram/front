@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DetailResponce } from './boardDetail.type'
 import * as S from "./boardDetail.styles"
 import Carousel from '@/src/components/commons/carousel';
@@ -43,6 +43,33 @@ export default function BoardDetailUI({
     const [count, setCount] = useState<number>(0);
     const [isShow, setIsShow] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>('');
+
+    const isServer = typeof window === undefined;
+
+    // 런타임 에러 때문에
+    const [commentList, setCommentList] = useState<{
+        list : {
+            xPosition : string;
+            yPosition : string;
+            id : number;
+            writerId : number;
+            contents : string;
+        }[];
+        page : number;
+        totalPage : number;
+        hasMore : boolean;
+    }>({
+        list : [],
+        page : 0,
+        totalPage : 0,
+        hasMore : false,
+    });
+
+    useEffect(() => {
+        if(commentsData) {
+            setCommentList(commentsData)
+        }
+    }, [commentsData])
 
 
   return (
@@ -96,14 +123,14 @@ export default function BoardDetailUI({
                     >
                         등록
                     </button>
-                </S.CommentInput>
+            </S.CommentInput>
             <S.CommentsBox>
-                {commentsData?.list.map((page, index) => (
-                    <S.Comments key={page.id}>
-                            {page.contents}
+                { commentList.list.map((comment) => (
+                    <S.Comments key={comment.id}>
+                            {comment.contents}
                     </S.Comments>
                 ))}
-                <Pagination totalPage={commentsData?.totalPage} setPage={setPage} />
+                <Pagination totalPage={commentList.totalPage} setPage={setPage} />
             </S.CommentsBox>
         </S.ContentsBox>
     {/* comment wrapper */}

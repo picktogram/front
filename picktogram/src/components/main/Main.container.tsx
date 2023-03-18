@@ -1,11 +1,10 @@
 import React, { Suspense, useEffect } from 'react'
-import { useInfiniteQuery } from "react-query"
-// import Header from '@/src/components/commons/header'
-import MainUI from './Main.presenter'
-import { ResponceData } from "./Main.type"
 import { infiniteFetcher } from "@/util/queryClient"
-import useScrollPos from "@/src/hooks/useScrollPos"
+import { useInfiniteQuery } from "react-query"
+import MainUI from './Main.presenter'
 import Loader from "./main.loader"
+import { ResponceData } from "./Main.type"
+import useScrollPos from "@/src/hooks/useScrollPos"
 
 export default function Main({
     token,
@@ -37,9 +36,17 @@ export default function Main({
         loadPos();
       }, [])
 
+      const handleNextPage = () => {
+          fetchNextPage();
+      }
+
     return (
       <Suspense fallback={<Loader />}>
-        <MainUI user={{...user, token,}} data={data} fetchNextPage={fetchNextPage}/>
+        <MainUI
+          user={{...user, token,}}
+          data={data}
+          handleNextPage={handleNextPage}
+          />
       </Suspense>
     )
 }

@@ -1,6 +1,57 @@
 import React, { Dispatch, SetStateAction } from "react";
 import styled from "@emotion/styled"
 
+export default function Carousel ({
+     images,
+     setImages,
+     count,
+     setCount,
+    } : {
+         images : string[]
+         setImages : Dispatch<SetStateAction<string[]>>
+         count : number;
+         setCount : Dispatch<SetStateAction<number>>;
+    }) {
+
+
+    const nextImage = () => {
+        setCount((prev) => (prev === images.length - 1 ? prev : prev + 1));
+    };
+
+    const prevImage = () => {
+        setCount((prev) => (prev === 0 ? prev : prev - 1));
+    };
+
+    const deleteHandler = (imgUrl : string) => {
+        const currentIndex = images.indexOf(imgUrl)
+        let newImages = [...images];
+        newImages.splice(currentIndex, 1);
+        setImages(newImages);
+        setCount(currentIndex - 1);
+    }
+
+    return (
+        <CarouselContainer>
+        {images.length > 0 &&
+            <>
+                <LeftArrow onClick={prevImage}>{"<"}</LeftArrow>
+                <ImageBox index={count}>
+                    {images?.map((image, index) => (
+                        <img
+                            src={image}
+                            style={{width: "100%", flex : "1 0 100%"}}
+                            key={index}
+                            onClick={() => deleteHandler(image)}
+                        />
+                    ))}
+                </ImageBox>
+                <RightArrow onClick={nextImage}>{">"}</RightArrow>
+            </>
+        }
+    </CarouselContainer>
+    )
+
+}
 
 const CarouselContainer = styled.div`
     position: relative;
@@ -52,57 +103,3 @@ const RightArrow = styled.div`
     z-index: 1;
     cursor: pointer;
 `
-
-const Carousel = ({
-     images,
-     setImages,
-     count,
-     setCount,
-    } : {
-         images : string[]
-         setImages : Dispatch<SetStateAction<string[]>>
-         count : number;
-         setCount : Dispatch<SetStateAction<number>>;
-    }) => {
-
-
-    const nextImage = () => {
-        setCount((prev) => (prev === images.length - 1 ? prev : prev + 1));
-    };
-
-    const prevImage = () => {
-        setCount((prev) => (prev === 0 ? prev : prev - 1));
-    };
-
-    const deleteHandler = (imgUrl : string) => {
-        const currentIndex = images.indexOf(imgUrl)
-        let newImages = [...images];
-        newImages.splice(currentIndex, 1);
-        setImages(newImages);
-        setCount(currentIndex - 1);
-    }
-
-    return (
-        <CarouselContainer>
-        {images.length > 0 &&
-            <>
-                <LeftArrow onClick={prevImage}>{"<"}</LeftArrow>
-                <ImageBox index={count}>
-                    {images?.map((image, index) => (
-                        <img
-                            src={image}
-                            style={{width: "100%", flex : "1 0 100%"}}
-                            key={index}
-                            onClick={() => deleteHandler(image)}
-                        />
-                    ))}
-                </ImageBox>
-                <RightArrow onClick={nextImage}>{">"}</RightArrow>
-            </>
-        }
-    </CarouselContainer>
-    )
-
-}
-
-export default Carousel
