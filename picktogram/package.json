@@ -19,10 +19,12 @@
     "@hookform/error-message": "^2.0.1",
     "@next/bundle-analyzer": "^13.1.6",
     "@next/font": "13.1.6",
+    "@reactivex/rxjs": "^6.6.7",
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
     "axios": "^1.2.6",
+    "class-enum": "^0.1.0-beta.3",
     "cookie": "^0.5.0",
     "dotenv": "^16.0.3",
     "eslint": "^8.36.0",
@@ -40,6 +42,7 @@
     "recoil": "^0.7.6",
     "recoil-persist": "^4.2.0",
     "remixicon": "^2.5.0",
+    "rxjs": "^7.8.0",
     "typescript": "4.9.4"
   },
   "devDependencies": {

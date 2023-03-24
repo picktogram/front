@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import UserModal from '@/src/components/main/components/userModal'
 import { useRecoilState } from 'recoil';

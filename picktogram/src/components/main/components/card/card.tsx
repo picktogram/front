@@ -1,10 +1,14 @@
-import React, { useRef, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import { CardProps } from "./card.type"
+import React, { useRef, useEffect, useState } from 'react'
 import * as S from "./card.styles"
 import useScrollPos from '@/src/hooks/useScrollPos';
 import useFollow from "@/src/hooks/useFollow"
 import useUnfollow from '@/src/hooks/useUnfollow';
+import { useRouter } from 'next/router'
+import { CardProps } from "./card.type"
+import { useMutation } from "react-query"
+import { fetcher } from '@/util/queryClient'
+import {useRecoilValue} from 'recoil'
+import { tokenState } from '@/state/tokenState';
 
 export default function Card({
   isLast, newLimit, data
@@ -15,6 +19,21 @@ export default function Card({
     const {savePos} = useScrollPos()
     const {mutate : userFollow} = useFollow(data.writerId);
     const {mutate : userUnfollow} = useUnfollow(data.writerId);
+    const token = useRecoilValue(tokenState);
+
+    const {mutate : followArticle ,data : followData} = useMutation<{
+      data : boolean
+    }>(['followAriticle', data.id], () => fetcher({
+      method : 'patch',
+      path : `/api/v1/articles/${data.id}`,
+      headers : {
+        Authorization : token
+      }
+    }) , {
+      onSuccess : (data) => {
+        console.log(data)
+      }
+    })
 
     useEffect(() => {
         if (!cardRef?.current) return;
@@ -51,7 +70,10 @@ export default function Card({
             <S.ImageBox onClick={handleClick}></S.ImageBox>
           </S.ContentBox>
           <S.Menu>
-            <S.Like>좋아요</S.Like>
+             <S.Like onClick={() => followArticle()}>
+                <span>좋아요</span>
+                <i className={followData ? 'ri-heart-fill' : 'ri-heart-line'}></i>
+              </S.Like>
             <S.CommentMore>댓글보기</S.CommentMore>
           </S.Menu>
           <div>

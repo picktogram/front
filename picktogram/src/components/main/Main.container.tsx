@@ -27,7 +27,6 @@ export default function Main({
            getNextPageParam : (lastPage) => {
               return lastPage.page == lastPage.totalPage ? undefined : Number(lastPage.page) + 1;
            },
-           suspense : true,
          })
 
       const { loadPos } = useScrollPos();
