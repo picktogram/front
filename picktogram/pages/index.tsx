@@ -1,7 +1,8 @@
 import React from "react"
+import Main from "@/src/components/main/Main.container"
+
 import { GetServerSidePropsContext } from 'next'
 import { userFromRequest } from '@/src/auth/tokens'
-import Main from "@/src/components/main/Main.container"
 
 export const getServerSideProps = async (context : GetServerSidePropsContext) => {
   const data = await userFromRequest(context.req);
@@ -23,7 +24,12 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
     }
 }
 
-export default function MainPage( props : { user : {nickname : string}, token : string }) {
+export default function MainPage(props : {
+  user : {
+    nickname : string
+  },
+  token : string
+}) {
 
 
   return <Main token={props.token} user={props.user} />

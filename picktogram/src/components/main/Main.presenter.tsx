@@ -13,15 +13,14 @@ export default function MainUI({
     handleNextPage,
 }: {
     user : {
-        nickname : string
-        token : string
+        nickname : string;
+        token : string;
     },
     data : any;
     handleNextPage : () => void;
 }) {
   return (
     <>
-      <Header user={user}/>
       <S.Container>
 
         <aside>

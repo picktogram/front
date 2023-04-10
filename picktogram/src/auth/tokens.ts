@@ -1,7 +1,6 @@
 import { IncomingMessage } from 'http';
 import { NextApiRequestCookies } from 'next/dist/server/api-utils';
 
-
 // 사용자 인증을 위해 token을 쿠키 저장
 export function authenticateUser( token : string ): void {
     document.cookie = `token=${token};max-age=3600`;
@@ -23,9 +22,11 @@ const decodeToken = (token : string) => {
     const payload = Buffer.from(base64Payload , 'base64')
     const userData = JSON.parse(payload.toString())
 
-    console.log(userData)
+    console.log(userData);
 
-    return { nickname : userData.nickname }
+    return {
+      nickname : userData.nickname,
+    }
 }
 
 export async function userFromRequest(

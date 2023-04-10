@@ -7,15 +7,19 @@ import { ResponceData } from "./Main.type"
 import useScrollPos from "@/src/hooks/useScrollPos"
 import ReactGA from 'react-ga'
 
+import { useSetRecoilState } from 'recoil'
+import { userState } from '@/state/userState'
+
 export default function Main({
     token,
     user
 } : {
     token : string;
     user : {
-        nickname : string
+        nickname : string;
     };
 }) {
+  const setUserState = useSetRecoilState(userState)
       const { data, fetchNextPage }  = useInfiniteQuery<ResponceData>(['infiniteBoard'],
           ({pageParam = 1}) => infiniteFetcher({
             method : 'get',
@@ -31,6 +35,11 @@ export default function Main({
          })
 
       const { loadPos } = useScrollPos();
+
+      useEffect(() => {
+        setUserState(user)
+
+      }, [user])
 
       useEffect(() => {
         loadPos();
