@@ -3,13 +3,12 @@ import { fetcher } from "@/util/queryClient"
 import {useRecoilValue} from 'recoil'
 import {tokenState} from "@/state/tokenState"
 import { AxiosError } from "axios";
-import {useRouter} from "next/router"
+import { toast } from 'react-hot-toast'
 
 export default function useFollow (userId : number) {
     const token = useRecoilValue(tokenState);
-    const router = useRouter();
 
-    return useMutation(["follow", userId], () => fetcher({
+    return useMutation<boolean, AxiosError>(["follow", userId], () => fetcher({
         method : "post",
         path : `/api/v1/users/${userId}/follow`,
         headers : {
@@ -18,19 +17,12 @@ export default function useFollow (userId : number) {
     }),
     {
         onSuccess : (data) => {
-            console.log("follow success",data)
+            console.log("follow success", data)
+            toast.success('follow success')
         },
         onError : (error) => {
-            const {response} = error as AxiosError;
-            const data = response?.data as {
-                errorCode : number;
-                errorMessage : string;
-                path : string;
-            }
-
-            if(data.errorCode === 4008) {
-                router.push(`/user/${userId}/profile`)
-            }
+           console.log(error.message)
+           toast.error('follow failed')
         }
     })
 }

@@ -47,6 +47,7 @@ const HeaderContainer = styled.header`
     color : black;
     transition: all .3s ease;
     z-index: 100;
+    border-bottom: 1px solid lightgray;
 `
 
 const Logo = styled.div`

@@ -1,16 +1,20 @@
 export type BoardData = {
     id : number;
     contents : string;
-    createdAt : any;
+    createdAt : string;
     isMine : boolean;
-    writerId : number;
-    nickname : string;
-    profileImage : string;
-    commentMetadata : {
+    comments : {
         id : number;
         contents : string;
+        articleId : number;
+        position : number;
     }[];
-    followStatus : 'followUp' | 'noting';
+    writer : {
+        id : number;
+        nickname : string;
+        profileImage : string | null
+        followStatus : 'followUp' | 'noting';
+    }
  }
 
 export type ResponceData = {

@@ -14,6 +14,7 @@ export const CardContainer = styled.div`
     transition: all 0.3s ease;
     background-color: white;
     margin-bottom: 20px;
+    border: 1px solid lightgray;
 
     &:hover {
       transform: scale(1.05);

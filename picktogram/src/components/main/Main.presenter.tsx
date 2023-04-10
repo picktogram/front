@@ -34,7 +34,12 @@ export default function MainUI({
           {data?.pages.map((page : {list : BoardData[]}, index : number) => (
             <React.Fragment key={index}>
               {page.list.map((post , index) => (
-                <Card key={post.id} isLast={index === page.list.length -1} newLimit={handleNextPage} data={post}/>
+                <Card
+                  key={post.id}
+                  isLast={index === page.list.length -1}
+                  newLimit={handleNextPage}
+                  data={post}
+                />
               ))}
             </React.Fragment>
           ))}

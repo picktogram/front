@@ -73,6 +73,7 @@ const Container = styled.div`
     flex-direction: column;
     padding: 1rem;
     margin-bottom: 20px;
+    border : 1px solid lightgray;
 `
 
 const UserInfoWrapper = styled.div`

@@ -6,24 +6,26 @@ import useFollow from "@/src/hooks/useFollow"
 import useUnfollow from '@/src/hooks/useUnfollow';
 import { useRouter } from 'next/router'
 import { CardProps } from "./card.type"
-import { useMutation, useQueryClient } from "react-query"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 import { fetcher } from '@/util/queryClient'
 import {useRecoilValue} from 'recoil'
 import { tokenState } from '@/state/tokenState';
+import { AxiosError } from 'axios';
 
 
 export default function Card({
-  isLast, newLimit, data
+  isLast,
+  newLimit,
+  data,
 } : CardProps
 ) {
     const cardRef = useRef<any>(null);
     const router = useRouter();
     const token = useRecoilValue(tokenState);
-    const queryClient = useQueryClient();
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
     const {savePos} = useScrollPos()
-    const {mutate : userFollow} = useFollow(data.writerId);
-    const {mutate : userUnfollow} = useUnfollow(data.writerId);
+    const {mutate : userFollow} = useFollow(data.writer.id);
+    const {mutate : userUnfollow} = useUnfollow(data.writer.id);
 
     const { mutate : followArticle } = useMutation<{
       data : boolean
@@ -60,15 +62,56 @@ export default function Card({
       }
     }
 
-    console.log('boardData', data);
-
     return (
         <S.CardContainer ref={cardRef} >
           <S.UserInfo>
-            <i className="ri-user-line" onClick={() => router.push(`/user/${data.writerId}/profile`)} style={{cursor : "pointer"}}></i> {/* 임시 아이콘 */}
-            <h2>{data?.nickname}</h2>
-            <button onClick={() => userFollow()}>follow</button>
-            <button onClick={() => userUnfollow()}>unfollow</button>
+            <i className="ri-user-line" onClick={() => router.push(`/user/${data.writer.id}/profile`)} style={{cursor : "pointer"}}></i> {/* 임시 아이콘 */}
+            <h2>{data.writer.nickname}</h2>
+            {data.writer.followStatus === 'followUp'
+              ? (
+                <button
+                  onClick={() => userUnfollow()}
+                  style={{
+                    display : 'flex',
+                    justifyContent : 'center',
+                    alignItems : 'center',
+                    padding : '2px',
+                    border : 'none',
+                    backgroundColor : 'transparent',
+                    cursor : 'pointer'
+                  }}
+                >
+                  <i className="ri-check-line"></i>
+                  <span style={{
+                        fontSize : '1.2rem',
+                      }}>
+                         팔로우 중
+                  </span>
+                </button>
+              )
+              : (
+                <button
+                  onClick={() => userFollow()}
+                  style={{
+                    display : 'flex',
+                    justifyContent : 'center',
+                    alignItems : 'center',
+                    padding : '2px',
+                    border : 'none',
+                    backgroundColor : 'transparent',
+                    color : '#0a66c2',
+                    cursor : 'pointer'
+                  }}
+                >
+                      <i className="ri-add-line"></i>
+                      <span style={{
+                        fontSize : '1.2rem',
+                      }}>
+                         팔로우
+                      </span>
+                </button>
+              )
+            }
           </S.UserInfo>
           <S.More>
             <i className="ri-more-fill" onClick={() => setIsShowModal(prev => !prev)}></i>
@@ -80,7 +123,7 @@ export default function Card({
           <S.Menu>
              <S.Like onClick={() => followArticle()}>
                 <span>좋아요</span>
-                <i className={data.followStatus === 'followUp' ? 'ri-heart-fill' : 'ri-heart-line'}></i>
+                {/* <i className={data.writer.followStatus === 'followUp' ? 'ri-heart-fill' : 'ri-heart-line'}></i> */}
               </S.Like>
             <S.CommentMore>댓글보기</S.CommentMore>
           </S.Menu>
