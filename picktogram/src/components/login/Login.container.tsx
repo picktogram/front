@@ -1,5 +1,7 @@
 import React from 'react'
 import LoginUI from './Login.presenter'
+
+import { toast } from 'react-hot-toast'
 import { useMutation } from "react-query"
 import { useForm } from "react-hook-form"
 import { useRouter } from 'next/router'
@@ -8,6 +10,7 @@ import { authenticateUser } from '@/src/auth/tokens'
 import { fetcher } from '@/util/queryClient'
 import { useSetRecoilState } from 'recoil'
 import { tokenState } from "@/state/tokenState"
+import { AxiosError } from 'axios'
 
 export default function Login() {
     const router = useRouter();
@@ -16,7 +19,7 @@ export default function Login() {
         criteriaMode : "all"
     });
 
-    const mutation = useMutation<string, Error, LoginData>('login', (data : LoginData) => fetcher({
+    const mutation = useMutation<string, AxiosError, LoginData>('login', (data : LoginData) => fetcher({
         method : 'post',
         path : `/api/v1/auth/login`,
         data : data,
@@ -27,6 +30,15 @@ export default function Login() {
         onSuccess : (data) => {
             authenticateUser(data);
             setTokenState(data);
+        },
+        onError : (error) => {
+            console.log(error)
+
+            if(error.response?.statusText) {
+                toast.error(error.response?.statusText)
+            } else {
+                toast.error('Something is wrong. Login failed.')
+            }
         }
     })
 
