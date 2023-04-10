@@ -5,6 +5,7 @@ import MainUI from './Main.presenter'
 import Loader from "./main.loader"
 import { ResponceData } from "./Main.type"
 import useScrollPos from "@/src/hooks/useScrollPos"
+import ReactGA from 'react-ga'
 
 export default function Main({
     token,
@@ -33,6 +34,7 @@ export default function Main({
 
       useEffect(() => {
         loadPos();
+        ReactGA.pageview(window.location.pathname + window.location.search);
       }, [])
 
       const handleNextPage = () => {

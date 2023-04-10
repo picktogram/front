@@ -3,7 +3,6 @@ import { GetServerSidePropsContext } from 'next'
 import { userFromRequest } from '@/src/auth/tokens'
 import Main from "@/src/components/main/Main.container"
 
-
 export const getServerSideProps = async (context : GetServerSidePropsContext) => {
   const data = await userFromRequest(context.req);
 

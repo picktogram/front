@@ -60,6 +60,8 @@ export default function Card({
       }
     }
 
+    console.log('boardData', data);
+
     return (
         <S.CardContainer ref={cardRef} >
           <S.UserInfo>
@@ -78,7 +80,7 @@ export default function Card({
           <S.Menu>
              <S.Like onClick={() => followArticle()}>
                 <span>좋아요</span>
-                <i className={data.followStatus === 'follow' ? 'ri-heart-fill' : 'ri-heart-line'}></i>
+                <i className={data.followStatus === 'followUp' ? 'ri-heart-fill' : 'ri-heart-line'}></i>
               </S.Like>
             <S.CommentMore>댓글보기</S.CommentMore>
           </S.Menu>

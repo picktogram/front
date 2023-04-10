@@ -10,7 +10,7 @@ export type BoardData = {
         id : number;
         contents : string;
     }[];
-    followStatus : 'follow' | 'unfollow';
+    followStatus : 'followUp' | 'noting';
  }
 
 export type ResponceData = {

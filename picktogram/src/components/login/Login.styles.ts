@@ -2,11 +2,18 @@ import styled from '@emotion/styled'
 
 export const LoginPageContainer = styled.div`
     width: 1400px;
-    height: 700px;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 16px auto;
+`
+
+export const LoginWrapper = styled.div`
+    height: 75%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     box-shadow: 27px 43px 43px -26px rgba(89,89,89,0.39);
 `
 
@@ -20,9 +27,8 @@ export const About = styled.div`
     align-items: flex-end;
     row-gap: 1rem;
     color : white;
-    border-right: 1px solid black;
     background-image:
-  radial-gradient(ellipse farthest-corner at 0 140%, #5d9dff 0%, #2178ff 70%, #3585ff 70%);
+    radial-gradient(ellipse farthest-corner at 0 140%, #5d9dff 0%, #2178ff 70%, #3585ff 70%);
 `
 
 export const Form = styled.form`
