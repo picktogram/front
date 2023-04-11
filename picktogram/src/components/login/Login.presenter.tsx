@@ -1,9 +1,12 @@
 import React from 'react'
+import Link from 'next/dist/client/link'
+import * as S from "./Login.styles"
+
 import { ErrorMessage } from '@hookform/error-message';
 import { FieldErrorsImpl, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 import { LoginData } from './Login.type';
-import Link from 'next/dist/client/link'
-import * as S from "./Login.styles"
+import { useSetRecoilState } from 'recoil'
+import { registerModalState } from '@/state/registerModalState'
 
 export default function LoginUI({
     register,
@@ -21,6 +24,7 @@ export default function LoginUI({
     }>>;
     isSubmitting : boolean;
 }) {
+    const setIsRegisterModal = useSetRecoilState(registerModalState)
   return (
     <S.LoginPageContainer>
         <S.LoginWrapper>
@@ -61,7 +65,15 @@ export default function LoginUI({
                 <button type='submit' disabled={isSubmitting}>login</button>
                 <S.LoginMenu>
                     <Link href="##">Forget Password?</Link>
-                    <Link href="##">Sign Up</Link>
+                    <span
+                        style={{
+                            cursor : 'pointer',
+                            textDecoration : 'underline'
+                        }}
+                        onClick={() => setIsRegisterModal(true)}
+                    >
+                        Sign Up
+                    </span>
                 </S.LoginMenu>
             </S.Form>
         </S.LoginWrapper>

@@ -58,7 +58,7 @@ export default function Card({
     const handleClick : any = () => {
       if(data) {
         savePos();
-        router.push(`/dashboard/${data?.id}`)
+        router.push(`/dashboard/${data?.writer.id}`)
       }
     }
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import LoginUI from './Login.presenter'
+import RegisterModal from '../commons/modals/registerModal'
 
 import { toast } from 'react-hot-toast'
 import { useMutation } from "react-query"
@@ -48,12 +49,17 @@ export default function Login() {
     }
 
    return (
-     <LoginUI
-         register={register}
-         errors={errors}
-         isSubmitting={isSubmitting}
-         handleSubmit={handleSubmit}
-         onSubmit={onSubmit}
-     />
+
+    <>
+        <LoginUI
+            register={register}
+            errors={errors}
+            isSubmitting={isSubmitting}
+            handleSubmit={handleSubmit}
+            onSubmit={onSubmit}
+        />
+        <RegisterModal />
+    </>
+
    )
 }
