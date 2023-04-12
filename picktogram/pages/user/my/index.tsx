@@ -1,9 +1,17 @@
-import { clearUser, userFromRequest } from "@/src/auth/tokens"
-import axios from "axios"
 import React from "react"
-import { useQuery } from "react-query"
+
+import My from "@/src/components/user/my/my.container"
+
+import { userFromRequest } from "@/src/auth/tokens"
 import { GetServerSidePropsContext } from 'next'
-import { useRouter } from "next/router"
+
+interface MyPageProps {
+  user : {
+    nickname : string;
+  };
+  token : string
+}
+
 
 export const getServerSideProps = async (context : GetServerSidePropsContext) => {
    const data = await userFromRequest(context.req);
@@ -24,45 +32,20 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
       }
     }
 }
-export default function UserMyPage (props : { user : { nickname : string }, token : string }) {
-    const router = useRouter()
-    const fetchUserProfile = async (token : string) => {
-        try {
-          const res = await axios.get("http://13.209.193.45:3000/api/v1/users/profile", {
-            headers : {
-              Authorization : `${token}`
-            }
-          })
-
-          const data = await res.data.data
-          return data
-        } catch (err) {
-          console.log(err)
-        }
-      }
-
-    const {data, isLoading, isError} = useQuery("fetchUsers", () => fetchUserProfile(props.token));
-
-    const loggoutUser = () => {
-        clearUser();
-        router.push("/login")
-    }
-
-    if(isLoading) {
-        return <div>Loading...</div>
-    }
-
-    if(isError) {
-        return <div>Error...</div>
-    }
+export default function UserMyPage (props : MyPageProps) {
 
     return (
-        <div style={{margin : "20px"}}>
-            <h2>마이 페이지</h2>
-            {/* <div>{data.nickname}님 환영합니다.</div> */}
-            <div>
-                <button onClick={loggoutUser}>logout</button>
-            </div>
+        <div>
+          <div style={{
+            width : '1600px',
+            margin : '0 auto',
+            border : '1px solid black',
+            minHeight : '100vh',
+            padding : '1rem',
+            backgroundColor : 'white'
+          }}>
+            <My token={props.token}/>
+          </div>
         </div>
     )
 }

@@ -24,7 +24,14 @@ export default function Layout( props : PropsWithChildren) {
 
       </Head>
       {!isHiddenHeader && <Header />}
-      <main>{props.children}</main>
+      <main
+        style={{
+            backgroundColor : '#f3f2ef',
+            padding : '0',
+            margin : '0',
+        }}>
+          {props.children}
+        </main>
     </div>
   )
 }
