@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react'
+
+import UserModal from '../../commons/modals/userModal';
+
 import styled from '@emotion/styled'
 import { useRecoilState } from 'recoil';
 import { userModalState } from "@/state/userModalState"
@@ -29,7 +32,7 @@ export default function Header(props : {user? : {nickname : string}}) {
           <UserIcon onClick={() => setShowModal((prev) => !prev)}>
             <i className="ri-user-3-line"></i>
           </UserIcon>
-          {/* {showModal && <UserModal/>} */}
+          {showModal && <UserModal/>}
           { props.user  ? <div>안녕하세요. {props.user?.nickname} 디자이너님 환영합니다!</div> : <div>로그인 해주세요.</div>}
         </UserInfo>
     </HeaderContainer>
