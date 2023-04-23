@@ -6,6 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "deploy" :"pm2 start -i 0 ./node_modules/next/dist/bin/next --name app",
+    "reload" :"pm2 reload app",
     "lint": "next lint",
     "webpack:dev": "webpack --mode development",
     "webpack:start": "webpack-dev-server --mode development --open",
