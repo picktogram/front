@@ -44,11 +44,12 @@ const userModal = () => {
         <UserModalBodyContainer>
             <List>
                 <Item>
-                    <Link href="/user/my">마이페이지</Link>
+                    <Link href="/user/my" onClick={() => onClose()}>마이페이지</Link>
                 </Item>
                 <Item>
                     <Logout onClick={() => {
-                        clearUser();
+                        clearUser()
+                        onClose()
                         router.push("/login")
                     }}>
                         로그아웃

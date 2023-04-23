@@ -56,7 +56,7 @@ const registerModal = () => {
                     email : data.email,
                     nickname : data.nickname,
                     password : data.password,
-                    phoneNumber : '',
+                    phoneNumber : '010-0000-0000',
                     birth : '',
                     emailAdsConsent : false,
                     smsAdsConsent : false,

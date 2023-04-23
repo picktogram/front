@@ -1,0 +1,15 @@
+FROM node:14.19.0
+
+WORKDIR /app
+COPY package.json ./
+COPY yarn.lock ./
+
+RUN rm yarn.lock || true
+RUN rm package-lock.json || true
+RUN yarn
+COPY ./ ./
+
+ENV HOST 0.0.0.0
+EXPOSE 3000
+
+CMD [ "yarn", "dev"]

@@ -19,7 +19,7 @@ export default function Main({
         nickname : string;
     };
 }) {
-  const setUserState = useSetRecoilState(userState)
+      const setUserState = useSetRecoilState(userState)
       const { data, fetchNextPage }  = useInfiniteQuery<ResponceData>(['infiniteBoard'],
           ({pageParam = 1}) => infiniteFetcher({
             method : 'get',
