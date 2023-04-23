@@ -1,20 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as S from './my.style'
 import Image from 'next/image'
 import UserCoverImage from '../../commons/Imagebox/userCoverImage';
-import {UserProfile} from './my.types'
+import {MyPageUIProps, UserProfile} from './my.types'
+import UserIntroduceModal from '../../commons/modals/userIntroduceModal';
 
 const MyUI = ({
     user,
-    myBoard
-} : {
-    user : UserProfile | null;
-    myBoard : any[]
-}) => {
+    myBoard,
+    setIsOpen
+} :
+    MyPageUIProps
+    ) => {
 
-    console.log('my Ui page', user)
     return (
-        <S.Container>
+         <S.Container>
             <S.LeftSection>
                 <UserCoverImage />
                 <S.UserInfo>
@@ -42,11 +42,14 @@ const MyUI = ({
                                 color : 'white',
                                 borderRadius : '20px'
                             }}
+                            onClick={() => setIsOpen(true)}
                         >
                             소개글 추가
                         </button>
                         <p>
-                            소개글을 추가해보세요.
+                            {
+                                user?.introduce ? user.introduce : '소개글을 추가해주세요.'
+                            }
                         </p>
                     </div>
 

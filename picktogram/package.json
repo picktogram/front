@@ -36,7 +36,7 @@
     "js-cookie": "^3.0.1",
     "next": "13.1.6",
     "next-connect": "^0.13.0",
-    "picktogram-server-apis": "^0.0.6",
+    "picktogram-server-apis": "^0.0.8",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",

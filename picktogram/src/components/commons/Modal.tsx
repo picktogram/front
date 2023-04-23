@@ -3,10 +3,10 @@ import styled from '@emotion/styled';
 
 interface ModalProps {
     isOpen? : boolean;
-    onClose : () => void;
-    title : string;
     body ? : React.ReactElement;
     footer ? : React.ReactElement;
+    title : string;
+    onClose : () => void;
     label : string;
 }
 
