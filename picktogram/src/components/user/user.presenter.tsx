@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as S from './user.style'
 import Image from 'next/image'
 import UserCoverImage from './components/userCoverImage'
-import Card from '../main/components/card/card';
+import Card from '../commons/card/card';
 import useFollow from "@/src/hooks/useFollow"
 import useUnfollow from '@/src/hooks/useUnfollow';
 

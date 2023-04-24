@@ -65,7 +65,7 @@ export default function Card({
     return (
         <S.CardContainer ref={cardRef} >
           <S.UserInfo>
-            <i className="ri-user-line" onClick={() => router.push(`/user/${data.writer.id}/profile`)} style={{cursor : "pointer"}}></i> {/* 임시 아이콘 */}
+            <i className="ri-user-line"></i> {/* 임시 아이콘 */}
             <h2 style={{cursor : 'pointer'}} onClick={() => router.push(`user/profile/${data.writer.id}`)}>{data.writer.nickname}</h2>
             {data.writer.followStatus === 'followUp'
               ? (

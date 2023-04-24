@@ -1,6 +1,5 @@
 import React from "react"
-import Card from '@/src/components/main/components/card/card'
-import Header from '@/src/components/main/components/header'
+import Card from '@/src/components/commons/card/card'
 import UserMainProfile from "./components/userMainProfile"
 import UserRecommend from "./components/userRecommend"
 import NoReplyBoard from "./components/noReplyBoard"
