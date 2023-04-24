@@ -3,6 +3,7 @@ import * as S from './user.style'
 import Image from 'next/image'
 import UserCoverImage from './components/userCoverImage'
 import { UserPageUIProps, UserProfile } from './user.types'
+import Card from '../main/components/card/card';
 
 const UserUI = ({
     user,
@@ -10,7 +11,8 @@ const UserUI = ({
     setIsOpen,
     uploadImage,
     coverImage,
-    setCoverImage
+    setCoverImage,
+    handleNextPage
 } :
     UserPageUIProps
     ) => {
@@ -60,10 +62,17 @@ const UserUI = ({
                     </div>
                 </S.UserInfo>
                 <S.UserArticle>
-                    {myBoard?.list?.map((board : any) => (
-                        <div key={board.id}>
-                            { board.contents}
-                        </div>
+                {myBoard?.pages.map((page : any, index : number) => (
+                    <React.Fragment key={index}>
+                        {page.list.map((post : any , index : number) => (
+                            <Card
+                                key={post.id}
+                                isLast={index === page.list.length - 1}
+                                newLimit={handleNextPage}
+                                data={post}
+                            />
+                        ))}
+                    </React.Fragment>
                     ))}
                 </S.UserArticle>
             </S.LeftSection>

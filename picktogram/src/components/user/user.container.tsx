@@ -3,7 +3,7 @@ import * as Apis from 'picktogram-server-apis/api/functional';
 
 import UserUI from './user.presenter';
 
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient, useInfiniteQuery } from "react-query";
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast'
 
@@ -12,7 +12,7 @@ import { PropsWithToken, UserBoards } from './user.types';
 import { isBusinessErrorGuard } from 'picktogram-server-apis/config/errors';
 import UserIntroduceModal from '../commons/modals/userIntroduceModal';
 import useImageUpload from '@/src/hooks/useImageUpload';
-import { fetcher } from '@/util/queryClient';
+import { fetcher, infiniteFetcher } from '@/util/queryClient';
 
 const User : React.FC<PropsWithToken>= ({
     token
@@ -90,13 +90,30 @@ const User : React.FC<PropsWithToken>= ({
 
 
     const { data : userData } = useQuery("fetchUsers", () => fetchUserProfile(token))
-    const { data : boardData } = useQuery('fetchMyBoards', () => fetcher({
+    // const { data : boardData } = useQuery('fetchMyBoards', () => fetcher({
+    //     method : 'get',
+    //     headers : {
+    //         Authorization : token,
+    //     },
+    //     path : `api/v1/articles?writerId=${router.query.id}&page=1&limit=100`,
+    // }))
+
+    const {data : boardData, fetchNextPage} = useInfiniteQuery(['infiniteMyBoard'], ({pageParam = 1}) => infiniteFetcher({
         method : 'get',
+        path : `/api/v1/articles?writerId=${router.query.id}&limit=100&page=`,
         headers : {
-            Authorization : token,
+            Authorization : token
         },
-        path : `api/v1/articles?writerId=${router.query.id}&page=1&limit=100`,
-    }))
+        page : pageParam
+    }), {
+        getNextPageParam : (lastPage) => {
+            return lastPage.page == lastPage.totalPage ? undefined : Number(lastPage.page) + 1
+        }
+    })
+
+    const handleNextPage = () => {
+        fetchNextPage()
+    }
 
     const { mutate : addIntroduceMutate } = useMutation('addIntroduce', () => addIntroduce(token, introduce) , {
         onSuccess : () => {
@@ -134,6 +151,7 @@ const User : React.FC<PropsWithToken>= ({
                 coverImage={coverImage}
                 setCoverImage={setCoverImage}
                 uploadImage={uploadImage}
+                handleNextPage={handleNextPage}
             />
             <UserIntroduceModal
                 setIntroduce={setIntroduce}

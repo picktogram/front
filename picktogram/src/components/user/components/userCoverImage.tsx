@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import Dropzone2 from '@/src/components/commons/layout/dropzone2'
+import Dropzone2 from '@/src/components/commons/dropzone2'
 import styled from '@emotion/styled'
 
 
