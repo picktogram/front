@@ -23,15 +23,16 @@ const User : React.FC<PropsWithToken>= ({
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [coverImage, setCoverImage] = useState<string[]>([])
 
-    const [filteredBoard, setFilteredBoard] = useState<any[]>([])
     const fetchUserProfile = async (token : string) => {
         try {
-            const response = await Apis.api.v1.users.profile.getProfile({
+            const response = await Apis.api.v1.users.getDetailProdfile({
                 host : String(SERVER_URL),
                 headers : {
                     Authorization : token
-                }
-            })
+                },
+            },
+                Number(router.query.id)
+            )
 
             if (isBusinessErrorGuard(response)) {
                 toast.error(response.data)
@@ -47,26 +48,6 @@ const User : React.FC<PropsWithToken>= ({
             console.log(error)
         }
       }
-
-    // const fetchMyBoards = async (token : string, userId : number) => {
-    //     try {
-    //         const response = await Apis.api.v1.articles.getAllArticles({
-    //             host : String(SERVER_URL),
-    //             headers : {
-    //                 Authorization : token
-    //             }
-    //         }, {
-    //             limit : 100,
-    //             page : 1,
-    //             writerId : userId
-    //         })
-
-    //         return response.data
-
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
 
     const addIntroduce = async (token : string, introduce : string) => {
         try {
@@ -88,15 +69,7 @@ const User : React.FC<PropsWithToken>= ({
         }
     }
 
-
     const { data : userData } = useQuery("fetchUsers", () => fetchUserProfile(token))
-    // const { data : boardData } = useQuery('fetchMyBoards', () => fetcher({
-    //     method : 'get',
-    //     headers : {
-    //         Authorization : token,
-    //     },
-    //     path : `api/v1/articles?writerId=${router.query.id}&page=1&limit=100`,
-    // }))
 
     const {data : boardData, fetchNextPage} = useInfiniteQuery(['infiniteMyBoard'], ({pageParam = 1}) => infiniteFetcher({
         method : 'get',
@@ -126,19 +99,6 @@ const User : React.FC<PropsWithToken>= ({
             setCoverImage(data)
         }
     })
-
-    // const {mutate : addImage} = useMutation('addCoverImage', async () => {
-    //     try {
-    //         const response = await Apis.api.v1.users.profile.cover_image.uploadCoverImage({
-    //             host : String(SERVER_URL),
-    //             headers : {
-    //                 Authorization : token,
-    //             }
-    //         })
-    //     } catch {
-
-    //     }
-    // })
 
     return (
         <>

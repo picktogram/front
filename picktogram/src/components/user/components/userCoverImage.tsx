@@ -3,9 +3,12 @@ import Dropzone2 from '@/src/components/commons/dropzone2'
 import styled from '@emotion/styled'
 
 
+
+
 interface UserCoverImageProps {
     uploadImage : (data : any) => void;
     coverImage : string[];
+    isCurrentUser : boolean;
 }
 
 const Container = styled.div`
@@ -32,7 +35,8 @@ const ImageBox = styled.div<{
 
 const userCoverImage = ({
     uploadImage,
-    coverImage
+    coverImage,
+    isCurrentUser
 } :
     UserCoverImageProps
 ) => {
@@ -46,11 +50,14 @@ const userCoverImage = ({
 
     return (
         <Container>
-             <Dropzone2
-                images={coverImage}
-                uploadImage={uploadImage}
-                label='이미지를 추가하세요.'
-            />
+            {
+                isCurrentUser &&
+                <Dropzone2
+                    images={coverImage}
+                    uploadImage={uploadImage}
+                    label='이미지를 추가하세요.'
+                />
+            }
             <ImageBox background={image ? image : ''} />
         </Container>
     );
