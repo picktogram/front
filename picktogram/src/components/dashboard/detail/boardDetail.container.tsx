@@ -122,9 +122,6 @@ export default function BoardDetail({
         return <div>Error...</div>
     }
 
-
-    // {/* </Suspense> */}
-
   return (
         <Suspense fallback={<Loader />}>
             <BoardDetailUI

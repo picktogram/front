@@ -1,6 +1,6 @@
 import React from "react"
 
-import My from "@/src/components/user/my/my.container"
+import My from "@/src/components/user/user.container"
 
 import { userFromRequest } from "@/src/auth/tokens"
 import { GetServerSidePropsContext } from 'next'

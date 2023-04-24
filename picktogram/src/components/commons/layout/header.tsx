@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
-// import UserModal from '@/src/components/main/components/userModal'
 import UserModal from '../modals/userModal';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-// import { modalState } from "@/state/modalState"
 import { userModalState } from '@/state/userModalState'
 import { searchBarState } from '@/state/searchBarState';
-import {userState} from '@/state/userState'
-import {useRouter} from "next/router"
+import { myNicknameState } from '@/state/tokenState'
+import { useRouter } from "next/router"
 
-export default function Header() {
+export default function Header({
+  userNickname
+} : {
+  userNickname : string | null
+}) {
   const router = useRouter()
-  const setShowModal = useSetRecoilState(userModalState);
+  const setShowModal = useSetRecoilState(userModalState)
   const [showSearchBar, setShowSearchBar] = useRecoilState(searchBarState)
-
-  const userRecoil = useRecoilValue(userState)
-  const [user, setUser] = useState<{nickname : string} | null>(null);
-
-  useEffect(() => {
-    setUser(userRecoil)
-  }, [])
 
   return (
     <HeaderContainer>
@@ -40,7 +35,7 @@ export default function Header() {
           <UserIcon onClick={() => setShowModal((prev) => !prev)}>
             <i className="ri-user-3-line"></i>
           </UserIcon>
-          <div>안녕하세요. {user?.nickname} 디자이너님 환영합니다!</div>
+          <div>안녕하세요. {userNickname} 디자이너님 환영합니다!</div>
         </UserInfo>
         <UserModal/>
     </HeaderContainer>

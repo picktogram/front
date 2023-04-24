@@ -1,4 +1,5 @@
 import {atom, selector, selectorFamily} from "recoil";
+import { decodeToken } from '@/util/decodeToken'
 import { recoilPersist } from 'recoil-persist'
 
 const sessionStorage =
@@ -13,6 +14,28 @@ export const tokenState = atom<string | null>({
     key : 'tokenState',
     default : null,
     effects_UNSTABLE: [persistAtom],
+})
+
+export const myIdState = selector<number | null>({
+    key : 'userId',
+    get : ({get}) => {
+        const token = get(tokenState)
+        if(typeof token === 'string') {
+            const userData = decodeToken(token)
+            return userData?.id
+        }
+    }
+})
+
+export const myNicknameState = selector<string | null>({
+    key : 'userNickname',
+    get : ({get}) => {
+        const token = get(tokenState)
+        if(typeof token === 'string') {
+            const userData = decodeToken(token)
+            return userData?.nickname
+        }
+    }
 })
 
 export const tokenSelector = selector<string | null>({

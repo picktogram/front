@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router'
 import { clearUser } from "@/src/auth/tokens";
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { userModalState } from '@/state/userModalState'
+import { myIdState } from '@/state/tokenState'
 import styled from '@emotion/styled'
 import Modal from '../Modal';
 import Link from 'next/link'
@@ -36,6 +37,7 @@ const Logout = styled.button`
 const userModal = () => {
     const router = useRouter()
     const [showUserModal, setUserModal] = useRecoilState(userModalState)
+    const myId = useRecoilValue(myIdState)
     const onClose = () => {
         setUserModal(false)
     }
@@ -44,7 +46,7 @@ const userModal = () => {
         <UserModalBodyContainer>
             <List>
                 <Item>
-                    <Link href="/user/my" onClick={() => onClose()}>마이페이지</Link>
+                    <Link href={`/user/profile/${myId}`} onClick={() => onClose()}>마이페이지</Link>
                 </Item>
                 <Item>
                     <Logout onClick={() => {

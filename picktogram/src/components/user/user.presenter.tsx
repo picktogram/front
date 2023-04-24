@@ -1,22 +1,28 @@
 import React, { useState } from 'react';
-import * as S from './my.style'
+import * as S from './user.style'
 import Image from 'next/image'
-import UserCoverImage from '../../commons/Imagebox/userCoverImage';
-import {MyPageUIProps, UserProfile} from './my.types'
-import UserIntroduceModal from '../../commons/modals/userIntroduceModal';
+import UserCoverImage from './components/userCoverImage'
+import { UserPageUIProps, UserProfile } from './user.types'
 
-const MyUI = ({
+const UserUI = ({
     user,
     myBoard,
-    setIsOpen
+    setIsOpen,
+    uploadImage,
+    coverImage,
+    setCoverImage
 } :
-    MyPageUIProps
+    UserPageUIProps
     ) => {
 
+        console.log(coverImage)
     return (
          <S.Container>
             <S.LeftSection>
-                <UserCoverImage />
+                <UserCoverImage
+                    uploadImage={uploadImage}
+                    coverImage={coverImage}
+                />
                 <S.UserInfo>
                     <Image
                         // src={user?.profileImage ? user.profileImage : '/images/placeholder.png'}
@@ -52,12 +58,10 @@ const MyUI = ({
                             }
                         </p>
                     </div>
-
-
                 </S.UserInfo>
                 <S.UserArticle>
-                    {myBoard.map((board) => (
-                        <div>
+                    {myBoard?.list?.map((board : any) => (
+                        <div key={board.id}>
                             { board.contents}
                         </div>
                     ))}
@@ -69,7 +73,7 @@ const MyUI = ({
           <div>
             {/* 추천 유저 */}
             <div>
-
+                안뇽
             </div>
 
           </div>
@@ -79,4 +83,4 @@ const MyUI = ({
     );
 };
 
-export default MyUI;
+export default UserUI;

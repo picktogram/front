@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
 
-export const Container = styled.div`
+export const Container = styled.section`
     display: grid;
     grid-template-columns: 70% 30%;
     gap: 1rem;
 `
 
-export const LeftSection = styled.section`
+export const LeftSection = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
