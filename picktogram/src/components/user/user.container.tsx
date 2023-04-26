@@ -69,9 +69,9 @@ const User : React.FC<PropsWithToken>= ({
         }
     }
 
-    const { data : userData } = useQuery("fetchUsers", () => fetchUserProfile(token))
+    const { data : userData } = useQuery(["fetchUsers", router.query.id], () => fetchUserProfile(token))
 
-    const {data : boardData, fetchNextPage} = useInfiniteQuery(['infiniteMyBoard'], ({pageParam = 1}) => infiniteFetcher({
+    const {data : boardData, fetchNextPage} = useInfiniteQuery(['infiniteMyBoard', router.query.id], ({pageParam = 1}) => infiniteFetcher({
         method : 'get',
         path : `/api/v1/articles?writerId=${router.query.id}&limit=100&page=`,
         headers : {
