@@ -1,4 +1,4 @@
-import {atom, selector, selectorFamily} from "recoil";
+import { atom, selector } from "recoil";
 import { decodeToken } from '@/util/decodeToken'
 import { recoilPersist } from 'recoil-persist'
 
@@ -23,17 +23,6 @@ export const myIdState = selector<number | null>({
         if(typeof token === 'string') {
             const userData = decodeToken(token)
             return userData?.id
-        }
-    }
-})
-
-export const myNicknameState = selector<string | null>({
-    key : 'userNickname',
-    get : ({get}) => {
-        const token = get(tokenState)
-        if(typeof token === 'string') {
-            const userData = decodeToken(token)
-            return userData?.nickname
         }
     }
 })

@@ -2,20 +2,17 @@ import React from 'react'
 import Head from 'next/head'
 import Header from './layout/header'
 
-import { useRecoilValue } from 'recoil'
-import { myNicknameState } from '@/state/tokenState'
 import { useRouter } from 'next/router'
 import { PropsWithChildren } from 'react'
+
 
 const HIDDEN_HEADERS = [
   '/login'
 ]
 
-
 export default function Layout(props : PropsWithChildren) {
   const router = useRouter()
   const isHiddenHeader = HIDDEN_HEADERS.includes(router.asPath)
-  const userNickname = useRecoilValue(myNicknameState)
 
   return (
     <div>
@@ -26,7 +23,7 @@ export default function Layout(props : PropsWithChildren) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        {!isHiddenHeader && <Header userNickname={userNickname}/>}
+        {!isHiddenHeader && <Header />}
         <div
           style={{
               backgroundColor : '#f3f2ef',
@@ -39,3 +36,4 @@ export default function Layout(props : PropsWithChildren) {
     </div>
   )
 }
+
