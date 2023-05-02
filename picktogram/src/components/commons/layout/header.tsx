@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
+import { myIdState, tokenState } from '@/state/tokenState'
 import { userModalState } from '@/state/userModalState'
 import { searchBarState } from '@/state/searchBarState';
 import { useRouter } from "next/router"
@@ -7,27 +8,25 @@ import { useRouter } from "next/router"
 import styled from '@emotion/styled'
 
 import UserModal from '../modals/userModal';
+import useUser from '@/src/hooks/useUser';
 
-export default function Header({
-  user
-} : {
-  user : {
-    name: string;
-    nickname: string;
-   } | undefined
-  }
-  ) {
+export default function Header() {
   const router = useRouter()
-  const setShowModal = useSetRecoilState(userModalState)
-  const [showSearchBar, setShowSearchBar] = useRecoilState(searchBarState)
 
-  const [myNickname, setMyNickname] = useState<string>('')
+  const token = useRecoilValue(tokenState)
+  const myId = useRecoilValue(myIdState)
+  const setShowModal = useSetRecoilState(userModalState)
+
+  const {data : userDetail, isLoading} = useUser(myId, token )
+  const [showSearchBar, setShowSearchBar] = useRecoilState(searchBarState)
+  const [nickName, setNickName] = useState<string>('')
 
   useEffect(() => {
-    if(user?.nickname) {
-      setMyNickname(user.nickname)
+    if(userDetail?.nickname){
+      setNickName(userDetail.nickname)
     }
-  }, [user?.nickname])
+  }, [userDetail?.nickname, isLoading])
+
 
   return (
     <HeaderContainer>
@@ -48,7 +47,7 @@ export default function Header({
           <UserIcon onClick={() => setShowModal((prev) => !prev)}>
             <i className="ri-user-3-line"></i>
           </UserIcon>
-          <div>안녕하세요. {myNickname} 디자이너님 환영합니다!</div>
+          <div>안녕하세요. {nickName} 디자이너님 환영합니다!</div>
         </UserInfo>
         <UserModal/>
     </HeaderContainer>

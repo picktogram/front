@@ -25,7 +25,7 @@ export default function Card({
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
     const { savePos } = useScrollPos()
     const queryClient = useQueryClient()
-    const {data : detailData} = useDetailArticle(data.id, token as string)
+    // const {data : detailData} = useDetailArticle(data.id, token as string)
     const [detail, setDetail] = useState<any>(null)
 
     const { mutate : followArticle } = useMutation<{
@@ -56,9 +56,9 @@ export default function Card({
         observer.observe(cardRef.current);
       }, [isLast]);
 
-    useEffect(() => {
-      setDetail(detailData)
-    }, [detailData])
+    // useEffect(() => {
+    //   setDetail(detailData)
+    // }, [detailData])
 
     const handleClick : any = () => {
       if(data) {
@@ -71,7 +71,7 @@ export default function Card({
         <S.CardContainer ref={cardRef} >
           <S.UserInfo>
             <i className="ri-user-line"></i> {/* 임시 아이콘 */}
-            <h2 style={{cursor : 'pointer'}} onClick={() => router.push(`user/profile/${data.writer.id}`)}>{data.writer.nickname}</h2>
+            <h2 style={{cursor : 'pointer'}} onClick={() => router.push(`/user/profile/${data.writer.id}`)}>{data.writer.nickname}</h2>
           </S.UserInfo>
           <S.More>
             <i className="ri-more-fill" onClick={() => setIsShowModal(prev => !prev)}></i>
@@ -87,9 +87,9 @@ export default function Card({
                 <span>좋아요</span>
                 {/* <i className={data.writer.followStatus === 'followUp' ? 'ri-heart-fill' : 'ri-heart-line'}></i> */}
               </S.Like>
-            <S.CommentMore onClick={() => router.push(`user/profile/${data.writer.id}`)}>댓글보기</S.CommentMore>
+            <S.CommentMore onClick={() => router.push(`/user/profile/${data.writer.id}`)}>댓글보기</S.CommentMore>
           </S.Menu>
-          <S.CommentsLength onClick={() => router.push(`user/profile/${data.writer.id}`)}>
+          <S.CommentsLength onClick={() => router.push(`/user/profile/${data.writer.id}`)}>
             댓글 {detail?.comments?.length}개
           </S.CommentsLength>
 

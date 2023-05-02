@@ -16,7 +16,7 @@ export const decodeToken = (token : string)  => {
     const payload = Buffer.from(base64Payload , 'base64')
     const userData = JSON.parse(payload.toString())
 
-    console.log('decode', userData);
+    // console.log('decode', userData);
 
     return {
       ...userData

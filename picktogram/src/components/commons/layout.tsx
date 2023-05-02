@@ -1,13 +1,6 @@
 import React from 'react'
-import * as Apis from 'picktogram-server-apis/api/functional';
-
 import { PropsWithChildren } from 'react'
 import { useRouter } from 'next/router'
-import { useRecoilValue } from 'recoil'
-import { myIdState, tokenState } from '@/state/tokenState'
-import { isBusinessErrorGuard } from 'picktogram-server-apis/config/errors';
-import { useQuery } from 'react-query'
-import { SERVER_URL } from '@/util/constant'
 
 import Head from 'next/head'
 import Header from './layout/header'
@@ -21,33 +14,6 @@ export default function Layout(props : PropsWithChildren) {
   const router = useRouter()
   const isHiddenHeader = HIDDEN_HEADERS.includes(router.asPath)
 
-  const token = useRecoilValue(tokenState)
-  const myId = useRecoilValue(myIdState)
-
-  const { data : user ,isLoading } = useQuery(['getUser', myId], async () => {
-      try {
-        if(!token || !myId) return
-
-        const response = await Apis.api.v1.users.getDetailProdfile({
-          host : SERVER_URL as string,
-          headers : {
-            Authorization : token
-          }
-        },
-          myId
-        )
-
-        if(isBusinessErrorGuard(response)) {
-          return
-        }
-
-        return response.data
-
-      } catch (error) {
-        console.log(error)
-      }
-  })
-
   return (
     <div>
       <Head>
@@ -57,7 +23,7 @@ export default function Layout(props : PropsWithChildren) {
         <link rel="icon" href="/favicon.ico"/>
       </Head>
       <div>
-        {!isHiddenHeader && <Header user={user}/>}
+        {!isHiddenHeader && <Header />}
         <div style={{ backgroundColor : '#f3f2ef', padding : '0', margin : '0'}}>{props.children}</div>
       </div>
     </div>

@@ -3,9 +3,12 @@ import * as Apis from "picktogram-server-apis/api/functional";
 import { SERVER_URL } from '@/util/constant';
 import { isBusinessErrorGuard } from 'picktogram-server-apis/config/errors';
 
-export default function useDetailArticle (articleId : number, token : string) {
-    const fetchDetailArticle = async (articleId: number, token : string ) => {
+export default function useDetailArticle (articleId : number | null, token : string | null) {
+    const fetchDetailArticle = async (articleId: number | null, token : string | null ) => {
         try {
+            if(!token || !articleId) {
+                return
+            }
             const response = await Apis.api.v1.articles.getOneDetailArticle({
                 host : SERVER_URL as string,
                 headers : {
@@ -26,5 +29,5 @@ export default function useDetailArticle (articleId : number, token : string) {
         }
     }
 
-    return useQuery(['getDetailArticle', articleId], () => fetchDetailArticle(articleId, token))
+    return useQuery(['getDetailArticle', articleId, token], () => fetchDetailArticle(articleId, token))
 }

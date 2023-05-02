@@ -40,6 +40,7 @@ export const Form = styled.form`
     justify-content: center;
     align-items: center;
     row-gap: 16px;
+    background-color: white;
 
     & button {
         width: 280px;
