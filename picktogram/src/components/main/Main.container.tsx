@@ -1,8 +1,7 @@
-import React, { Suspense, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { infiniteFetcher } from "@/util/queryClient"
 import { useInfiniteQuery } from "react-query"
 import MainUI from './Main.presenter'
-import Loader from "./main.loader"
 import { ResponceData } from "./Main.type"
 import useScrollPos from "@/src/hooks/useScrollPos"
 import ReactGA from 'react-ga'
@@ -51,12 +50,10 @@ export default function Main({
       }
 
     return (
-      <Suspense fallback={<Loader />}>
-        <MainUI
-          user={{...user, token,}}
-          data={data}
-          handleNextPage={handleNextPage}
-          />
-      </Suspense>
+      <MainUI
+        user={{...user, token,}}
+        data={data}
+        handleNextPage={handleNextPage}
+      />
     )
 }

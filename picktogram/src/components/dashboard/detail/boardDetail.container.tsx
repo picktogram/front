@@ -123,18 +123,16 @@ export default function BoardDetail({
     }
 
   return (
-        <Suspense fallback={<Loader />}>
-            <BoardDetailUI
-                data={data}
-                handleMoveEdit={handleMoveEdit}
-                addComments={addComments}
-                user={user}
-                commentsData={commentsData}
-                setPage={setPage}
-                isNewComments={isNewComments}
-                handleNewComments={handleNewComments}
-            />
-        </Suspense>
+        <BoardDetailUI
+            data={data}
+            handleMoveEdit={handleMoveEdit}
+            addComments={addComments}
+            user={user}
+            commentsData={commentsData}
+            setPage={setPage}
+            isNewComments={isNewComments}
+            handleNewComments={handleNewComments}
+        />
   )
 }
 

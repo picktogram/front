@@ -1,11 +1,10 @@
 import styled from '@emotion/styled'
 
-
 export const CardContainer = styled.div`
     position: relative;
     width: 650px;
     margin: 0 auto;
-    min-height: 600px;
+    max-height: 600px;
     padding: 16px 20px;
     border-radius: 20px;
     display: flex;
@@ -38,9 +37,14 @@ export const ContentBox = styled.div`
   row-gap: 1rem;
 `
 
-export const ImageBox = styled.div`
+export const ImageBox = styled.div<{
+  background : string;
+}>`
   width: 100%;
   background-color: lightgray;
+  background-image: url(${(props) => props.background ? props.background : ''});
+  background-size: cover;
+  background-repeat: no-repeat;
   height: 300px;
   cursor: pointer;
 `
@@ -97,5 +101,12 @@ export const Modal = styled.div`
 `
 
 export const ModalHidden = styled(Modal)`
-  visibility: hidden
+  visibility: hidden;
+`
+
+export const CommentsLength = styled.div`
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 `

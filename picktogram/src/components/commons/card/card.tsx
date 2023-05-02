@@ -1,17 +1,17 @@
 import React, { useRef, useEffect, useState } from 'react'
-import * as S from "./card.styles"
-import CardModal from './cardModal';
-import useScrollPos from '@/src/hooks/useScrollPos';
-import useFollow from "@/src/hooks/useFollow"
-import useUnfollow from '@/src/hooks/useUnfollow';
 import { useRouter } from 'next/router'
 import { CardProps } from "./card.type"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { fetcher } from '@/util/queryClient'
-import {useRecoilValue} from 'recoil'
+import { useRecoilValue } from 'recoil'
 import { tokenState } from '@/state/tokenState';
 import { AxiosError } from 'axios';
 
+import * as S from "./card.styles"
+import useScrollPos from '@/src/hooks/useScrollPos';
+import useDetailArticle from '@/src/hooks/useDetailAriticle';
+
+import CardModal from './cardModal';
 
 export default function Card({
   isLast,
@@ -23,9 +23,10 @@ export default function Card({
     const router = useRouter();
     const token = useRecoilValue(tokenState);
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
-    const {savePos} = useScrollPos()
-    const {mutate : userFollow} = useFollow(data.writer.id);
-    const {mutate : userUnfollow} = useUnfollow(data.writer.id);
+    const { savePos } = useScrollPos()
+    const queryClient = useQueryClient()
+    const {data : detailData} = useDetailArticle(data.id, token as string)
+    const [detail, setDetail] = useState<any>(null)
 
     const { mutate : followArticle } = useMutation<{
       data : boolean
@@ -37,7 +38,7 @@ export default function Card({
       }
     }) , {
       onSuccess : (data) => {
-        // queryClient.invalidateQueries(['infiniteBoard'])
+        queryClient.invalidateQueries(['infiniteBoard'])
         console.log(data);
       }
     })
@@ -55,6 +56,10 @@ export default function Card({
         observer.observe(cardRef.current);
       }, [isLast]);
 
+    useEffect(() => {
+      setDetail(detailData)
+    }, [detailData])
+
     const handleClick : any = () => {
       if(data) {
         savePos();
@@ -67,69 +72,26 @@ export default function Card({
           <S.UserInfo>
             <i className="ri-user-line"></i> {/* 임시 아이콘 */}
             <h2 style={{cursor : 'pointer'}} onClick={() => router.push(`user/profile/${data.writer.id}`)}>{data.writer.nickname}</h2>
-            {data.writer.followStatus === 'followUp'
-              ? (
-                <button
-                  onClick={() => userUnfollow()}
-                  style={{
-                    display : 'flex',
-                    justifyContent : 'center',
-                    alignItems : 'center',
-                    padding : '2px',
-                    border : 'none',
-                    backgroundColor : 'transparent',
-                    cursor : 'pointer'
-                  }}
-                >
-                  <i className="ri-check-line"></i>
-                  <span style={{
-                        fontSize : '1.2rem',
-                      }}>
-                         팔로우 중
-                  </span>
-                </button>
-              )
-              : (
-                <button
-                  onClick={() => userFollow()}
-                  style={{
-                    display : 'flex',
-                    justifyContent : 'center',
-                    alignItems : 'center',
-                    padding : '2px',
-                    border : 'none',
-                    backgroundColor : 'transparent',
-                    color : '#0a66c2',
-                    cursor : 'pointer'
-                  }}
-                >
-                      <i className="ri-add-line"></i>
-                      <span style={{
-                        fontSize : '1.2rem',
-                      }}>
-                         팔로우
-                      </span>
-                </button>
-              )
-            }
           </S.UserInfo>
           <S.More>
             <i className="ri-more-fill" onClick={() => setIsShowModal(prev => !prev)}></i>
           </S.More>
           <S.ContentBox>
             <div>{data.contents}</div>
-            <S.ImageBox onClick={handleClick}></S.ImageBox>
+            {
+              detail?.images?.length && <S.ImageBox onClick={handleClick} background={detail?.images[0]?.url}></S.ImageBox>
+            }
           </S.ContentBox>
           <S.Menu>
              <S.Like onClick={() => followArticle()}>
                 <span>좋아요</span>
                 {/* <i className={data.writer.followStatus === 'followUp' ? 'ri-heart-fill' : 'ri-heart-line'}></i> */}
               </S.Like>
-            <S.CommentMore>댓글보기</S.CommentMore>
+            <S.CommentMore onClick={() => router.push(`user/profile/${data.writer.id}`)}>댓글보기</S.CommentMore>
           </S.Menu>
-          <div>
-            댓글들...
-          </div>
+          <S.CommentsLength onClick={() => router.push(`user/profile/${data.writer.id}`)}>
+            댓글 {detail?.comments?.length}개
+          </S.CommentsLength>
 
           {isShowModal &&
               <CardModal setIsShowModal={setIsShowModal} isShowModal={isShowModal} articleId={data.id}  />
