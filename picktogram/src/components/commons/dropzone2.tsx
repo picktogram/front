@@ -2,13 +2,11 @@ import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone'
 
 interface DropzoneProps {
-    images : string[];
     uploadImage : (args? : any) => void;
     label : string;
 }
 
 const Dropzone2 : React.FC<DropzoneProps>= ({
-    images,
     uploadImage,
     label
 }) => {
@@ -27,10 +25,6 @@ const Dropzone2 : React.FC<DropzoneProps>= ({
                 top : '0',
                 zIndex : '10'
             }}/>
-            {
-                !images.length &&
-                <p>{label}</p>
-            }
         </div>
     );
 };

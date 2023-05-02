@@ -57,12 +57,12 @@ export default function DropzoneComponent ({
         <DropzoneBox>
             <Dropzone onDrop={acceptedFiles => handleDrop(acceptedFiles)}>
             {({getRootProps, getInputProps}) => (
-                <section>
+                <div>
                     <div {...getRootProps()}>
                         <input {...getInputProps()} />
                         <p>+</p>
                     </div>
-                </section>
+                </div>
             )}
             </Dropzone>
         </DropzoneBox>

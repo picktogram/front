@@ -1,39 +1,33 @@
 import React, { useEffect, useState } from 'react'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { myIdState, tokenState } from '@/state/tokenState'
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userModalState } from '@/state/userModalState'
 import { searchBarState } from '@/state/searchBarState';
 import { useRouter } from "next/router"
-import { useQuery } from 'react-query';
-import { fetcher } from '@/util/queryClient';
 
 import styled from '@emotion/styled'
 
 import UserModal from '../modals/userModal';
 
-export default function Header() {
+export default function Header({
+  user
+} : {
+  user : {
+    name: string;
+    nickname: string;
+   } | undefined
+  }
+  ) {
   const router = useRouter()
   const setShowModal = useSetRecoilState(userModalState)
   const [showSearchBar, setShowSearchBar] = useRecoilState(searchBarState)
 
-  const token = useRecoilValue(tokenState)
-  const myId = useRecoilValue(myIdState)
-  const [myNickname, setMyNickname] = useState<string | null>(null)
+  const [myNickname, setMyNickname] = useState<string>('')
 
-  const { data : currentUser} = useQuery(['getUser', myId], () => fetcher({
-        method : 'get',
-        headers : {
-            Authorization : token
-        },
-        path : `/api/v1/users/${myId}`
-    }), {
-        enabled : !!myId && !!token
-    })
-    useEffect(() => {
-      if(currentUser) {
-        setMyNickname(currentUser.nickname)
-      }
-    }, [currentUser])
+  useEffect(() => {
+    if(user?.nickname) {
+      setMyNickname(user.nickname)
+    }
+  }, [user?.nickname])
 
   return (
     <HeaderContainer>

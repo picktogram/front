@@ -19,16 +19,19 @@ export default function App({ Component, pageProps }: AppProps) {
   ReactGA.initialize(String(GA_ID))
 
   return (
-    <RecoilRoot>
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <Hydrate state={pageProps.dehydratedState}>
-            <Layout>
-                <Component {...pageProps} />
-                <Toaster />
-            </Layout>
-        </Hydrate>
-      </QueryClientProvider>
-    </RecoilRoot>
+    <>
+      <RecoilRoot>
+        <Toaster />
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <Hydrate state={pageProps.dehydratedState}>
+              <Layout>
+                  <Component {...pageProps} />
+              </Layout>
+          </Hydrate>
+        </QueryClientProvider>
+      </RecoilRoot>
+    </>
+
   )
 }

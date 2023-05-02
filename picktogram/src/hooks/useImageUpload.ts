@@ -8,7 +8,7 @@ export default function useImageUpload (key : string, token : string, onSuccess?
             let formData = new FormData()
             formData.append('file', data)
 
-            const response = await axios.post(`${SERVER_URL}/api/v1/body-image`, formData, {
+            const response = await axios.post(`${SERVER_URL}/api/v1/users/profile/cover-image`, formData, {
                 headers : {
                     'Authorization' : token,
                     'Content-Type': 'multipart/form-data',

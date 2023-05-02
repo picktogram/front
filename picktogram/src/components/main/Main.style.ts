@@ -9,4 +9,4 @@ export const Container = styled.div`
     gap: 20px;
 `
 
-export const Section = styled.section``
+export const Section = styled.div``

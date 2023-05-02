@@ -18,7 +18,7 @@ const UserUI = ({
     uploadImage,
     coverImage,
     setCoverImage,
-    handleNextPage
+    handleNextPage,
 } :
     UserPageUIProps
     ) => {

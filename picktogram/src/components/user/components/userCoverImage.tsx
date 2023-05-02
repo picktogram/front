@@ -2,12 +2,9 @@ import React, {useEffect, useState} from 'react';
 import Dropzone2 from '@/src/components/commons/dropzone2'
 import styled from '@emotion/styled'
 
-
-
-
 interface UserCoverImageProps {
     uploadImage : (data : any) => void;
-    coverImage : string[];
+    coverImage : string;
     isCurrentUser : boolean;
 }
 
@@ -36,29 +33,21 @@ const ImageBox = styled.div<{
 const userCoverImage = ({
     uploadImage,
     coverImage,
-    isCurrentUser
+    isCurrentUser,
 } :
     UserCoverImageProps
 ) => {
-    const [image, setImage] = useState<string | null>(null)
-
-    useEffect(() => {
-        if(coverImage.length) {
-            setImage(coverImage[0])
-        }
-    }, [coverImage])
 
     return (
         <Container>
             {
                 isCurrentUser &&
                 <Dropzone2
-                    images={coverImage}
                     uploadImage={uploadImage}
                     label='이미지를 추가하세요.'
                 />
             }
-            <ImageBox background={image ? image : ''} />
+            <ImageBox background={coverImage ? coverImage : ''} />
         </Container>
     );
 };

@@ -37,7 +37,7 @@ export interface UserPageUIProps {
     setIntroduce : React.Dispatch<React.SetStateAction<string>>;
     addIntroduce : () => void;
     setIsOpen : React.Dispatch<React.SetStateAction<boolean>>;
-    coverImage : string[];
+    coverImage : string;
     setCoverImage : React.Dispatch<React.SetStateAction<string[]>>;
     uploadImage : (data : any) => void;
     handleNextPage : () => void;
