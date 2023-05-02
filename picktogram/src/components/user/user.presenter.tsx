@@ -24,6 +24,8 @@ const UserUI = ({
     ) => {
     const currnetId = useRecoilValue(myIdState)
 
+    console.log('userPresenter', user?.followStatus)
+
     return (
          <S.Container>
             <S.LeftSection>
@@ -77,8 +79,19 @@ const UserUI = ({
                                         color : 'white',
                                         borderRadius : '20px'
                                     }}
+                                    onClick={() => {
+                                        if(user?.followStatus === 'follow') {
+                                            const {mutate : userUnfollow} = useUnfollow(user.id)
+                                            userUnfollow()
+                                        }
+
+                                        if(user?.followStatus === 'nothing') {
+                                            const {mutate : userFollow} =  useFollow(user.id)
+                                            userFollow()
+                                        }
+                                    }}
                                 >
-                                    팔로우 하기
+                                    {user?.followStatus === 'follow' ? '팔로우 중' : '팔로우 하기'}
                                 </button>
                             )
                         }

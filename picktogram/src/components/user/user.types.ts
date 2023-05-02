@@ -1,8 +1,11 @@
+import { UserBridgeType } from "picktogram-server-apis/types";
+
 export interface PropsWithToken {
     token : string;
 }
 
 export interface UserProfile {
+    followStatus: UserBridgeType.FollowStatus;
     mySelf? : boolean | undefined;
     readonly id : number;
     name : string;

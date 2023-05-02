@@ -48,9 +48,6 @@ export default function Layout(props : PropsWithChildren) {
       }
   })
 
-  console.log('user', user)
-
-
   return (
     <div>
       <Head>
