@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import * as S from "./Pagination.style"
 
 export default function Pagination({
@@ -9,30 +9,48 @@ export default function Pagination({
     setPage : React.Dispatch<React.SetStateAction<number>>;
 }) {
   const total = totalPage ? totalPage : 0
+  const [startPage, setStartPage] = useState<number>(1)
 
-  if(totalPage === undefined) {
-        return <div>Pagination Error...</div>
-    }
+  const handlePrevClick : React.MouseEventHandler<HTMLButtonElement> = () => {
+    if(startPage === 1) return
+    setStartPage((prev) => prev - 10)
+    setPage(startPage - 10)
+  }
+
+  const handleNextClick : React.MouseEventHandler<HTMLButtonElement> = () => {
+    if(startPage + 10 > total) return
+    setStartPage((prev) => prev + 10)
+    setPage(startPage + 10)
+  }
+
+  const handleClick : React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    setPage(+e.currentTarget.id)
+  }
+
   return (
     <S.Container >
         {/* 이전버튼 */}
-        <button onClick={() => setPage((prev) => prev === 1 ? prev : prev - 1)}>{"<"}</button>
+        <button onClick={handlePrevClick}>{"<"}</button>
         {/* 페이지네이션 */}
         <div>
-            {Array(totalPage)
-            .fill("")
-            .map((_, i) => (
-                <button
-                key={i + 1}
-                  onClick={() => setPage(i + 1)}
-                //   aria-current={page === i + 1 ? "page" : null}
-                >
-                {i + 1}
-                </button>
+            {
+              new Array(10)
+              .fill(1)
+              .map((_, i) =>
+                startPage + i <= total &&
+              (
+                  <button
+                    key={i}
+                    id={String(startPage + i)}
+                    onClick={handleClick}
+                  //   aria-current={page === i + 1 ? "page" : null}
+                  >
+                  {startPage + i}
+                  </button>
             ))}
         </div>
         {/*다음 버튼 */}
-        <button onClick={() => setPage(prev => total > prev ? prev + 1 : prev)}>{">"}</button>
+        <button onClick={handleNextClick}>{">"}</button>
     </S.Container>
   )
 }

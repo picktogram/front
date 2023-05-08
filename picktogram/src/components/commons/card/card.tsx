@@ -79,9 +79,9 @@ export default function Card({
                 <span>좋아요</span>
                 {/* <i className={data.writer.followStatus === 'followUp' ? 'ri-heart-fill' : 'ri-heart-line'}></i> */}
               </S.Like>
-            <S.CommentMore onClick={() => router.push(`/user/profile/${data.writer.id}`)}>댓글보기</S.CommentMore>
+            <S.CommentMore onClick={() => router.push(`/dashboard/${data.id}`)}>댓글보기</S.CommentMore>
           </S.Menu>
-          <S.CommentsLength onClick={() => router.push(`/user/profile/${data.writer.id}`)}>
+          <S.CommentsLength onClick={() => router.push(`/dashboard/${data.id}`)}>
             댓글 {data?.comments?.length}개
           </S.CommentsLength>
 

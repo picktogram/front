@@ -59,7 +59,7 @@ export default function UserRecommend({
       queryClient.prefetchQuery(['getRecommandUser', user.token, page + 1], () =>
       fetcher({
         method : 'get',
-        path : `/api/v1/users/acquaintance?limit=10&page=${page}`,
+        path : `/api/v1/users/acquaintance?limit=10&page=${page + 1}`,
         headers : {
           Authorization : user.token
         }

@@ -72,7 +72,7 @@ export default function BoardDetail({
         },
     });
 
-    const { data : commentsData } = useQuery<CommentData, AxiosError, CommentSelectData>(['getComments', page ], () => fetcher({
+    const { data : commentsData } = useQuery<CommentData, AxiosError, CommentSelectData>(['getComments', page, router.query.id ], () => fetcher({
         method : 'get',
         path : `/api/v1/articles/${router.query.id}/comments?limit=10&page=${page}`,
         headers : {
@@ -96,7 +96,7 @@ export default function BoardDetail({
 
     useEffect(() => {
         if (commentsData?.hasMore) {
-            queryClient.prefetchQuery(['getComments', page + 1], () =>
+            queryClient.prefetchQuery(['getComments', page + 1, router.query.id], () =>
                 fetcher({
                     method : 'get',
                     path : `/api/v1/articles/${router.query.id}/comments?limit=10&page=${page + 1}`,
