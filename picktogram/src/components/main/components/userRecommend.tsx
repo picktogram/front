@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled';
-import { useInfiniteQuery, useQuery , useQueryClient } from 'react-query';
-import { infiniteFetcher, fetcher} from '@/util/queryClient';
-import { AxiosError } from 'axios';
+import { useQueryClient } from 'react-query';
 import Pagination from '@/src/components/commons/Pagination/Pagination.container';
+import useAcquaintance from '@/src/hooks/useAcquaintance';
 
 
 export default function UserRecommend({
@@ -14,74 +13,33 @@ export default function UserRecommend({
         token : string;
     }
 }) {
-  const [page, setPage] = useState<number>(1);
-  const queryClient = useQueryClient();
-
-  const {data : recommendData } = useQuery<{
-      list: [];
-      totalResult: number;
-      totalPage: number;
-      search: null;
-      page: number;
-  }, AxiosError, {
-      list: {
-        id : number;
-        nickname : string;
-        profileImage : string;
-      }[];
-      totalResult: number;
-      totalPage: number;
-      search: null;
-      page: number;
-      hasMore : boolean;
-  }>(['getRecommandUser', user.token, page], () => fetcher({
-    method : 'get',
-    path : `/api/v1/users/acquaintance?limit=10&page=${page}`,
-    headers : {
-      Authorization : user.token
-    },
-  }), {
-    onSuccess : (data) => {
-      console.log('success get recommendData', data);
-    },
-    staleTime : 5000,
-    keepPreviousData : true,
-    select : (data) => {
-      return {
-        ...data,
-        hasMore : data.totalPage > page
-      }
-    }
-  })
-
-  useEffect(() => {
-    if(recommendData?.hasMore) {
-      queryClient.prefetchQuery(['getRecommandUser', user.token, page + 1], () =>
-      fetcher({
-        method : 'get',
-        path : `/api/v1/users/acquaintance?limit=10&page=${page + 1}`,
-        headers : {
-          Authorization : user.token
-        }
-      })
-      )
-    }
-  },[recommendData, page, queryClient])
-
-  console.log('recommendData', recommendData);
+  const [page, setPage] = useState<number>(1)
+  const queryClient = useQueryClient()
+  const acquaintanceData = useAcquaintance(user.token, page)
 
   return (
     <Container>
-      <div>
+      <Acquaintance>
         {
-          recommendData?.list.map((recommend) => (
-            <div key={recommend.id}>
-              {recommend.nickname}
-            </div>
+          acquaintanceData?.list.map((acquaintance) => (
+            <User key={acquaintance.id}>
+              <ProfileImage background={acquaintance.profileImage} >
+
+              </ProfileImage>
+              <Nickname>
+                {acquaintance.nickname}
+              </Nickname>
+              <Reason>
+                {acquaintance.reason}
+              </Reason>
+              <FollowButton>
+                {'+'}
+              </FollowButton>
+            </User>
           ))
         }
-      </div>
-      <RecommendPagination totalPage={recommendData?.totalPage} setPage={setPage}/>
+      </Acquaintance>
+      <RecommendPagination totalPage={acquaintanceData?.totalPage} setPage={setPage}/>
     </Container>
   )
 }
@@ -93,6 +51,45 @@ const Container = styled.div`
   height: 250px;
   background-color: white;
   border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
+const Acquaintance = styled.div`
+  min-height: 80%;
+`
+
+const User = styled.div`
+  display: flex;
+  column-gap: 1rem;
+  align-items: center;
+`
+
+const ProfileImage = styled.div<{
+  background : string | null | undefined
+}>`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-image: url(${(props) => props.background ? props.background : '/images/placeholder.png'});
+  background-size: contain;
+
+`
+const Nickname = styled.div`
+`
+
+const Reason = styled.div`
+  color : #b9b9b9;
+`
+
+const FollowButton = styled.button`
+  border: none;
+  background-color: transparent;
+  font-size: 2rem;
+  color : dodgerblue;
+  cursor : pointer;
 `
 
 const RecommendPagination = styled(Pagination)`
