@@ -35,12 +35,8 @@ const UserUI = ({
                     isCurrentUser={user?.id === currnetId}
                 />
                 <S.UserInfo>
-                    <Image
-                        // src={user?.profileImage ? user.profileImage : '/images/placeholder.png'}
-                        src='/images/placeholder.png'
-                        alt='User image'
-                        width={100}
-                        height={100}
+                    <S.ProfileImage
+                        background={user?.profileImage}
                     />
                     <p style={{fontSize: '3rem'}}>{user?.name}</p>
                     <p>{user?.nickname && user?.name}</p>

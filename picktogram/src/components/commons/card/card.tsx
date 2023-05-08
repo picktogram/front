@@ -62,7 +62,7 @@ export default function Card({
     return (
         <S.CardContainer ref={cardRef} >
           <S.UserInfo>
-            <i className="ri-user-line"></i> {/* 임시 아이콘 */}
+            <S.ProfileImage background={data.writer.profileImage}/>
             <h2 style={{cursor : 'pointer'}} onClick={() => router.push(`/user/profile/${data.writer.id}`)}>{data.writer.nickname}</h2>
           </S.UserInfo>
           <S.More>

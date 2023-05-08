@@ -77,8 +77,9 @@ const ProfileImage = styled.div<{
   border-radius: 50%;
   background-image: url(${(props) => props.background ? props.background : '/images/placeholder.png'});
   background-size: contain;
-
+  background-repeat: no-repeat;
 `
+
 const Nickname = styled.div`
 `
 

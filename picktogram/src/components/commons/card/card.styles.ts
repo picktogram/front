@@ -24,7 +24,8 @@ export const UserInfo = styled.div`
     width: 100%;
     display: flex;
     justify-content: flex-start;
-    gap: 1rem;
+    align-items: center;
+    column-gap: 1rem;
 
     & i {
       font-size: 2rem;
@@ -47,6 +48,17 @@ export const ImageBox = styled.div<{
   background-repeat: no-repeat;
   height: 300px;
   cursor: pointer;
+`
+
+export const ProfileImage = styled.div<{
+  background : string | null | undefined
+}>`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-image: url(${(props) => props.background ? props.background : '/images/placeholder.png'});
+  background-size: cover;
+  background-repeat: no-repeat;
 `
 
 export const Menu = styled.div`

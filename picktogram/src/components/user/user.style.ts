@@ -33,3 +33,13 @@ export const UserArticle = styled.div`
     flex-direction: column;
     gap: 1rem;
 `
+
+export const ProfileImage = styled.div<{
+    background : string | null | undefined
+  }>`
+    width: 120px;
+    height: 120px;
+    background-image: url(${(props) => props.background ? props.background : '/images/placeholder.png'});
+    background-size: cover;
+    background-repeat: no-repeat;
+  `
