@@ -17,7 +17,7 @@ export default function Header() {
   const myId = useRecoilValue(myIdState)
   const setShowModal = useSetRecoilState(userModalState)
 
-  const {data : userDetail, isLoading} = useUser(myId, token )
+  const {data : userDetail} = useUser(myId, token)
   const [showSearchBar, setShowSearchBar] = useRecoilState(searchBarState)
   const [nickName, setNickName] = useState<string>('')
 
@@ -25,8 +25,7 @@ export default function Header() {
     if(userDetail?.nickname){
       setNickName(userDetail.nickname)
     }
-  }, [userDetail?.nickname, isLoading])
-
+  }, [userDetail?.nickname])
 
   return (
     <HeaderContainer>

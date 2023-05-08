@@ -5,11 +5,9 @@ import { useMutation, useQuery, useQueryClient } from "react-query"
 import { fetcher } from '@/util/queryClient'
 import { useRecoilValue } from 'recoil'
 import { tokenState } from '@/state/tokenState';
-import { AxiosError } from 'axios';
 
 import * as S from "./card.styles"
 import useScrollPos from '@/src/hooks/useScrollPos';
-import useDetailArticle from '@/src/hooks/useDetailAriticle';
 
 import CardModal from './cardModal';
 
@@ -25,8 +23,6 @@ export default function Card({
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
     const { savePos } = useScrollPos()
     const queryClient = useQueryClient()
-    // const {data : detailData} = useDetailArticle(data.id, token as string)
-    const [detail, setDetail] = useState<any>(null)
 
     const { mutate : followArticle } = useMutation<{
       data : boolean
@@ -56,10 +52,6 @@ export default function Card({
         observer.observe(cardRef.current);
       }, [isLast]);
 
-    // useEffect(() => {
-    //   setDetail(detailData)
-    // }, [detailData])
-
     const handleClick : any = () => {
       if(data) {
         savePos();
@@ -78,9 +70,9 @@ export default function Card({
           </S.More>
           <S.ContentBox>
             <div>{data.contents}</div>
-            {
+            {/* {
               detail?.images?.length && <S.ImageBox onClick={handleClick} background={detail?.images[0]?.url}></S.ImageBox>
-            }
+            } */}
           </S.ContentBox>
           <S.Menu>
              <S.Like onClick={() => followArticle()}>
@@ -90,7 +82,7 @@ export default function Card({
             <S.CommentMore onClick={() => router.push(`/user/profile/${data.writer.id}`)}>댓글보기</S.CommentMore>
           </S.Menu>
           <S.CommentsLength onClick={() => router.push(`/user/profile/${data.writer.id}`)}>
-            댓글 {detail?.comments?.length}개
+            댓글 {data?.comments?.length}개
           </S.CommentsLength>
 
           {isShowModal &&
