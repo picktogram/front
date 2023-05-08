@@ -39,7 +39,7 @@ export default function UserRecommend({
           ))
         }
       </Acquaintance>
-      <RecommendPagination totalPage={acquaintanceData?.totalPage} setPage={setPage}/>
+      <RecommendPagination totalPage={acquaintanceData?.totalPage} setPage={setPage} page={page}/>
     </Container>
   )
 }
@@ -55,6 +55,8 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border: 1px solid lightgray;
+  border-radius : 20px;
 `
 
 const Acquaintance = styled.div`

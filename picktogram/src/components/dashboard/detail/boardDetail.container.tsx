@@ -130,6 +130,7 @@ export default function BoardDetail({
             user={user}
             commentsData={commentsData}
             setPage={setPage}
+            page={page}
             isNewComments={isNewComments}
             handleNewComments={handleNewComments}
         />

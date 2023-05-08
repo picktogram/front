@@ -15,6 +15,7 @@ export default function BoardDetailUI({
     user,
     commentsData,
     setPage,
+    page,
     isNewComments,
     handleNewComments
     } : {
@@ -35,6 +36,7 @@ export default function BoardDetailUI({
             hasMore : boolean;
         } | undefined;
         setPage :  React.Dispatch<React.SetStateAction<number>>;
+        page : number
         isNewComments : boolean;
         handleNewComments : any;
     }) {
@@ -130,7 +132,7 @@ export default function BoardDetailUI({
                             {comment.contents}
                     </S.Comments>
                 ))}
-                <Pagination totalPage={commentList.totalPage} setPage={setPage} />
+                <Pagination totalPage={commentList.totalPage} setPage={setPage} page={page} />
             </S.CommentsBox>
         </S.ContentsBox>
     {/* comment wrapper */}
