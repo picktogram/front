@@ -8,16 +8,13 @@ import ReactGA from 'react-ga'
 
 import { useSetRecoilState } from 'recoil'
 import { userState } from '@/state/userState'
+import { UserFromRequest } from '@/src/auth/tokens'
 
 export default function Main({
     token,
     user
-} : {
-    token : string;
-    user : {
-        nickname : string;
-    };
-}) {
+} : UserFromRequest
+) {
       const setUserState = useSetRecoilState(userState)
       const { data, fetchNextPage }  = useInfiniteQuery<ResponceData>(['infiniteBoard'],
           ({pageParam = 1}) => infiniteFetcher({
@@ -51,7 +48,8 @@ export default function Main({
 
     return (
       <MainUI
-        user={{...user, token,}}
+        user={user}
+        token={token}
         data={data}
         handleNextPage={handleNextPage}
       />

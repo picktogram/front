@@ -5,19 +5,22 @@ import UserRecommend from "./components/userRecommend"
 import NoReplyBoard from "./components/noReplyBoard"
 import * as S from "./Main.style"
 import { BoardData } from "./Main.type"
+import { UserData } from "@/src/auth/tokens"
+
+type MainUIProps = {
+  user : UserData;
+  token : string;
+  data : any;
+  handleNextPage : () => void;
+}
 
 export default function MainUI({
     user,
+    token,
     data,
     handleNextPage,
-}: {
-    user : {
-        nickname : string;
-        token : string;
-    },
-    data : any;
-    handleNextPage : () => void;
-}) {
+}: MainUIProps
+) {
   return (
     <>
       <S.Container>
@@ -28,7 +31,7 @@ export default function MainUI({
         </aside>
 
         <S.Section>
-          <UserMainProfile user={user} />
+          <UserMainProfile user={user} token={token} />
           {data?.pages.map((page : {list : BoardData[]}, index : number) => (
             <React.Fragment key={index}>
               {page.list.map((post , index) => (
@@ -52,8 +55,8 @@ export default function MainUI({
               rowGap : '1rem',
               overflowY : "scroll",
               }}>
-            <NoReplyBoard user={user} />
-            <UserRecommend user={user} />
+            <NoReplyBoard user={user} token={token}/>
+            <UserRecommend user={user} token={token} />
           </div>
         </aside>
 

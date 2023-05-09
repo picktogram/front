@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
-import { myIdState, tokenState } from '@/state/tokenState'
+import { userState } from '@/state/userState'
 import { userModalState } from '@/state/userModalState'
 import { searchBarState } from '@/state/searchBarState';
 import { useRouter } from "next/router"
@@ -8,24 +8,21 @@ import { useRouter } from "next/router"
 import styled from '@emotion/styled'
 
 import UserModal from '../modals/userModal';
-import useUser from '@/src/hooks/useUser';
 
 export default function Header() {
   const router = useRouter()
 
-  const token = useRecoilValue(tokenState)
-  const myId = useRecoilValue(myIdState)
+  const user = useRecoilValue(userState)
   const setShowModal = useSetRecoilState(userModalState)
 
-  const {data : userDetail} = useUser(myId, token)
   const [showSearchBar, setShowSearchBar] = useRecoilState(searchBarState)
   const [nickName, setNickName] = useState<string>('')
 
   useEffect(() => {
-    if(userDetail?.nickname){
-      setNickName(userDetail.nickname)
+    if(user?.nickname){
+      setNickName(user.nickname)
     }
-  }, [userDetail?.nickname])
+  }, [user?.nickname])
 
   return (
     <HeaderContainer>

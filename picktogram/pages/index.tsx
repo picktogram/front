@@ -3,6 +3,7 @@ import Main from "@/src/components/main/Main.container"
 
 import { GetServerSidePropsContext } from 'next'
 import { userFromRequest } from '@/src/auth/tokens'
+import { UserFromRequest } from '@/src/auth/tokens'
 
 export const getServerSideProps = async (context : GetServerSidePropsContext) => {
   const data = await userFromRequest(context.req);
@@ -10,8 +11,8 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
   if(!data?.token) {
       return {
         redirect : {
-        destination : '/login',
-        permanent : false
+          destination : '/login',
+          permanent : false
         }
       }
   }
@@ -24,12 +25,7 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
     }
 }
 
-export default function MainPage(props : {
-  user : {
-    nickname : string
-  },
-  token : string
-}) {
+export default function MainPage(props : UserFromRequest) {
 
 
   return <Main token={props.token} user={props.user} />

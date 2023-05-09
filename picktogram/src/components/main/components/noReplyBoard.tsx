@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
-
-import {useRecoilValue} from 'recoil'
-import {tokenState, tokenSelector} from "@/state/tokenState"
-
 import { useInfiniteQuery } from 'react-query'
 import { infiniteFetcher } from '@/util/queryClient'
+import { UserData } from '@/src/auth/tokens'
+
+type NoReplyProps = {
+    user : UserData;
+    token : string;
+}
 
 type NoRelpyBoardList = {
     profileImage : string;
@@ -29,18 +31,14 @@ type NoReplyBoardResponse = {
 
 export default function NoReplyBoard({
     user,
-} : {
-    user : {
-        token : string;
-        nickname : string;
-    }
-}) {
+    token
+} : NoReplyProps) {
 
     const {data : NoReplyBoardData} = useInfiniteQuery<NoReplyBoardResponse>(['getNoReplyBoard'], ({pageParam = 1}) => infiniteFetcher({
         method : 'get',
         path : `/api/v1/articles/no-reply?limit=100&page=`,
         headers : {
-            Authorization : user.token,
+            Authorization : token,
         },
         page : pageParam,
     }), {

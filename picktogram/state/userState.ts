@@ -1,9 +1,7 @@
 import { atom } from 'recoil'
 import { recoilPersist } from 'recoil-persist'
+import { UserData } from '@/src/auth/tokens'
 
-type UserState = {
-    nickname : string;
-}
 
 const sessionStorage =
       typeof window !== 'undefined' ? window.sessionStorage : undefined
@@ -13,7 +11,7 @@ const { persistAtom } = recoilPersist({
     storage: sessionStorage,
 })
 
-export const userState = atom<UserState | null>({
+export const userState = atom<UserData | null>({
     key : 'userNameState',
     default : null,
     effects_UNSTABLE: [persistAtom],

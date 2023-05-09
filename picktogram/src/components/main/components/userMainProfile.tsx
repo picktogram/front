@@ -3,23 +3,25 @@ import styled from "@emotion/styled"
 import {useRouter} from "next/router"
 import { useQuery } from 'react-query'
 import { fetcher } from '@/util/queryClient'
+import { UserData } from '@/src/auth/tokens'
+
+type UserMainProfileProps = {
+    user : UserData;
+    token : string;
+}
 
 export default function UserMainProfile({
-    user
-} : {
-    user : {
-        nickname : string
-        token : string
-    },
-}) {
-    const {data : userId} = useQuery(['getUser', user.token], () => fetcher({method : "get", path : "/api/v1/users/profile", headers : {Authorization : user.token}}), {
+    user,
+    token
+} : UserMainProfileProps) {
+    const {data : userId} = useQuery(['getUser', token], () => fetcher({method : "get", path : "/api/v1/users/profile", headers : {Authorization : token}}), {
         select : (data) => data.id
     })
 
     const {data : reputationData} = useQuery(['getReputation', userId],
         () => fetcher({method : 'get', path : `/api/v1/users/${userId}/reputation`,
         headers : {
-            Authorization : user.token
+            Authorization : token
             }
         }),
         {

@@ -1,6 +1,22 @@
 import { IncomingMessage } from 'http';
 import { NextApiRequestCookies } from 'next/dist/server/api-utils';
 
+export type UserData = {
+  id : number;
+  name : string;
+  nickname : string;
+  email : string;
+  birth? : string | null;
+  gender : boolean;
+  lat? : number;
+  exp? : number
+}
+
+export type UserFromRequest = {
+  user : UserData,
+  token : string
+}
+
 // 사용자 인증을 위해 token을 쿠키 저장
 export function authenticateUser( token : string ): void {
     document.cookie = `token=${token};max-age=3600`;
@@ -20,18 +36,18 @@ const decodeToken = (token : string) => {
     }
 
     const payload = Buffer.from(base64Payload , 'base64')
-    const userData = JSON.parse(payload.toString())
+    const userData : UserData = JSON.parse(payload.toString())
 
-    console.log(userData);
+    console.log('userData', userData);
 
     return {
-      nickname : userData.nickname,
+      ...userData
     }
 }
 
 export async function userFromRequest(
     req: IncomingMessage & { cookies: NextApiRequestCookies }
-  ): Promise<any> {
+  ): Promise<UserFromRequest | undefined> {
     const { token } = req.cookies;
 
     if (!token) return undefined;

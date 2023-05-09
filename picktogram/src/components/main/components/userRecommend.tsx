@@ -1,27 +1,30 @@
 import React, { useEffect, useState } from 'react'
-import styled from '@emotion/styled';
 import { useQueryClient } from 'react-query';
-import Pagination from '@/src/components/commons/Pagination/Pagination.container';
+import { UserData } from '@/src/auth/tokens';
+
+import styled from '@emotion/styled';
 import useAcquaintance from '@/src/hooks/useAcquaintance';
 
+import Pagination from '@/src/components/commons/Pagination/Pagination.container';
+
+type UserRecommendProps = {
+  user : UserData;
+  token : string;
+}
 
 export default function UserRecommend({
-    user
-} : {
-    user : {
-        nickname : string;
-        token : string;
-    }
-}) {
+    user,
+    token
+} : UserRecommendProps) {
   const [page, setPage] = useState<number>(1)
   const queryClient = useQueryClient()
-  const acquaintanceData = useAcquaintance(user.token, page)
+  const acquaintanceData = useAcquaintance(token, page)
 
   return (
     <Container>
       <Acquaintance>
         {
-          acquaintanceData?.list.map((acquaintance) => (
+          acquaintanceData?.list.map((acquaintance : any) => (
             <User key={acquaintance.id}>
               <ProfileImage background={acquaintance.profileImage} >
 
