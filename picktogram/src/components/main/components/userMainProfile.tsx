@@ -15,22 +15,15 @@ export default function UserMainProfile({
     user,
     token
 } : UserMainProfileProps) {
-    const {data : userId} = useQuery(['getUser', token], () => fetcher({method : "get", path : "/api/v1/users/profile", headers : {Authorization : token}}), {
-        select : (data) => data.id
-    })
-
     const userData = useCurrentUser(token)
-
-    console.log('userData', userData)
-
-    const {data : reputationData} = useQuery(['getReputation', userId],
-        () => fetcher({method : 'get', path : `/api/v1/users/${userId}/reputation`,
+    const {data : reputationData} = useQuery(['getReputation', userData?.id],
+        () => fetcher({method : 'get', path : `/api/v1/users/${userData?.id}/reputation`,
         headers : {
             Authorization : token
             }
         }),
         {
-            enabled : !!userId,
+            enabled : !!userData?.id,
             select : (data : {
                 question : number;
                 answer : number;

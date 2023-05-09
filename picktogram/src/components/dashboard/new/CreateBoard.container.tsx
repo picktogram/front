@@ -7,6 +7,7 @@ import { SERVER_URL } from "@/util/constant"
 import { useRecoilState } from "recoil"
 import { boardBeforeSave } from "@/state/boardBeforeSave"
 import { useRouter } from 'next/router'
+import useCurrentUser from '@/src/hooks/useCurrentUser'
 
 export default function CreateBoard({
     token,
@@ -18,9 +19,10 @@ export default function CreateBoard({
     const [contents, setContents] = useState<string>("")
     const [images, setImages] = useState<string[]>([]);
     const [count, setCount] = useState<number>(0);
+    const currentUser = useCurrentUser(token)
     const queryClient = useQueryClient();
     const [boardRocilData, setBoardRecoilData]= useRecoilState(boardBeforeSave);
-    const router =useRouter()
+    const router = useRouter()
 
     const { mutate : createBoard } = useMutation("createBoard", async (data : any) => {
         try {
@@ -78,6 +80,7 @@ export default function CreateBoard({
         'type' : "question" // 일단 고정
       }
       createBoard(data)
+      router.push('/')
     }
 
     const handleEditSubmit = (e : FormEvent) => {
@@ -108,6 +111,7 @@ export default function CreateBoard({
         setCount={setCount}
         contents={contents}
         setContents={setContents}
+        currentUser={currentUser}
         createBoard={createBoard}
         handleSubmit={handleSubmit}
         handleEditSubmit={handleEditSubmit}

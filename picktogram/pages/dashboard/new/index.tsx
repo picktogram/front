@@ -1,4 +1,4 @@
-import { userFromRequest } from '@/src/auth/tokens'
+import { UserData, userFromRequest } from '@/src/auth/tokens'
 import { GetServerSidePropsContext } from 'next/types'
 import React from 'react'
 import CreateBoard from '@/src/components/dashboard/new/CreateBoard.container'
@@ -18,15 +18,18 @@ export const getServerSideProps = async (context : GetServerSidePropsContext) =>
 
     return {
       props : {
-        token : data.token
+        token : data.token,
+        user : data.user
       },
     }
 }
 
 const CreateBoardPage = ({
     token,
+    user,
   } : {
     token : string;
+    user : UserData;
   }) => {
 
 

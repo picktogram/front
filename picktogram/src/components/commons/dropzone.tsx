@@ -60,7 +60,9 @@ export default function DropzoneComponent ({
                 <div>
                     <div {...getRootProps()}>
                         <input {...getInputProps()} />
-                        <p>+</p>
+                        <p>
+                            <i className="ri-image-fill"></i>
+                        </p>
                     </div>
                 </div>
             )}
