@@ -60,9 +60,9 @@ export default function DropzoneComponent ({
                 <div>
                     <div {...getRootProps()}>
                         <input {...getInputProps()} />
-                        <p>
-                            <i className="ri-image-fill"></i>
-                        </p>
+                        <Icon>
+                            <ImageIcon className="ri-image-fill"></ImageIcon>
+                        </Icon>
                     </div>
                 </div>
             )}
@@ -77,10 +77,24 @@ const DropzoneBox = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid black;
 
     & p {
         font-size: 1.5rem;
         font-weight: 600;
     }
+`
+
+const Icon = styled.p`
+    width: 50px;
+    height: 50px;
+    background-color: dodgerblue;
+    border : none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+const ImageIcon = styled.i`
+    color : white;
 `

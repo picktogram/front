@@ -13,7 +13,7 @@ type UserMainProfileProps = {
 
 export default function UserMainProfile({
     user,
-    token
+    token,
 } : UserMainProfileProps) {
     const userData = useCurrentUser(token)
     const {data : reputationData} = useQuery(['getReputation', userData?.id],
@@ -46,6 +46,7 @@ export default function UserMainProfile({
 
     const router = useRouter();
     const [showModal, setShowModal] = useState<boolean>(false)
+
 
     useEffect(() => {
         const listener = (boolean : boolean) => {
@@ -80,14 +81,13 @@ export default function UserMainProfile({
             <UserCreateWrapper>
                 <Button onClick={() => router.push("/dashboard/new")}>게시글 작성</Button>
             </UserCreateWrapper>
-
         </Container>
     )
 }
 
 
 const Container = styled.div`
-    width: 650px;
+    width : 650px;
     margin: 0 auto;
     min-height: 100px;
     background-color: white;
@@ -136,6 +136,8 @@ const ReputationInfo = styled.i`
 const UserCreateWrapper = styled.div`
     width: 100%;
     margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
 `
 
 const Button = styled.button`

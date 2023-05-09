@@ -91,11 +91,20 @@ const Reason = styled.div`
 `
 
 const FollowButton = styled.button`
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
-  background-color: transparent;
-  font-size: 2rem;
-  color : dodgerblue;
+  border-radius: 50%;
+  background-color: dodgerblue;
+  color : white;
   cursor : pointer;
+
+  &:hover {
+    background-color: black;
+  }
 `
 
 const RecommendPagination = styled(Pagination)`
