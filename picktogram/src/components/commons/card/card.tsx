@@ -10,6 +10,7 @@ import * as S from "./card.styles"
 import useScrollPos from '@/src/hooks/useScrollPos';
 
 import CardModal from './cardModal';
+import useDate from '@/src/hooks/useDate'
 
 export default function Card({
   isLast,
@@ -23,6 +24,7 @@ export default function Card({
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
     const { savePos } = useScrollPos()
     const queryClient = useQueryClient()
+    const date = useDate(data.createdAt)
 
     const { mutate : followArticle } = useMutation<{
       data : boolean
@@ -63,7 +65,12 @@ export default function Card({
         <S.CardContainer ref={cardRef} >
           <S.UserInfo>
             <S.ProfileImage background={data.writer.profileImage}/>
-            <h2 style={{cursor : 'pointer'}} onClick={() => router.push(`/user/profile/${data.writer.id}`)}>{data.writer.nickname}</h2>
+            <div style={{display : 'flex', flexDirection : 'column'}}>
+              <h2 style={{cursor : 'pointer'}} onClick={() => router.push(`/user/profile/${data.writer.id}`)}>{data.writer.nickname}</h2>
+              <div>
+                {date ? date : ''}
+              </div>
+            </div>
           </S.UserInfo>
           <S.More>
             <i className="ri-more-fill" onClick={() => setIsShowModal(prev => !prev)}></i>
