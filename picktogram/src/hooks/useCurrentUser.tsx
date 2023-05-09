@@ -13,8 +13,7 @@ export default function useCurrentUser(token : string) {
                 headers : {
                     Authorization : token
                 }
-            }
-)
+            })
 
             if(isBusinessErrorGuard(response)) {
                 return
