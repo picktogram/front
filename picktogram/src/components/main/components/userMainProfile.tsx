@@ -87,7 +87,7 @@ export default function UserMainProfile({
 
 
 const Container = styled.div`
-    width : 650px;
+    width : 800px;
     margin: 0 auto;
     min-height: 100px;
     background-color: white;

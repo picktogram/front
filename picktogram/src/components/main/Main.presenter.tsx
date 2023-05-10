@@ -75,12 +75,12 @@ export default function MainUI({
 
         <aside style={{position : "relative"}}>
           <div style={{
-              position : "fixed",
-              width : "100%",
-              display : "flex",
-              flexDirection : 'column',
-              rowGap : '1rem',
-              overflowY : "scroll",
+                position : "fixed",
+                width : "100%",
+                display : "flex",
+                flexDirection : 'column',
+                rowGap : '1rem',
+                overflowY : "scroll",
               }}>
             <NoReplyBoard user={user} token={token}/>
             <UserRecommend user={user} token={token} />
@@ -92,7 +92,6 @@ export default function MainUI({
             <i className="ri-arrow-up-line"></i>
           </S.ToTheTopButton>
         </S.BottomMenu>
-
       </S.Container>
     </>
   )

@@ -2,14 +2,16 @@ import styled from '@emotion/styled'
 
 export const CardContainer = styled.div`
     position: relative;
-    width: 650px;
+    width: 800px;
     margin: 0 auto;
+    height: 300px;
     max-height: 600px;
     padding: 16px 20px;
     border-radius: 20px;
     display: flex;
     row-gap: 1rem;
     flex-direction: column;
+    justify-content: space-between;
     transition: all 0.3s ease;
     background-color: white;
     margin-bottom: 20px;
