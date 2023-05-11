@@ -70,9 +70,11 @@ const Modal : React.FC<ModalProps> = ({
             }
             handleClose()
         };
+        document.body.style.overflow = "hidden"
         document.addEventListener("mousedown", listener)
         document.addEventListener("touchstart", listener)
         return () => {
+            document.body.style.overflow = "unset"
             document.removeEventListener("mousedown", listener)
             document.removeEventListener("touchstart", listener)
         }
