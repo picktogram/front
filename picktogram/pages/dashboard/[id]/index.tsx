@@ -1,9 +1,8 @@
+import React from 'react'
 import { userFromRequest } from '@/src/auth/tokens';
 import { GetServerSidePropsContext } from 'next';
-import React from 'react'
+
 import BoardDetail from '@/src/components/dashboard/detail/boardDetail.container';
-
-
 
 export const getServerSideProps = async (context : GetServerSidePropsContext) => {
     const data = await userFromRequest(context.req)

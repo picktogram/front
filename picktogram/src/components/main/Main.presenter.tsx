@@ -8,6 +8,7 @@ import Card from '@/src/components/commons/card/card'
 import UserMainProfile from "./components/userMainProfile"
 import UserRecommend from "./components/userRecommend"
 import NoReplyBoard from "./components/noReplyBoard"
+import ArticleModal from "../commons/modals/articleModal"
 
 type MainUIProps = {
   user : UserData;
@@ -23,16 +24,15 @@ export default function MainUI({
     handleNextPage,
 }: MainUIProps
 ) {
-  const isServer = typeof window === undefined;
-  const [isTop, setIsTop] = useState<boolean>(false);
+  const isServer = typeof window === undefined
+  const [isTop, setIsTop] = useState<boolean>(false)
+  // const [showArticle, setShowArticle] = useState<boolean>(false);
   const router = useRouter()
-
 
   const handleTop = () => {
     if(isServer) return;
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
-
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -62,12 +62,14 @@ export default function MainUI({
           {data?.pages.map((page : {list : BoardData[]}, index : number) => (
             <React.Fragment key={index}>
               {page.list.map((post , index) => (
-                <Card
-                  key={post.id}
-                  isLast={index === page.list.length -1}
-                  newLimit={handleNextPage}
-                  data={post}
-                />
+                <>
+                  <Card
+                    key={post.id}
+                    isLast={index === page.list.length -1}
+                    newLimit={handleNextPage}
+                    data={post}
+                  />
+                </>
               ))}
             </React.Fragment>
           ))}

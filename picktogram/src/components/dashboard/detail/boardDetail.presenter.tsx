@@ -78,10 +78,10 @@ export default function BoardDetailUI({
     <S.Container>
         <S.UserBox>
             <S.UserInfo>
-                <i className="ri-user-3-line"></i>
-                <span>
+                <S.ProfileImage background={data?.writer.profileImage}/>
+                <S.Username>
                     {data?.writer.nickname}
-                </span>
+                </S.Username>
             </S.UserInfo>
             <S.UserMenu onClick={() => setIsShow(!isShow)}>
                 <i className="ri-menu-line"></i>

@@ -3,28 +3,35 @@ import { useRouter } from 'next/router'
 import { CardProps } from "./card.type"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { fetcher } from '@/util/queryClient'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { tokenState } from '@/state/tokenState';
 
 import * as S from "./card.styles"
 import useScrollPos from '@/src/hooks/useScrollPos';
+import useDate from '@/src/hooks/useDate'
 
 import CardModal from './cardModal';
-import useDate from '@/src/hooks/useDate'
+import ArticleModal from '../modals/articleModal'
 
 export default function Card({
   isLast,
   newLimit,
   data,
+
 } : CardProps
 ) {
     const cardRef = useRef<any>(null);
-    const router = useRouter();
-    const token = useRecoilValue(tokenState);
-    const [isShowModal, setIsShowModal] = useState<boolean>(false);
-    const { savePos } = useScrollPos()
     const queryClient = useQueryClient()
+    const router = useRouter();
+
+    const { savePos } = useScrollPos()
+    const [isShowModal, setIsShowModal] = useState<boolean>(false)
+    const [showArticle, setShowArticle] = useState<boolean>(false)
+
     const date = useDate(data.createdAt)
+    const token = useRecoilValue(tokenState)
+
+    console.log(data.id)
 
     const { mutate : followArticle } = useMutation<{
       data : boolean
@@ -62,6 +69,7 @@ export default function Card({
     }
 
     return (
+      <>
         <S.CardContainer ref={cardRef} >
           <S.UserInfo>
             <S.ProfileImage background={data.writer.profileImage}/>
@@ -86,15 +94,18 @@ export default function Card({
                 <span>좋아요</span>
                 {/* <i className={data.writer.followStatus === 'followUp' ? 'ri-heart-fill' : 'ri-heart-line'}></i> */}
               </S.Like>
-            <S.CommentMore onClick={() => router.push(`/dashboard/${data.id}`)}>댓글보기</S.CommentMore>
+            <S.CommentMore onClick={() => setShowArticle((prev) => !prev)}>댓글보기</S.CommentMore>
           </S.Menu>
           <S.CommentsLength onClick={() => router.push(`/dashboard/${data.id}`)}>
             댓글 {data?.comments?.length}개
           </S.CommentsLength>
-
           {isShowModal &&
               <CardModal setIsShowModal={setIsShowModal} isShowModal={isShowModal} articleId={data.id}  />
           }
         </S.CardContainer>
+        {/* 게시글 모달창 */}
+        <ArticleModal articleId={data?.id} showArticle={showArticle} setShowArticle={setShowArticle} />
+      </>
+
     )
 }

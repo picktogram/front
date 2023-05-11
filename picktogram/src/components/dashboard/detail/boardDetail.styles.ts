@@ -22,7 +22,23 @@ export const UserBox = styled.div`
 export const UserInfo = styled.div`
   width: 100%;
   display: flex;
-  column-gap: .5rem;
+  column-gap: 1rem;
+  align-items: center;
+`
+export const ProfileImage = styled.div<{
+  background : string | null | undefined
+}>`
+  width: 50px;
+  height: 50px;
+  background-image: url(${(props) => props.background ? props.background : 'images/placeholder.png'});
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: 1px solid lightgray;
+  border-radius: 50%;
+`
+
+export const Username = styled.span`
+  font-size: 1.2rem;
 `
 export const BoardModalWrapper = styled.div`
   position: absolute;
