@@ -5,9 +5,8 @@ import {tokenState} from "@/state/tokenState"
 import { AxiosError } from "axios";
 import { toast } from 'react-hot-toast'
 
-export default function useUnfollow(userId : number) {
+export default function useUnfollow(userId : number, refetchFn? : () => void) {
     const token = useRecoilValue(tokenState)
-    const queryClient = useQueryClient()
 
     return useMutation<boolean, AxiosError>(["unfollow", userId], () => fetcher({
         method : "delete",
@@ -18,8 +17,7 @@ export default function useUnfollow(userId : number) {
     }),
     {
         onSuccess : (data) => {
-            queryClient.invalidateQueries(['getUser', userId])
-            queryClient.invalidateQueries(['infiniteBoard'])
+            refetchFn?.()
             toast.success('unfollow success')
         },
         onError : (error) => {

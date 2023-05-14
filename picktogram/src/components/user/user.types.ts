@@ -35,6 +35,7 @@ export interface UserBoards {
 
 export interface UserPageUIProps {
     user : UserProfile | null;
+    refetchUser : any;
     myBoard : any;
     // myBoard : UserBoards | null
     setIntroduce : React.Dispatch<React.SetStateAction<string>>;

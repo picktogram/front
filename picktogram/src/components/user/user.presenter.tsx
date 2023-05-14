@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './user.style'
 import Image from 'next/image'
 import UserCoverImage from './components/userCoverImage'
@@ -10,9 +10,11 @@ import { UserPageUIProps, UserProfile } from './user.types'
 
 import { useRecoilValue } from 'recoil'
 import { myIdState } from '@/state/tokenState'
+import { useRouter } from 'next/router';
 
 const UserUI = ({
     user,
+    refetchUser,
     myBoard,
     setIsOpen,
     uploadImage,
@@ -22,8 +24,35 @@ const UserUI = ({
 } :
     UserPageUIProps
     ) => {
+    const router = useRouter()
+    const {mutate : userUnfollow} = useUnfollow(Number(router.query.id), refetchUser)
+    const {mutate : userFollow} =  useFollow(Number(router.query.id), refetchUser)
+
     const currnetId = useRecoilValue(myIdState)
 
+    const [followButton, setFollowButton] = useState<string>('')
+
+    const handleFollow = () => {
+        if(user?.followStatus === 'follow' || user?.followStatus === 'followUp') {
+            userUnfollow()
+            setFollowButton('팔로우 하기')
+        }
+
+        if(user?.followStatus === 'nothing' || user?.followStatus === 'reverse' ) {
+            userFollow()
+            setFollowButton('팔로우 중')
+        }
+    }
+
+    useEffect(() => {
+        if(user?.followStatus === 'follow' || user?.followStatus === 'followUp') {
+            setFollowButton('팔로우 중')
+        }
+
+        if(user?.followStatus === 'nothing' || user?.followStatus === 'reverse' ) {
+            setFollowButton('팔로우 하기')
+        }
+    }, [])
     console.log('userPresenter', user?.followStatus)
 
     return (
@@ -73,21 +102,12 @@ const UserUI = ({
                                         border : 'none',
                                         backgroundColor : 'dodgerblue',
                                         color : 'white',
-                                        borderRadius : '20px'
+                                        borderRadius : '20px',
+                                        cursor : 'pointer'
                                     }}
-                                    onClick={() => {
-                                        if(user?.followStatus === 'follow') {
-                                            const {mutate : userUnfollow} = useUnfollow(user.id)
-                                            userUnfollow()
-                                        }
-
-                                        if(user?.followStatus === 'nothing') {
-                                            const {mutate : userFollow} =  useFollow(user.id)
-                                            userFollow()
-                                        }
-                                    }}
+                                    onClick={handleFollow}
                                 >
-                                    {user?.followStatus === 'follow' ? '팔로우 중' : '팔로우 하기'}
+                                    {followButton}
                                 </button>
                             )
                         }

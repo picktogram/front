@@ -89,7 +89,7 @@ const User : React.FC<PropsWithToken>= ({
         }
     }
 
-    const { data : userData } = useQuery(["fetchUsers", router.query.id], () => fetchUserProfile(token))
+    const { data : userData, refetch : refetchUserData } = useQuery(['fetchUsers', router.query.id], () => fetchUserProfile(token))
 
     const {data : boardData, fetchNextPage} = useInfiniteQuery(['infiniteMyBoard', router.query.id], ({pageParam = 1}) => infiniteFetcher({
         method : 'get',
@@ -149,6 +149,7 @@ const User : React.FC<PropsWithToken>= ({
         <>
             <UserUI
                 user={userData ? userData : null}
+                refetchUser={refetchUserData}
                 myBoard={boardData ? boardData : null}
                 setIntroduce={setIntroduce}
                 addIntroduce={addIntroduceMutate}
