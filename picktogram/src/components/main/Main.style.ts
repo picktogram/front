@@ -5,11 +5,27 @@ export const Container = styled.div`
     background-color: #f3f2ef;
     padding-top: 20px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 `
 
-export const Section = styled.div``
+export const Section = styled.div`
+`
+
+export const LeftSection = styled(Section)`
+    position: relative;
+`
+
+export const LeftContents = styled.div`
+    position: fixed;
+    width: 100%;
+    height: 800px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+`
 
 export const BottomMenu = styled.div<{
     isTop : boolean | undefined

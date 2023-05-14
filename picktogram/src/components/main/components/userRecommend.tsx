@@ -26,9 +26,7 @@ export default function UserRecommend({
         {
           acquaintanceData?.list.map((acquaintance : any) => (
             <User key={acquaintance.id}>
-              <ProfileImage background={acquaintance.profileImage} >
-
-              </ProfileImage>
+              <ProfileImage background={acquaintance.profileImage} />
               <Nickname>
                 {acquaintance.nickname}
               </Nickname>
@@ -50,26 +48,33 @@ export default function UserRecommend({
 
 const Container = styled.div`
   position: relative;
-  width: 350px;
-  height: 250px;
+  padding-left : 20px;
+  width: 400px;
+  min-height: 800px;
   background-color: white;
   border: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   border: 1px solid lightgray;
   border-radius : 20px;
 `
 
 const Acquaintance = styled.div`
-  min-height: 80%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  height: 85%;
 `
 
 const User = styled.div`
+  width: 350px;
   display: flex;
   column-gap: 1rem;
   align-items: center;
+  justify-content: space-between;
+  border: 1px solid black;
 `
 
 const ProfileImage = styled.div<{
@@ -84,6 +89,7 @@ const ProfileImage = styled.div<{
 `
 
 const Nickname = styled.div`
+  width: 50px;
 `
 
 const Reason = styled.div`

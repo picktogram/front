@@ -58,6 +58,7 @@ export default function Card({
         observer.observe(cardRef.current);
       }, [isLast]);
 
+
     const handleClick : any = () => {
       if(data) {
         savePos();

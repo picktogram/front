@@ -51,10 +51,10 @@ export default function MainUI({
     <>
       <S.Container>
 
-        <aside>
+        <div style={{border : '1px solid black'}}>
           {/* 달력 */}
           달력
-        </aside>
+        </div>
 
         <S.Section>
           <UserMainProfile user={user} token={token} />
@@ -75,25 +75,20 @@ export default function MainUI({
           ))}
         </S.Section>
 
-        <aside style={{position : "relative"}}>
-          <div style={{
-                position : "fixed",
-                width : "100%",
-                display : "flex",
-                flexDirection : 'column',
-                rowGap : '1rem',
-                overflowY : "scroll",
-              }}>
+        <S.LeftSection style={{position : 'relative'}}>
+          <S.LeftContents>
             <NoReplyBoard user={user} token={token}/>
             <UserRecommend user={user} token={token} />
-          </div>
-        </aside>
+          </S.LeftContents>
+        </S.LeftSection>
+
         <S.BottomMenu isTop={isTop}>
           <S.CreateButton onClick={() => router.push("/dashboard/new")}>게시글 작성</S.CreateButton>
           <S.ToTheTopButton onClick={handleTop}>
             <i className="ri-arrow-up-line"></i>
           </S.ToTheTopButton>
         </S.BottomMenu>
+
       </S.Container>
     </>
   )

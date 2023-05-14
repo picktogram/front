@@ -20,7 +20,7 @@ export default function NoReplyBoard({
 } : NoReplyProps) {
     const [page, setPage] = useState<number>(1)
     const router = useRouter()
-    const {data : NoReply} = useQuery(['getNoReply', page], async () => {
+    const { data : NoReply } = useQuery(['getNoReply', page], async () => {
         try {
             const response = await Apis.api.v1.articles.no_reply.getAllWithNoReply({
                 host : SERVER_URL as string,
@@ -28,8 +28,8 @@ export default function NoReplyBoard({
                     Authorization : token,
                 }
             }, {
-                page,
-                limit : 10
+                page : page,
+                limit : 6
              })
 
              return response.data
@@ -39,41 +39,55 @@ export default function NoReplyBoard({
     })
 
   return (
-        <div style={{
-            padding : '20px',
-            width : '500px',
-            minHeight : '500px',
-            height : "500px",
-            border : "1px solid lightgray",
-            borderRadius : '20px',
-            backgroundColor : "white"
-        }}>
+        <Container>
             <h2 style={{fontSize : '1.3rem'}}>
                 방문하시고 댓글을 달아보세요!
             </h2>
-            <div style={{height : '90%', marginTop : '1rem'}}>
+            <NoReplys>
                 {
                     NoReply?.list.map((board) => (
                         <div key={board.id} style={{display : 'flex', columnGap : '1rem', justifyContent : 'space-between', alignItems : 'center' , marginBottom : '1rem'}}>
                             <ProfileImage background={board.writer.profileImage} />
-                            <div>
+                            <Name>
                                 {board.writer.nickname}
-                            </div>
-                            <div>
+                            </Name>
+                            <Contents>
                                 {board.contents.length > 10 ? board.contents.substring(0, 10) + '...' : board.contents }
-                            </div>
+                            </Contents>
                             <button onClick={() => router.push(`/dashboard/${board.id}`)}>방문하기</button>
                         </div>
                     ))
                 }
-            </div>
-            <div>
-                <Pagination totalPage={NoReply?.totalPage} setPage={setPage} page={page} />
-            </div>
-        </div>
+            </NoReplys>
+            <Pagination totalPage={NoReply?.totalPage} setPage={setPage} page={page} />
+        </Container>
   )
 }
 
+const Container = styled.div`
+    padding: 20px;
+    width: 500px;
+    height: 800px;
+    border: 1px solid lightgray;
+    border-radius: 20px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+`
+const NoReplys = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  height: 85%;
+`
+
+const Name = styled.div`
+    width: 50px;
+`
+const Contents = styled.div`
+    width: 100px;
+`
 
 const ProfileImage = styled.div<{
     background : string | null | undefined

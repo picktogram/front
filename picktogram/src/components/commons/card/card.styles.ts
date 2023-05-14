@@ -15,10 +15,6 @@ export const CardContainer = styled.div`
     background-color: white;
     margin-bottom: 20px;
     border: 1px solid lightgray;
-
-    &:hover {
-      transform: scale(1.05);
-    }
 `
 
 export const UserInfo = styled.div`
@@ -42,12 +38,25 @@ export const ContentBox = styled.div`
 export const ImageBox = styled.div<{
   background : string;
 }>`
+  position: relative;
   width: 100%;
   height: 500px;
   background-image: url(${(props) => props.background ? props.background : ''});
   background-size: cover;
   background-repeat: no-repeat;
   cursor: pointer;
+
+  &:hover {
+    &::after {
+      position: absolute;
+      content: '';
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+    }
+  }
 `
 
 export const ProfileImage = styled.div<{

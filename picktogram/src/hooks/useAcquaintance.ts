@@ -15,7 +15,7 @@ export default function useAcquaintance(token : string, page : number) {
                 },
                 {
                     page,
-                    limit : 3
+                    limit : 10
                 }
             )
 

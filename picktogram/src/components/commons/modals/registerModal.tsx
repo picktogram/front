@@ -14,6 +14,7 @@ interface RegisterData {
     nickname : string;
     email : string;
     password : string;
+    phoneNumber : string;
 }
 
 const Email = styled.input`
@@ -28,6 +29,7 @@ const Email = styled.input`
 const Name = styled(Email)``
 const NickName = styled(Email)``
 const Password = styled(Email)``
+const PhoneNumber = styled(Email)``
 
 const SubmitButton = styled.button`
     width: 150px;
@@ -37,7 +39,7 @@ const SubmitButton = styled.button`
 
 const registerModal = () => {
     const [isRegisterOpen, setIsRegisterOpen] = useRecoilState(registerModalState)
-    const { register, handleSubmit } = useForm<RegisterData>({criteriaMode : 'all'});
+    const { register, handleSubmit , reset} = useForm<RegisterData>({criteriaMode : 'all'});
 
     const onClose = () => {
         setIsRegisterOpen(false)
@@ -56,8 +58,8 @@ const registerModal = () => {
                     email : data.email,
                     nickname : data.nickname,
                     password : data.password,
-                    phoneNumber : '010-0000-0000',
-                    birth : '',
+                    phoneNumber : data.phoneNumber,
+                    birth : 'string',
                     emailAdsConsent : false,
                     smsAdsConsent : false,
                     gender : true
@@ -65,6 +67,7 @@ const registerModal = () => {
             )
 
             console.log(response)
+            reset()
             onClose()
             toast.success('register success!')
 
@@ -100,6 +103,10 @@ const registerModal = () => {
                 placeholder='Password'
                 type='password'
                 {...register('password', {required : '비밀번호를 입력해주세요.'})}
+            />
+            <PhoneNumber
+               placeholder='PhoneNumber'
+               {...register('phoneNumber', {required : '전화번호를 입력해주세요.', minLength : 11 , maxLength : 13})}
             />
             <SubmitButton type='submit'>
                 Sign Up
