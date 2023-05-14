@@ -17,7 +17,6 @@ export default function Card({
   isLast,
   newLimit,
   data,
-
 } : CardProps
 ) {
     const cardRef = useRef<any>(null);
@@ -30,8 +29,6 @@ export default function Card({
 
     const date = useDate(data.createdAt)
     const token = useRecoilValue(tokenState)
-
-    console.log(data.id)
 
     const { mutate : followArticle } = useMutation<{
       data : boolean
@@ -85,9 +82,13 @@ export default function Card({
           </S.More>
           <S.ContentBox>
             <div>{data.contents}</div>
-            {/* {
-              detail?.images?.length && <S.ImageBox onClick={handleClick} background={detail?.images[0]?.url}></S.ImageBox>
-            } */}
+            {
+              data.thumbnail?.length ? (
+                <S.ImageBox background={data.thumbnail} />
+              ) : (
+                <div>{''}</div>
+              )
+            }
           </S.ContentBox>
           <S.Menu>
              <S.Like onClick={() => followArticle()}>

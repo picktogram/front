@@ -2,6 +2,7 @@ export type BoardData = {
     id : number;
     contents : string;
     createdAt : string;
+    thumbnail: string | null,
     isMine : boolean;
     comments : {
         id : number;

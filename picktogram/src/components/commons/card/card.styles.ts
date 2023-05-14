@@ -4,8 +4,7 @@ export const CardContainer = styled.div`
     position: relative;
     width: 800px;
     margin: 0 auto;
-    height: 300px;
-    max-height: 600px;
+    min-height: 300px;
     padding: 16px 20px;
     border-radius: 20px;
     display: flex;
@@ -44,11 +43,10 @@ export const ImageBox = styled.div<{
   background : string;
 }>`
   width: 100%;
-  background-color: lightgray;
+  height: 500px;
   background-image: url(${(props) => props.background ? props.background : ''});
   background-size: cover;
   background-repeat: no-repeat;
-  height: 300px;
   cursor: pointer;
 `
 
