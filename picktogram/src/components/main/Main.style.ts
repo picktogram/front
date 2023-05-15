@@ -1,16 +1,38 @@
+import { mediaQuery } from '@/styles/media'
 import styled from '@emotion/styled'
 
 export const Container = styled.div`
     position: relative;
     background-color: #f3f2ef;
     padding-top: 20px;
-    display: grid;
     width: 100%;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    display: flex;
+    flex-direction: column-reverse;
+
+    ${mediaQuery[3]} {
+        margin: 0 auto;
+        width: 1200px;
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    ${mediaQuery[4]}{
+        width: 1800px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+
+    }
 `
 
 export const Section = styled.div`
+`
+
+export const RightSection = styled.div`
+    display: none;
+
+    ${mediaQuery[4]} {
+        display: block;
+    }
 `
 
 export const LeftSection = styled(Section)`
@@ -18,13 +40,17 @@ export const LeftSection = styled(Section)`
 `
 
 export const LeftContents = styled.div`
-    position: fixed;
     width: 100%;
     height: 800px;
-    overflow-y: scroll;
-    display: flex;
     flex-direction: column;
-    row-gap: 1rem;
+    display: none;
+
+    ${mediaQuery[3]} {
+        display: flex;
+        row-gap: 1rem;
+        position: fixed;
+        overflow-y: scroll;
+    }
 `
 
 export const BottomMenu = styled.div<{

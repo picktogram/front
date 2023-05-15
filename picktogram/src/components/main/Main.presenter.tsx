@@ -51,10 +51,10 @@ export default function MainUI({
     <>
       <S.Container>
 
-        <div style={{border : '1px solid black'}}>
+        <S.RightSection style={{border : '1px solid black'}}>
           {/* 달력 */}
           달력
-        </div>
+        </S.RightSection>
 
         <S.Section>
           <UserMainProfile user={user} token={token} />
