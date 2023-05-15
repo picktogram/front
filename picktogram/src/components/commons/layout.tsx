@@ -23,7 +23,6 @@ export default function Layout(props : PropsWithChildren) {
         <link rel="icon" href="/favicon.ico"/>
       </Head>
       <div>
-        {!isHiddenHeader && <Header />}
         <div style={{ backgroundColor : '#f3f2ef', padding : '0', margin : '0'}}>{props.children}</div>
       </div>
     </div>

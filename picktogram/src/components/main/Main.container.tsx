@@ -9,6 +9,7 @@ import ReactGA from 'react-ga'
 import { useSetRecoilState } from 'recoil'
 import { userState } from '@/state/userState'
 import { UserFromRequest } from '@/src/auth/tokens'
+import Header from '../commons/layout/header'
 
 export default function Main({
     token,
@@ -47,11 +48,15 @@ export default function Main({
       }
 
     return (
-      <MainUI
-        user={user}
-        token={token}
-        data={data}
-        handleNextPage={handleNextPage}
-      />
+      <>
+        <Header token={token}/>
+        <MainUI
+          user={user}
+          token={token}
+          data={data}
+          handleNextPage={handleNextPage}
+        />
+      </>
+
     )
 }

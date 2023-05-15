@@ -4,6 +4,7 @@ import User from '@/src/components/user/user.container'
 
 import { userFromRequest } from '@/src/auth/tokens';
 import { GetServerSidePropsContext } from 'next'
+import Header from '@/src/components/commons/layout/header';
 
 interface UserPageProps {
     user : {
@@ -38,6 +39,7 @@ const UserPage : React.FC<UserPageProps> = ({
 }) => {
     return (
         <div>
+            <Header token={token}/>
             <div style={{
                 width : '1600px',
                 margin : '0 auto',

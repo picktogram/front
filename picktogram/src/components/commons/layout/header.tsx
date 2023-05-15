@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
+import { tokenState } from '@/state/tokenState'
 import { userState } from '@/state/userState'
 import { userModalState } from '@/state/userModalState'
 import { searchBarState } from '@/state/searchBarState';
@@ -8,21 +9,15 @@ import { useRouter } from "next/router"
 import styled from '@emotion/styled'
 
 import UserModal from '../modals/userModal';
+import { mediaQuery } from '@/styles/media';
+import useCurrentUser from '@/src/hooks/useCurrentUser';
 
-export default function Header() {
-  const router = useRouter()
-
-  const user = useRecoilValue(userState)
+export default function Header({token} : {token : string}) {
   const setShowModal = useSetRecoilState(userModalState)
-
   const [showSearchBar, setShowSearchBar] = useRecoilState(searchBarState)
-  const [nickName, setNickName] = useState<string>('')
 
-  useEffect(() => {
-    if(user?.nickname){
-      setNickName(user.nickname)
-    }
-  }, [user?.nickname])
+  const router = useRouter()
+  const user = useCurrentUser(token as string)
 
   return (
     <HeaderContainer>
@@ -40,10 +35,8 @@ export default function Header() {
 
         {/* 유저 정보 */}
         <UserInfo>
-          <UserIcon onClick={() => setShowModal((prev) => !prev)}>
-            <i className="ri-user-3-line"></i>
-          </UserIcon>
-          <div>안녕하세요. {nickName} 디자이너님 환영합니다!</div>
+          <UserIcon onClick={() => setShowModal((prev) => !prev)} background={user?.profileImage}/>
+          <Welcome>안녕하세요. {user?.nickname} 디자이너님 환영합니다!</Welcome>
         </UserInfo>
         <UserModal/>
     </HeaderContainer>
@@ -79,8 +72,14 @@ const SearchBar = styled.form<{showSearchBar : boolean}>`
   height: 76px;
   background-color: white;
   box-shadow: 0 4px 24px hsla(222, 68%, 12%, .1);
+  border: 1px solid lightgray;
   border-radius: 4rem;
   transition: width .5s cubic-bezier(.9, 0 ,.3, .9);
+
+  ${mediaQuery[3]} {
+    width: 600px;
+  }
+
 `
 const SearchInput = styled.input<{showSearchBar : boolean}>`
     border: none;
@@ -100,7 +99,7 @@ const SearchInput = styled.input<{showSearchBar : boolean}>`
 const SearchButton = styled.div<{showSearchBar : boolean}>`
     width: 56px;
     height: 56px;
-    background-color: black;
+    background-color: dodgerblue;
     border-radius: 50%;
     position: absolute;
     top: 0;
@@ -140,18 +139,36 @@ const UserInfo = styled.div`
     column-gap: 10px;
 `
 
-const UserIcon = styled.div`
+const UserIcon = styled.div<{
+  background : string | null | undefined
+}>`
+  position: relative;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  padding: 5px;
   border: 1px solid gray;
-  font-size: 32px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+  background-image: url(${(props) => props.background ? props.background : 'images/placeholder.png'});
+  background-repeat: no-repeat;
+  background-size: cover;
 
-  & i {
-    color : gray
+  &:hover {
+    &::after {
+      position: absolute;
+      content: '';
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: rgba(0,0,0,0.4);
+    }
+  }
+`
+const Welcome = styled.div`
+  display: none;
+
+  ${mediaQuery[3]} {
+    display: block;
   }
 `
 

@@ -13,6 +13,7 @@ import { isBusinessErrorGuard } from 'picktogram-server-apis/config/errors';
 import UserIntroduceModal from '../commons/modals/userIntroduceModal';
 import useImageUpload from '@/src/hooks/useImageUpload';
 import { fetcher, infiniteFetcher } from '@/util/queryClient';
+import Header from '../commons/layout/header';
 
 const User : React.FC<PropsWithToken>= ({
     token
@@ -166,7 +167,6 @@ const User : React.FC<PropsWithToken>= ({
                 onSubmit={() => addIntroduceMutate()}
             />
         </>
-
     );
 };
 

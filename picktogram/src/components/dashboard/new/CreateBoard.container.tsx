@@ -8,6 +8,7 @@ import { useRecoilState } from "recoil"
 import { boardBeforeSave } from "@/state/boardBeforeSave"
 import { useRouter } from 'next/router'
 import useCurrentUser from '@/src/hooks/useCurrentUser'
+import Header from '../../commons/layout/header'
 
 export default function CreateBoard({
     token,
@@ -103,19 +104,23 @@ export default function CreateBoard({
 
 
   return (
-    <CreateBoardUI
-        token={token}
-        images={images}
-        setImages={setImages}
-        count={count}
-        setCount={setCount}
-        contents={contents}
-        setContents={setContents}
-        currentUser={currentUser}
-        createBoard={createBoard}
-        handleSubmit={handleSubmit}
-        handleEditSubmit={handleEditSubmit}
-        isEdit={isEdit}
-    />
+    <>
+      <Header token={token}/>
+      <CreateBoardUI
+          token={token}
+          images={images}
+          setImages={setImages}
+          count={count}
+          setCount={setCount}
+          contents={contents}
+          setContents={setContents}
+          currentUser={currentUser}
+          createBoard={createBoard}
+          handleSubmit={handleSubmit}
+          handleEditSubmit={handleEditSubmit}
+          isEdit={isEdit}
+      />
+    </>
+
   )
 }
