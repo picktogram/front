@@ -79,7 +79,6 @@ const SearchBar = styled.form<{showSearchBar : boolean}>`
   ${mediaQuery[3]} {
     width: 600px;
   }
-
 `
 const SearchInput = styled.input<{showSearchBar : boolean}>`
     border: none;
