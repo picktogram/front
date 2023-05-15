@@ -2,7 +2,7 @@ export type BoardData = {
     id : number;
     contents : string;
     createdAt : string;
-    thumbnail: string | null,
+    thumbnail: string | null | undefined,
     isMine : boolean;
     comments : {
         id : number;
@@ -14,7 +14,7 @@ export type BoardData = {
         id : number;
         nickname : string;
         profileImage : string | null
-        followStatus : 'followUp' | 'noting';
+        followStatus : string
     }
  }
 

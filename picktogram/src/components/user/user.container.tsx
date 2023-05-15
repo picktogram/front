@@ -14,6 +14,7 @@ import UserIntroduceModal from '../commons/modals/userIntroduceModal';
 import useImageUpload from '@/src/hooks/useImageUpload';
 import { fetcher, infiniteFetcher } from '@/util/queryClient';
 import Header from '../commons/layout/header';
+import useInfiniteArticle from '@/src/hooks/useInfiniteArticle';
 
 const User : React.FC<PropsWithToken>= ({
     token
@@ -92,18 +93,7 @@ const User : React.FC<PropsWithToken>= ({
 
     const { data : userData, refetch : refetchUserData } = useQuery(['fetchUsers', router.query.id], () => fetchUserProfile(token))
 
-    const {data : boardData, fetchNextPage} = useInfiniteQuery(['infiniteMyBoard', router.query.id], ({pageParam = 1}) => infiniteFetcher({
-        method : 'get',
-        path : `/api/v1/articles?writerId=${router.query.id}&limit=100&page=`,
-        headers : {
-            Authorization : token
-        },
-        page : pageParam
-    }), {
-        getNextPageParam : (lastPage) => {
-            return lastPage.page == lastPage.totalPage ? undefined : Number(lastPage.page) + 1
-        }
-    })
+    const {data : boardData, fetchNextPage} = useInfiniteArticle(token, Number(router.query.id))
 
     // const {data : followees} = useQuery(['getFollowees', router.query.id], async () => {
     //     try {
@@ -115,7 +105,12 @@ const User : React.FC<PropsWithToken>= ({
     //         },
     //             Number(router.query.id)
     //         )
-    //         return response.data.data
+
+    //         if(isBusinessErrorGuard(response)) {
+    //             return;
+    //         }
+
+    //         return response.data
     //     } catch (error) {
     //         console.log(error)
     //     }
@@ -131,7 +126,7 @@ const User : React.FC<PropsWithToken>= ({
         }
     })
 
-    const {mutate : addCoverImageMutate } = useMutation('addCoverImage', (image : string) => addCoverImage(token, image) , {
+    const { mutate : addCoverImageMutate } = useMutation('addCoverImage', (image : string) => addCoverImage(token, image) , {
         onSuccess : () => {
             queryClient.invalidateQueries(["fetchUsers", router.query.id])
         }
@@ -143,8 +138,6 @@ const User : React.FC<PropsWithToken>= ({
             addCoverImageMutate(data[0])
         }
     })
-
-    console.log('user', userData)
 
     return (
         <>

@@ -1,4 +1,6 @@
+import { InfiniteArticle } from "@/src/hooks/useInfiniteArticle";
 import { UserBridgeType } from "picktogram-server-apis/types";
+import { InfiniteData } from "react-query";
 
 export interface PropsWithToken {
     token : string;
@@ -36,7 +38,7 @@ export interface UserBoards {
 export interface UserPageUIProps {
     user : UserProfile | null;
     refetchUser : any;
-    myBoard : any;
+    myBoard : InfiniteData<InfiniteArticle> | null | undefined;
     // myBoard : UserBoards | null
     setIntroduce : React.Dispatch<React.SetStateAction<string>>;
     addIntroduce : () => void;

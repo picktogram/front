@@ -27,10 +27,10 @@ const UserUI = ({
     const router = useRouter()
     const {mutate : userUnfollow} = useUnfollow(Number(router.query.id), refetchUser)
     const {mutate : userFollow} =  useFollow(Number(router.query.id), refetchUser)
-
-    const currnetId = useRecoilValue(myIdState)
+    const curretId = useRecoilValue(myIdState)
 
     const [followButton, setFollowButton] = useState<string>('')
+    const [isSame, setIsSame] = useState<boolean>(false)
 
     const handleFollow = () => {
         if(user?.followStatus === 'follow' || user?.followStatus === 'followUp') {
@@ -53,62 +53,49 @@ const UserUI = ({
             setFollowButton('팔로우 하기')
         }
     }, [])
-    console.log('userPresenter', user?.followStatus)
 
+    useEffect(() => {
+        if(!curretId) return
+
+        if(curretId == user?.id) {
+            setIsSame(true)
+        } else {
+            setIsSame(false)
+        }
+    }, [curretId, user?.id])
+
+    console.log(myBoard)
     return (
          <S.Container>
             <S.LeftSection>
                 <UserCoverImage
                     uploadImage={uploadImage}
                     coverImage={coverImage}
-                    isCurrentUser={user?.id === currnetId}
+                    isCurrentUser={isSame}
                 />
                 <S.UserInfo>
                     <S.ProfileImage
                         background={user?.profileImage}
                     />
-                    <p style={{fontSize: '3rem'}}>{user?.name}</p>
-                    <p>{user?.nickname && user?.name}</p>
-                    <div style={{
-                        width : '100%',
-                        display : 'flex',
-                        justifyContent : 'space-between'
-                    }}>
+                    <S.UserName>{user?.name}</S.UserName>
+                    <S.UserNickName>{user?.nickname && user?.name}</S.UserNickName>
+                    <S.UserIntroduce>
                         {
-                            user?.id === currnetId && (
-                                <button
-                                    style={{
-                                        width : '150px',
-                                        height : '50px',
-                                        padding : '1rem',
-                                        border : 'none',
-                                        backgroundColor : 'dodgerblue',
-                                        color : 'white',
-                                        borderRadius : '20px'
-                                    }}
+                            isSame && (
+                                <S.Button
                                     onClick={() => setIsOpen(true)}
                                 >
                                     소개글 추가
-                                </button>
+                                </S.Button>
                             )
                         }
                         {
-                            user?.id !== currnetId && (
-                                <button
-                                    style={{
-                                        width : '150px',
-                                        height : '50px',
-                                        padding : '1rem',
-                                        border : 'none',
-                                        backgroundColor : 'dodgerblue',
-                                        color : 'white',
-                                        borderRadius : '20px',
-                                        cursor : 'pointer'
-                                    }}
+                            !isSame && (
+                                <S.Button
                                     onClick={handleFollow}
                                 >
                                     {followButton}
-                                </button>
+                                </S.Button>
                             )
                         }
 
@@ -117,20 +104,20 @@ const UserUI = ({
                                 user?.introduce ? user.introduce : '소개글을 추가해주세요.'
                             }
                         </p>
-                    </div>
+                    </S.UserIntroduce>
                 </S.UserInfo>
                 <S.UserArticle>
-                {myBoard?.pages.map((page : any, index : number) => (
-                    <React.Fragment key={index}>
-                        {page.list.map((post : any , index : number) => (
-                            <Card
-                                key={post.id}
-                                isLast={index === page.list.length - 1}
-                                newLimit={handleNextPage}
-                                data={post}
-                            />
-                        ))}
-                    </React.Fragment>
+                {myBoard?.pages.map((page) => (
+                        <React.Fragment key={page.page}>
+                            {page.list.map((post , index : number) => (
+                                <Card
+                                    key={post.id}
+                                    isLast={index === page.list.length - 1}
+                                    newLimit={handleNextPage}
+                                    data={post}
+                                />
+                            ))}
+                        </React.Fragment>
                     ))}
                 </S.UserArticle>
             </S.LeftSection>

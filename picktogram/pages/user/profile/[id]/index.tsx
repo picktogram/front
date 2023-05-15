@@ -40,18 +40,9 @@ const UserPage : React.FC<UserPageProps> = ({
     return (
         <div>
             <Header token={token}/>
-            <div style={{
-                width : '1600px',
-                margin : '0 auto',
-                border : '1px solid black',
-                minHeight : '100vh',
-                padding : '1rem',
-                backgroundColor : 'white'
-          }}>
-                <User
-                    token={token}
-                />
-            </div>
+            <User
+                token={token}
+            />
         </div>
     );
 };
