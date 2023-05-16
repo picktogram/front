@@ -15,6 +15,7 @@ import useImageUpload from '@/src/hooks/useImageUpload';
 import { fetcher, infiniteFetcher } from '@/util/queryClient';
 import Header from '../commons/layout/header';
 import useInfiniteArticle from '@/src/hooks/useInfiniteArticle';
+import useFollowees from '@/src/hooks/useFollowees';
 
 const User : React.FC<PropsWithToken>= ({
     token
@@ -101,10 +102,12 @@ const User : React.FC<PropsWithToken>= ({
     //             host : SERVER_URL as string,
     //             headers : {
     //                 Authorization : token
-    //             }
+    //             },
     //         },
     //             Number(router.query.id)
     //         )
+
+    //         console.log('followee response', response)
 
     //         if(isBusinessErrorGuard(response)) {
     //             return;
@@ -115,6 +118,8 @@ const User : React.FC<PropsWithToken>= ({
     //         console.log(error)
     //     }
     // })
+
+    const { data : followees } = useFollowees(token, Number(router.query.id), 1)
 
     const handleNextPage = () => {
         fetchNextPage()
@@ -145,6 +150,7 @@ const User : React.FC<PropsWithToken>= ({
                 user={userData ? userData : null}
                 refetchUser={refetchUserData}
                 myBoard={boardData ? boardData : null}
+                followees={followees ? followees : null}
                 setIntroduce={setIntroduce}
                 addIntroduce={addIntroduceMutate}
                 setIsOpen={setIsOpen}
@@ -152,6 +158,7 @@ const User : React.FC<PropsWithToken>= ({
                 setCoverImage={setCoverImage}
                 uploadImage={uploadImage}
                 handleNextPage={handleNextPage}
+                token={token}
             />
             <UserIntroduceModal
                 setIntroduce={setIntroduce}

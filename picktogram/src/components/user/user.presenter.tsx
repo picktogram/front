@@ -11,16 +11,19 @@ import { UserPageUIProps, UserProfile } from './user.types'
 import { useRecoilValue } from 'recoil'
 import { myIdState } from '@/state/tokenState'
 import { useRouter } from 'next/router';
+import UserFollowees from './components/userFollowees';
 
 const UserUI = ({
     user,
     refetchUser,
     myBoard,
+    followees,
     setIsOpen,
     uploadImage,
     coverImage,
     setCoverImage,
     handleNextPage,
+    token
 } :
     UserPageUIProps
     ) => {
@@ -124,13 +127,11 @@ const UserUI = ({
             {/* 유저 정보 */}
 
 
-          <div>
+          <S.RightSection>
             {/* 추천 유저 */}
-            <div>
-                안뇽
-            </div>
+            <UserFollowees token={token} />
 
-          </div>
+          </S.RightSection>
 
 
         </S.Container>

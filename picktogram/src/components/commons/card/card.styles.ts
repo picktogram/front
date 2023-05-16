@@ -1,8 +1,9 @@
+import { mediaQuery } from '@/styles/media'
 import styled from '@emotion/styled'
 
 export const CardContainer = styled.div`
     position: relative;
-    width: 800px;
+    width: 95%;
     margin: 0 auto;
     min-height: 300px;
     padding: 16px 20px;
@@ -15,6 +16,10 @@ export const CardContainer = styled.div`
     background-color: white;
     margin-bottom: 20px;
     border: 1px solid lightgray;
+
+    ${mediaQuery[3]} {
+      width: 800px;
+    }
 `
 
 export const UserInfo = styled.div`

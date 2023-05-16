@@ -1,3 +1,4 @@
+import { Followees } from "@/src/hooks/useFollowees";
 import { InfiniteArticle } from "@/src/hooks/useInfiniteArticle";
 import { UserBridgeType } from "picktogram-server-apis/types";
 import { InfiniteData } from "react-query";
@@ -47,4 +48,10 @@ export interface UserPageUIProps {
     setCoverImage : React.Dispatch<React.SetStateAction<string[]>>;
     uploadImage : (data : any) => void;
     handleNextPage : () => void;
+    followees : Followees | null;
+    token : string;
+}
+
+export interface UserFolloweesProps {
+    token : string;
 }

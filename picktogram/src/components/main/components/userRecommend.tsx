@@ -74,7 +74,6 @@ const User = styled.div`
   column-gap: 1rem;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid black;
 `
 
 const ProfileImage = styled.div<{

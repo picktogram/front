@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 export const Container = styled.div`
     display: grid;
     grid-template-columns: 70% 30%;
-    gap: 1rem;
     background-color: white;
     border: 1px solid lightgray;
 
@@ -21,6 +20,13 @@ export const LeftSection = styled.div`
     align-items: center;
     gap: 1rem;
     border-right: 1px solid lightgray;
+`
+
+export const RightSection = styled.div`
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
 `
 
 export const UserInfo = styled.div`
