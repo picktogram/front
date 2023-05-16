@@ -64,7 +64,7 @@ const UserFollowees : React.FC<UserFolloweesProps> = ({
                     <Name>
                         {followee.nickname}
                     </Name>
-                    <Button onClick={() => router.push(`user/profile/${followee.id}`) }>
+                    <Button onClick={() => router.push(`/user/profile/${followee.id}`) }>
                         <i className="ri-arrow-right-line"></i>
                     </Button>
                 </Followee>

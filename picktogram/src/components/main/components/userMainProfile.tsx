@@ -5,6 +5,7 @@ import { useQuery } from 'react-query'
 import { fetcher } from '@/util/queryClient'
 import { UserData } from '@/src/auth/tokens'
 import useCurrentUser from '@/src/hooks/useCurrentUser'
+import { mediaQuery } from '@/styles/media'
 
 type UserMainProfileProps = {
     user : UserData;
@@ -87,7 +88,7 @@ export default function UserMainProfile({
 
 
 const Container = styled.div`
-    width : 800px;
+    width : 95%;
     margin: 0 auto;
     min-height: 100px;
     background-color: white;
@@ -97,6 +98,10 @@ const Container = styled.div`
     padding: 1rem;
     margin-bottom: 20px;
     border : 1px solid lightgray;
+
+    ${mediaQuery[3]} {
+        width: 800px;
+    }
 `
 
 const UserInfoWrapper = styled.div`

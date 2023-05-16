@@ -51,9 +51,8 @@ export default function MainUI({
     <>
       <S.Container>
 
-        <S.RightSection style={{border : '1px solid black'}}>
+        <S.RightSection >
           {/* 달력 */}
-          달력
         </S.RightSection>
 
         <S.Section>
