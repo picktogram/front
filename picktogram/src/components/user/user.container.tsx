@@ -10,7 +10,7 @@ import { toast } from 'react-hot-toast'
 import { SERVER_URL } from '@/util/constant';
 import { PropsWithToken, UserBoards } from './user.types';
 import { isBusinessErrorGuard } from 'picktogram-server-apis/config/errors';
-import UserIntroduceModal from '../commons/modals/userIntroduceModal';
+import UserProfileModal from '../commons/modals/userProfileModal';
 import useImageUpload from '@/src/hooks/useImageUpload';
 import { fetcher, infiniteFetcher } from '@/util/queryClient';
 import Header from '../commons/layout/header';
@@ -22,7 +22,6 @@ const User : React.FC<PropsWithToken>= ({
 }) => {
     const router = useRouter()
     const queryClient = useQueryClient()
-    const [introduce, setIntroduce] = useState<string>('')
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [coverImage, setCoverImage] = useState<string[]>([])
 
@@ -52,26 +51,6 @@ const User : React.FC<PropsWithToken>= ({
         }
       }
 
-    const addIntroduce = async (token : string, introduce : string) => {
-        try {
-            const response = await Apis.api.v1.users.profile.updateProfile({
-                host : String(SERVER_URL),
-                headers : {
-                    Authorization : token
-                }
-            }, {
-                introduce : introduce
-            })
-
-            if(isBusinessErrorGuard(response)) {
-                return;
-            }
-            return response.data
-        } catch (error) {
-            throw error
-        }
-    }
-
     const addCoverImage = async (token : string, image : string) => {
         try {
             const response = await Apis.api.v1.users.profile.updateProfile({
@@ -96,40 +75,9 @@ const User : React.FC<PropsWithToken>= ({
 
     const {data : boardData, fetchNextPage} = useInfiniteArticle(token, Number(router.query.id))
 
-    // const {data : followees} = useQuery(['getFollowees', router.query.id], async () => {
-    //     try {
-    //         const response = await Apis.api.v1.users.followees.checkFollowees({
-    //             host : SERVER_URL as string,
-    //             headers : {
-    //                 Authorization : token
-    //             },
-    //         },
-    //             Number(router.query.id)
-    //         )
-
-    //         console.log('followee response', response)
-
-    //         if(isBusinessErrorGuard(response)) {
-    //             return;
-    //         }
-
-    //         return response.data
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // })
-
-    const { data : followees } = useFollowees(token, Number(router.query.id), 1)
-
     const handleNextPage = () => {
         fetchNextPage()
     }
-
-    const { mutate : addIntroduceMutate } = useMutation('addIntroduce', () => addIntroduce(token, introduce) , {
-        onSuccess : () => {
-            queryClient.invalidateQueries(["fetchUsers", router.query.id])
-        }
-    })
 
     const { mutate : addCoverImageMutate } = useMutation('addCoverImage', (image : string) => addCoverImage(token, image) , {
         onSuccess : () => {
@@ -150,21 +98,16 @@ const User : React.FC<PropsWithToken>= ({
                 user={userData ? userData : null}
                 refetchUser={refetchUserData}
                 myBoard={boardData ? boardData : null}
-                followees={followees ? followees : null}
-                setIntroduce={setIntroduce}
-                addIntroduce={addIntroduceMutate}
                 setIsOpen={setIsOpen}
-                coverImage={userData?.coverImage ? userData.coverImage : ''}
-                setCoverImage={setCoverImage}
                 uploadImage={uploadImage}
                 handleNextPage={handleNextPage}
                 token={token}
             />
-            <UserIntroduceModal
-                setIntroduce={setIntroduce}
+            <UserProfileModal
+                token={token}
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
-                onSubmit={() => addIntroduceMutate()}
+                refetchUser={refetchUserData}
             />
         </>
     );

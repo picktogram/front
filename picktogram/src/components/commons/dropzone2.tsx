@@ -25,6 +25,7 @@ const Dropzone2 : React.FC<DropzoneProps>= ({
                 top : '0',
                 zIndex : '10'
             }}/>
+
         </div>
     );
 };

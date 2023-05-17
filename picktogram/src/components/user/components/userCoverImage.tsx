@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 
 interface UserCoverImageProps {
     uploadImage : (data : any) => void;
-    coverImage : string;
+    coverImage : string | null | undefined;
     isCurrentUser : boolean;
 }
 
@@ -40,13 +40,13 @@ const userCoverImage = ({
 
     return (
         <Container>
-            {
+            {/* {
                 isCurrentUser &&
                 <Dropzone2
                     uploadImage={uploadImage}
                     label='이미지를 추가하세요.'
                 />
-            }
+            } */}
             <ImageBox background={coverImage ? coverImage : ''} />
         </Container>
     );

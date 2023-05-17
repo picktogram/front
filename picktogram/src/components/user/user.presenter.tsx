@@ -17,11 +17,8 @@ const UserUI = ({
     user,
     refetchUser,
     myBoard,
-    followees,
     setIsOpen,
     uploadImage,
-    coverImage,
-    setCoverImage,
     handleNextPage,
     token
 } :
@@ -67,13 +64,12 @@ const UserUI = ({
         }
     }, [curretId, user?.id])
 
-    console.log(myBoard)
     return (
          <S.Container>
             <S.LeftSection>
                 <UserCoverImage
                     uploadImage={uploadImage}
-                    coverImage={coverImage}
+                    coverImage={user?.coverImage}
                     isCurrentUser={isSame}
                 />
                 <S.UserInfo>
@@ -88,7 +84,7 @@ const UserUI = ({
                                 <S.Button
                                     onClick={() => setIsOpen(true)}
                                 >
-                                    소개글 추가
+                                    프로필 수정
                                 </S.Button>
                             )
                         }

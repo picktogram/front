@@ -40,15 +40,9 @@ export interface UserPageUIProps {
     user : UserProfile | null;
     refetchUser : any;
     myBoard : InfiniteData<InfiniteArticle> | null | undefined;
-    // myBoard : UserBoards | null
-    setIntroduce : React.Dispatch<React.SetStateAction<string>>;
-    addIntroduce : () => void;
     setIsOpen : React.Dispatch<React.SetStateAction<boolean>>;
-    coverImage : string;
-    setCoverImage : React.Dispatch<React.SetStateAction<string[]>>;
     uploadImage : (data : any) => void;
     handleNextPage : () => void;
-    followees : Followees | null;
     token : string;
 }
 

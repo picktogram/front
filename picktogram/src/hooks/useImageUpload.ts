@@ -21,7 +21,6 @@ export default function useImageUpload (key : string, token : string, onSuccess?
         }
     }, {
         onSuccess : (data) => {
-            console.log(data)
             if(onSuccess === undefined) return;
 
             onSuccess(data)
