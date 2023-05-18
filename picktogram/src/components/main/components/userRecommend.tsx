@@ -22,6 +22,9 @@ export default function UserRecommend({
 
   return (
     <Container>
+      <h2 style={{marginBottom : '1rem'}}>
+        추천 유저
+      </h2>
       <Acquaintance>
         {
           acquaintanceData?.list.map((acquaintance : any) => (
@@ -45,12 +48,11 @@ export default function UserRecommend({
   )
 }
 
-
 const Container = styled.div`
-  position: relative;
-  padding-left : 20px;
+  padding : 20px;
   width: 400px;
-  min-height: 800px;
+  height: auto;
+  max-height: 1000px;
   background-color: white;
   border: none;
   display: flex;
@@ -65,7 +67,7 @@ const Acquaintance = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
-  height: 85%;
+  margin-bottom: 1rem;
 `
 
 const User = styled.div`
@@ -113,6 +115,5 @@ const FollowButton = styled.button`
 `
 
 const RecommendPagination = styled(Pagination)`
-  position: absolute;
-  bottom: 0;
+  width: 50px;
 `

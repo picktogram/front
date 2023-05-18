@@ -51,13 +51,18 @@ const UserFollowees : React.FC<UserFolloweesProps> = ({
     const { data : followees} = useFollowees(token, Number(router.query.id), page)
 
 
-    if(!followees) {
-        return <h2>팔로우한 친구가 없습니다. 팔로우 해보세요.</h2>
+    if(!followees?.list.length) {
+        return (
+            <Container>
+            <h2>팔로워</h2>
+            <div>팔로워가 없습니다. 다양한 활동을 통해 팔로워를 늘려보세요.</div>
+        </Container>
+        )
     }
 
     return (
         <Container>
-            <h2>팔로잉</h2>
+            <h2>팔로워</h2>
             {followees.list.map((followee) => (
                 <Followee>
                     <ProfileImage profileImage={followee?.profileImage} isCircle={true}/>
