@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
-import { tokenState } from '@/state/tokenState'
-import { userState } from '@/state/userState'
+import React from 'react'
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userModalState } from '@/state/userModalState'
 import { searchBarState } from '@/state/searchBarState';
 import { useRouter } from "next/router"
+import { mediaQuery } from '@/styles/media';
 
 import styled from '@emotion/styled'
+import useCurrentUser from '@/src/hooks/useCurrentUser';
 
 import UserModal from '../modals/userModal';
-import { mediaQuery } from '@/styles/media';
-import useCurrentUser from '@/src/hooks/useCurrentUser';
+import ProfileImage from '../profileImage';
 
 export default function Header({token} : {token : string}) {
   const setShowModal = useSetRecoilState(userModalState)
@@ -18,6 +17,10 @@ export default function Header({token} : {token : string}) {
 
   const router = useRouter()
   const user = useCurrentUser(token as string)
+
+  if(!user) {
+    <div>로딩중..</div>
+  }
 
   return (
     <HeaderContainer>
@@ -35,10 +38,14 @@ export default function Header({token} : {token : string}) {
 
         {/* 유저 정보 */}
         <UserInfo>
-          <UserIcon onClick={() => setShowModal((prev) => !prev)} background={user?.profileImage}/>
+          <ProfileImage
+            onClick={() => setShowModal((prev) => !prev)}
+            isCircle={true}
+            profileImage={user?.profileImage}
+          />
           <Welcome>안녕하세요. {user?.nickname} 디자이너님 환영합니다!</Welcome>
         </UserInfo>
-        <UserModal/>
+        <UserModal userId={user?.id} profileImage={user?.profileImage} username={user?.nickname}/>
     </HeaderContainer>
   )
 }
@@ -136,32 +143,6 @@ const UserInfo = styled.div`
     display: flex;
     align-items: center;
     column-gap: 10px;
-`
-
-const UserIcon = styled.div<{
-  background : string | null | undefined
-}>`
-  position: relative;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 1px solid gray;
-  background-image: url(${(props) => props.background ? props.background : 'images/placeholder.png'});
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  &:hover {
-    &::after {
-      position: absolute;
-      content: '';
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background-color: rgba(0,0,0,0.4);
-    }
-  }
 `
 const Welcome = styled.div`
   display: none;

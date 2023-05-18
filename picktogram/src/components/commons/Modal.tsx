@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react'
+import { mediaQuery } from '@/styles/media';
 import styled from '@emotion/styled';
 
 interface ModalProps {
@@ -24,15 +25,33 @@ const ModalContainer = styled.div`
 `
 
 const ModalContents = styled.div`
-    width: 50%;
-    height: auto;
-    background-color: black;
+    width: 80%;
+    height: 80%;
+    background-color: #242526;
     border-radius: 20px;
     padding: 20px;
     color : white;
     display: flex;
     flex-direction: column;
 
+    ${mediaQuery[3]} {
+        width: 800px;
+        height: auto;
+        max-height: 1500px;
+    }
+
+`
+
+const CloseButton = styled.button`
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid lightgray;
+    border-radius: 50%;
+    color : black;
+    font-size: 1.2rem;
 `
 
 const ModalHeader = styled.header`
@@ -98,10 +117,10 @@ const Modal : React.FC<ModalProps> = ({
         <ModalContainer>
             <ModalContents ref={ref}>
                 <ModalHeader>
-                    <h3>{title}</h3>
-                    <button onClick={handleClose}>
+                    <h2>{title}</h2>
+                    <CloseButton onClick={handleClose}>
                          <i className="ri-close-line"></i>
-                    </button>
+                    </CloseButton>
                 </ModalHeader>
                 <ModalBody>
                     {body}
