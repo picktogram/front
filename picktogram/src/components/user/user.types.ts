@@ -41,7 +41,6 @@ export interface UserPageUIProps {
     refetchUser : any;
     myBoard : InfiniteData<InfiniteArticle> | null | undefined;
     setIsOpen : React.Dispatch<React.SetStateAction<boolean>>;
-    uploadImage : (data : any) => void;
     handleNextPage : () => void;
     token : string;
 }

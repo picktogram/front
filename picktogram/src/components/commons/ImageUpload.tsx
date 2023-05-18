@@ -58,7 +58,7 @@ const ImageUpload : React.FC<ImageUploadProps> = ({
 
     const onDrop = useCallback((acceptedFiles : any) => {
         uploadImageOnSever(acceptedFiles[0])
-    }, [onChange])
+    }, [uploadImageOnSever])
 
     const onRemove = useCallback(() => {
         onChange('')
