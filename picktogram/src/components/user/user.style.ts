@@ -57,6 +57,10 @@ export const Button = styled.button`
     background-color: dodgerblue;
     color : white;
     border-radius: 20px;
+
+    &:hover {
+        background-color: black;
+    }
 `
 
 export const UserIntroduce = styled.div`
@@ -66,6 +70,7 @@ export const UserIntroduce = styled.div`
 `
 
 export const UserArticle = styled.div`
+    min-height: 400px;
     display: flex;
     flex-direction: column;
     gap: 1rem;

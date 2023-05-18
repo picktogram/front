@@ -30,6 +30,7 @@ const UserUI = ({
     const [followButton, setFollowButton] = useState<string>('')
     const [isSame, setIsSame] = useState<boolean>(false)
 
+    console.log(myBoard, 'myBoard')
     const handleFollow = () => {
         if(user?.followStatus === 'follow' || user?.followStatus === 'followUp') {
             userUnfollow()
@@ -99,6 +100,12 @@ const UserUI = ({
                     </S.UserIntroduce>
                 </S.UserInfo>
                 <S.UserArticle>
+                {!myBoard?.pages[0].list.length && (
+                    <div style={{display : 'flex', flexDirection : 'column', rowGap : '1rem', alignItems : 'center'}}>
+                        <div>작성한 글이 없습니다. 작성해보세요.</div>
+                        <S.Button onClick={() => router.push("/dashboard/new")}>게시글 작성</S.Button>
+                    </div>
+                )}
                 {myBoard?.pages.map((page) => (
                         <React.Fragment key={page.page}>
                             {page.list.map((post , index : number) => (
