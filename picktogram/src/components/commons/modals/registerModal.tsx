@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { mediaQuery } from '@/styles/media';
 import { useRecoilState } from 'recoil';
 import { registerModalState } from '@/state/registerModalState'
@@ -49,6 +49,11 @@ const Item = styled.div`
     row-gap : .75rem;
 `
 
+const CheckItem = styled(Item)`
+    flex-direction: row;
+    column-gap: .75rem;
+`
+
 const StyledErrorMessage = styled.div`
     color : #f14d4d;
 `
@@ -77,6 +82,7 @@ const SubmitButton = styled.button`
 const registerModal = () => {
     const [isRegisterOpen, setIsRegisterOpen] = useRecoilState(registerModalState)
     const { register, handleSubmit , reset, setValue, watch, formState : { errors }} = useForm<RegisterData>({criteriaMode : 'all'});
+    const [ emailAdsConsent, setEmailAdsConsent ] = useState<boolean>(false)
     const { address } = watch()
 
     const emailRegex =
@@ -102,7 +108,7 @@ const registerModal = () => {
                     password : data.password,
                     phoneNumber : data.phoneNumber,
                     birth : 'string',
-                    emailAdsConsent : false,
+                    emailAdsConsent : emailAdsConsent,
                     smsAdsConsent : false,
                     gender : true
                 }
@@ -237,6 +243,10 @@ const registerModal = () => {
                 </StyledErrorMessage>
 
             </Item>
+            <CheckItem>
+                <input type='checkbox' checked={emailAdsConsent} onChange={() => setEmailAdsConsent((prev) => !prev)}/>
+                <p>이메일 수신에 동의합니다.</p>
+            </CheckItem>
             <SubmitButton type='submit'>
                 회원가입
             </SubmitButton>
