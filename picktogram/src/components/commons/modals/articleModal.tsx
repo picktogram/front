@@ -1,5 +1,5 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import React, { MouseEventHandler, SetStateAction, useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { tokenState, myIdState } from '@/state/tokenState'
 import { useQuery } from 'react-query';
 import { fetcher } from '@/util/queryClient';
@@ -13,6 +13,7 @@ import ProfileImage from '../profileImage';
 import Carousel from '../carousel';
 import Pagination from '../Pagination/Pagination.container';
 import useBoard from '@/src/hooks/useBoard';
+import useAddComment from '@/src/hooks/useAddComment';
 
 type CommentData = {
     list : {
@@ -70,14 +71,12 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
     const [count, setCount] = useState<number>(0)
     const [page, setPage] = useState<number>(1)
     const [isMine, setIsMine] = useState<boolean>(false)
-
-    const onClose = () => {
-        setShowArticle(false)
-    }
+    const [inputValue, setInputValue] = useState<string>('')
 
     const { data : boardDetail, isFetched } = useBoard(token, articleId)
+
     // have to convert Nestia SDK
-    const { data : boardComments } = useQuery<CommentData, AxiosError, CommentSelectData>(['fetchCommentsDetail', articleId, page], () => fetcher({
+    const { data : boardComments , refetch : boardCommentsRefetch } = useQuery<CommentData, AxiosError, CommentSelectData>(['fetchCommentsDetail', articleId, page], () => fetcher({
         method : 'get',
         path : `/api/v1/articles/${articleId}/comments?limit=10&page=${page}`,
         headers : {
@@ -97,6 +96,8 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
         }
     })
 
+    const {mutate : addComment} = useAddComment(token, articleId, () => boardCommentsRefetch())
+
     useEffect(() => {
         if(!boardDetail?.images) return
         setImages(boardDetail?.images?.map((e) => e.url))
@@ -106,6 +107,21 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
         if(!myId || !boardDetail?.writer.id) return
         setIsMine(boardDetail?.writer.id === myId ? true : false)
     }, [myId, boardDetail?.writer.id])
+
+    const onClose = () => {
+        setShowArticle(false)
+    }
+
+    const onAddComment : MouseEventHandler<HTMLButtonElement> = () => {
+        let data = {
+            parentId : null,
+            contents : inputValue,
+            xPosition : null, // 일단 고정
+            yPosition : null, // 일단 고정
+        }
+        setInputValue("");
+        addComment(data);
+    }
 
     const bodyContent = (
         <Container>
@@ -136,6 +152,12 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
                 <Contents>
                     {boardDetail?.contents}
                 </Contents>
+                <CommentForm onSubmit={(e) => e.preventDefault()}>
+                    <input type='text' onChange={(e) => setInputValue(e.currentTarget.value)} value={inputValue}/>
+                    <button onClick={onAddComment} disabled={!inputValue} >
+                        등록
+                    </button>
+                </CommentForm>
                 <CommentList>
                     {!boardDetail?.comments.length && (
                         <div>댓글이 없습니다.</div>
@@ -210,6 +232,23 @@ const Contents = styled.div`
     min-height: 300px;
     padding-bottom: 20px;
     border-bottom: 1px solid lightgray;
+`
+
+
+const CommentForm = styled.form`
+   width: 90%;
+   margin: 0 auto;
+   display: grid;
+   column-gap: 1rem;
+   grid-template-columns: 85% 15%;
+   & input {
+      border: none;
+      background-color: gray;
+      border-radius: 20px;
+      height: 25px;
+      padding: 1rem;
+      color: white;
+   }
 `
 
 const CommentList = styled.div`

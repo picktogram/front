@@ -3,8 +3,6 @@ import Dropzone from 'react-dropzone'
 import styled from "@emotion/styled";
 import { useMutation } from 'react-query'
 import axios from "axios";
-import {useSetRecoilState} from 'recoil'
-import {boardImages} from "@/state/boardBeforeSave"
 import { SERVER_URL } from "@/util/constant";
 
 export default function DropzoneComponent ({
@@ -18,7 +16,6 @@ export default function DropzoneComponent ({
     setImages : Dispatch<SetStateAction<string[]>>;
     token : string;
 })  {
-    const setBoardImagesData = useSetRecoilState(boardImages)
     const {mutate : uploadImage} = useMutation<string[], Error>('uploadImage', async (data : any) => {
         try {
             let formData = new FormData();
@@ -43,7 +40,6 @@ export default function DropzoneComponent ({
         onSuccess : (data) => {
             let newImages = [...images, ...data]
             setImages(newImages);
-            setBoardImagesData(newImages);
             setCount(images.length);
         }
     })
