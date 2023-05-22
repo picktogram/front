@@ -102,8 +102,13 @@ const UserUI = ({
                 <S.UserArticle>
                 {!myBoard?.pages[0].list.length && (
                     <div style={{display : 'flex', flexDirection : 'column', rowGap : '1rem', alignItems : 'center'}}>
-                        <div>작성한 글이 없습니다. 작성해보세요.</div>
-                        <S.Button onClick={() => router.push("/dashboard/new")}>게시글 작성</S.Button>
+                        <div>작성한 글이 없습니다.</div>
+                        {isSame && (
+                                <div>
+                                    <div>글을 작성해보세요.</div>
+                                    <S.Button onClick={() => router.push("/dashboard/new")}>게시글 작성</S.Button>
+                                </div>
+                        )}
                     </div>
                 )}
                 {myBoard?.pages.map((page) => (

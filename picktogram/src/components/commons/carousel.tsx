@@ -6,11 +6,13 @@ export default function Carousel ({
      setImages,
      count,
      setCount,
+     isNew = false
     } : {
          images : string[]
          setImages : Dispatch<SetStateAction<string[]>>
          count : number;
          setCount : Dispatch<SetStateAction<number>>;
+         isNew? : boolean
     }) {
 
 
@@ -22,7 +24,9 @@ export default function Carousel ({
         setCount((prev) => (prev === 0 ? prev : prev - 1));
     };
 
-    const deleteHandler = (imgUrl : string) => {
+    const deleteHandler = (imgUrl : string, isNew : boolean) => {
+        if(!isNew) return
+
         const currentIndex = images.indexOf(imgUrl)
         let newImages = [...images];
         newImages.splice(currentIndex, 1);
@@ -34,18 +38,23 @@ export default function Carousel ({
         <CarouselContainer>
         {images.length > 0 &&
             <>
-                <LeftArrow onClick={prevImage}>{"<"}</LeftArrow>
+                <LeftArrow onClick={prevImage}>
+                    <i className="ri-arrow-left-line"></i>
+                </LeftArrow>
                 <ImageBox index={count}>
-                    {images?.map((image, index) => (
+                    {
+                    images?.map((image, index) => (
                         <img
                             src={image}
                             style={{width: "100%", flex : "1 0 100%"}}
                             key={index}
-                            onClick={() => deleteHandler(image)}
+                            onClick={() => deleteHandler(image, isNew)}
                         />
                     ))}
                 </ImageBox>
-                <RightArrow onClick={nextImage}>{">"}</RightArrow>
+                <RightArrow onClick={nextImage}>
+                    <i className="ri-arrow-right-line"></i>
+                </RightArrow>
             </>
         }
     </CarouselContainer>
@@ -87,6 +96,13 @@ const LeftArrow = styled.div`
     font-weight: 700;
     z-index: 1;
     cursor: pointer;
+    opacity: 0;
+    color: white;
+    background-color: rgba(0,0,0,0.6);
+    transition: all .4s ease-in-out;
+    &:hover {
+        opacity: 1;
+    }
 `
 
 const RightArrow = styled.div`
@@ -102,4 +118,11 @@ const RightArrow = styled.div`
     font-weight: 700;
     z-index: 1;
     cursor: pointer;
+    opacity: 0;
+    color: white;
+    background-color: rgba(0,0,0,0.6);
+    transition: all .4s ease-in-out;
+    &:hover {
+        opacity: 1;
+    }
 `

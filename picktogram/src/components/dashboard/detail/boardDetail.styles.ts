@@ -4,14 +4,14 @@ export const Container = styled.div`
     position: relative;
     width: 1200px;
     margin: 0 auto;
-    display: grid;
-    /* grid-template-columns: 70% 30%; */
-    grid-template-rows: 5% 55% 40%;
+    display: flex;
+    flex-direction: column;
     border: 1px solid black;
 `
 
 export const UserBox = styled.div`
   width: 100%;
+  height: 75px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -24,17 +24,6 @@ export const UserInfo = styled.div`
   display: flex;
   column-gap: 1rem;
   align-items: center;
-`
-export const ProfileImage = styled.div<{
-  background : string | null | undefined
-}>`
-  width: 50px;
-  height: 50px;
-  background-image: url(${(props) => props.background ? props.background : 'images/placeholder.png'});
-  background-size: cover;
-  background-repeat: no-repeat;
-  border: 1px solid lightgray;
-  border-radius: 50%;
 `
 
 export const Username = styled.span`
@@ -80,7 +69,8 @@ export const Contents = styled.div`
 
 export const CommentsBox = styled.div`
    width: 90%;
-   min-height: 1800px;
+   height: auto;
+   max-height: 1800px;
    margin: 0 auto;
    padding: 1rem;
    margin-bottom: 1.5rem;
@@ -99,7 +89,7 @@ export const CommentInput = styled.form`
    margin: 0 auto;
    display: grid;
    column-gap: 1rem;
-   grid-template-columns: 10% 80% 10%;
+   grid-template-columns: 85% 15%;
 
    & input {
       border: none;

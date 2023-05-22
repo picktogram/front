@@ -8,6 +8,7 @@ import useFetchDetailData from '@/src/hooks/useFetchDetailData';
 import Loader from "./boardDetail.loader"
 import { fetcher } from '@/util/queryClient';
 
+import Header from '../../commons/layout/header';
 type CommentData = {
     list : {
         xPosition : string;
@@ -123,6 +124,10 @@ export default function BoardDetail({
     }
 
   return (
+    <>
+        <Header
+            token={token}
+        />
         <BoardDetailUI
             data={data}
             handleMoveEdit={handleMoveEdit}
@@ -134,6 +139,9 @@ export default function BoardDetail({
             isNewComments={isNewComments}
             handleNewComments={handleNewComments}
         />
+
+    </>
+
   )
 }
 

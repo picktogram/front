@@ -6,6 +6,7 @@ import BoardModal from "@/src/components/commons/boardModal"
 import { InfiniteData, UseMutateFunction } from 'react-query';
 import Pagination from '@/src/components/commons/Pagination/Pagination.container';
 import NewCommentsModal from './components/newCommentsModal';
+import ProfileImage from '../../commons/profileImage';
 
 
 export default function BoardDetailUI({
@@ -78,7 +79,10 @@ export default function BoardDetailUI({
     <S.Container>
         <S.UserBox>
             <S.UserInfo>
-                <S.ProfileImage background={data?.writer.profileImage}/>
+                <ProfileImage
+                    profileImage={data?.writer.profileImage}
+                    isCircle={true}
+                />
                 <S.Username>
                     {data?.writer.nickname}
                 </S.Username>
@@ -95,21 +99,20 @@ export default function BoardDetailUI({
         </S.UserBox>
         {/* user wrapper */}
 
-        <S.ImagesBox>
-            <Carousel images={images} setImages={setImage} count={count} setCount={setCount} />
-        </S.ImagesBox>
+        {
+            images.length > 0 && (
+                <S.ImagesBox>
+                    <Carousel images={images} setImages={setImage} count={count} setCount={setCount} />
+                </S.ImagesBox>
+            )
+        }
+
         {/* contents wrapper */}
 
         <S.ContentsBox>
             <S.Contents>{data?.contents}</S.Contents>
             {isNewComments && <NewCommentsModal handleNewComments={handleNewComments} />}
             <S.CommentInput onSubmit={(e) => e.preventDefault()}>
-                    <S.UserInfo>
-                        <i className="ri-user-3-line"></i>
-                        <span>
-                            {user.nickname}
-                        </span>
-                    </S.UserInfo>
                     <input type='text' onChange={(e) => setInputValue(e.currentTarget.value)} value={inputValue}/>
                     <button onClick={() => {
                         let data = {

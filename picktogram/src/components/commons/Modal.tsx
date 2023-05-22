@@ -35,7 +35,7 @@ const ModalContents = styled.div`
     flex-direction: column;
 
     ${mediaQuery[3]} {
-        width: 800px;
+        width: 1200px;
         height: auto;
         max-height: 1500px;
     }
