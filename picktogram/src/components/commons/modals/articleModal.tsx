@@ -1,21 +1,18 @@
-import React, { SetStateAction, use, useEffect, useState } from 'react';
-import { SERVER_URL } from '@/util/constant';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { tokenState } from '@/state/tokenState'
+import { tokenState, myIdState } from '@/state/tokenState'
 import { useQuery } from 'react-query';
-import { isBusinessErrorGuard } from 'picktogram-server-apis/config/errors';
 import { fetcher } from '@/util/queryClient';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/router'
 
-import * as Apis from "picktogram-server-apis/api/functional";
 import styled from '@emotion/styled'
-import useDate from '@/src/hooks/useDate';
 
 import Modal from '@/src/components/commons/Modal'
 import ProfileImage from '../profileImage';
 import Carousel from '../carousel';
 import Pagination from '../Pagination/Pagination.container';
+import useBoard from '@/src/hooks/useBoard';
 
 type CommentData = {
     list : {
@@ -67,39 +64,20 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
 }) => {
     const router = useRouter()
     const token = useRecoilValue(tokenState)
+    const myId = useRecoilValue(myIdState)
+
     const [images, setImages] = useState<string[]>([])
     const [count, setCount] = useState<number>(0)
     const [page, setPage] = useState<number>(1)
+    const [isMine, setIsMine] = useState<boolean>(false)
 
     const onClose = () => {
         setShowArticle(false)
     }
 
-    const {data : boardDetail} = useQuery(['fetchBoardDetail', articleId, token], async () => {
-        try {
-            if(!token) return null
-            const response = await Apis.api.v1.articles.getOneDetailArticle({
-                host : SERVER_URL as string,
-                headers : {
-                    Authorization : token
-                }
-            },
-                articleId
-            )
-
-            if(isBusinessErrorGuard(response)) {
-                return null
-            }
-
-            return response.data
-
-        } catch (error) {
-            console.log(error)
-        }
-    })
-
+    const { data : boardDetail, isFetched } = useBoard(token, articleId)
     // have to convert Nestia SDK
-    const {data : boardComment} = useQuery<CommentData, AxiosError, CommentSelectData>(['fetchCommentsDetail', articleId, page], () => fetcher({
+    const { data : boardComments } = useQuery<CommentData, AxiosError, CommentSelectData>(['fetchCommentsDetail', articleId, page], () => fetcher({
         method : 'get',
         path : `/api/v1/articles/${articleId}/comments?limit=10&page=${page}`,
         headers : {
@@ -124,6 +102,11 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
         setImages(boardDetail?.images?.map((e) => e.url))
     }, [boardDetail?.images])
 
+    useEffect(() => {
+        if(!myId || !boardDetail?.writer.id) return
+        setIsMine(boardDetail?.writer.id === myId ? true : false)
+    }, [myId, boardDetail?.writer.id])
+
     const bodyContent = (
         <Container>
             <LeftSide>
@@ -141,6 +124,13 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
                         <div>
                             {boardDetail?.writer.nickname}
                         </div>
+                        {
+                            isMine  && (
+                                <button onClick={() => router.push(`/dashboard/${articleId}/edit`)}>
+                                    수정하기
+                                </button>
+                            )
+                        }
                     </div>
                 </UserInfo>
                 <Contents>
@@ -150,7 +140,7 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
                     {!boardDetail?.comments.length && (
                         <div>댓글이 없습니다.</div>
                     )}
-                    {boardComment?.list?.map((comment) => (
+                    {boardComments?.list?.map((comment) => (
                         <div style={{display : 'flex', columnGap : '1rem', alignItems : 'center'}}>
                             <ProfileImage
                                 isCircle={true}
@@ -166,17 +156,17 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
                                 {comment.contents}
                             </Comment>
                         </div>
-
                     ))}
                 </CommentList>
                 <Pagination
                     page={page}
                     setPage={setPage}
-                    totalPage={boardComment?.totalPage}
+                    totalPage={boardComments?.totalPage}
                 />
             </RightSide>
         </Container>
     )
+
     return (
        <Modal
             title='Article'

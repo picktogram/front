@@ -1,28 +1,26 @@
 import React, { FormEvent, useEffect, useState } from 'react'
-import useServerRefresher from '@/src/hooks/useServerRefresher'
-import axios from 'axios'
 import { useMutation , useQueryClient } from 'react-query'
-import CreateBoardUI from './CreateBoard.presenter'
 import { SERVER_URL } from "@/util/constant"
-import { useRecoilState } from "recoil"
-import { boardBeforeSave } from "@/state/boardBeforeSave"
+import { CreateBoardProps } from './CreateBoard.types'
 import { useRouter } from 'next/router'
+
 import useCurrentUser from '@/src/hooks/useCurrentUser'
+import axios from 'axios'
+
+import CreateBoardUI from './CreateBoard.presenter'
 import Header from '../../commons/layout/header'
 
 export default function CreateBoard({
     token,
     isEdit,
-} : {
-    token : string;
-    isEdit? : boolean;
-}) {
+    defaultData
+} : CreateBoardProps
+) {
     const [contents, setContents] = useState<string>("")
     const [images, setImages] = useState<string[]>([]);
     const [count, setCount] = useState<number>(0);
     const currentUser = useCurrentUser(token)
     const queryClient = useQueryClient();
-    const [boardRocilData, setBoardRecoilData]= useRecoilState(boardBeforeSave);
     const router = useRouter()
 
     const { mutate : createBoard } = useMutation("createBoard", async (data : any) => {
@@ -45,7 +43,6 @@ export default function CreateBoard({
       }, {
         onSuccess : () => {
           queryClient.invalidateQueries({ queryKey : ['infiniteBoard']})
-          setBoardRecoilData({contents : "", images : [],})
         }
       }
     )
@@ -64,10 +61,14 @@ export default function CreateBoard({
       } catch (err) {
         throw err
       }
+    }, {
+      onSuccess : () => {
+        queryClient.invalidateQueries({ queryKey : ['infiniteBoard']})
+      }
     })
 
     const handleSubmit = (e : FormEvent) => {
-      e.preventDefault();
+      e.preventDefault()
       let reqImages = images.map((image, index) => {
         return {
           url : image,
@@ -85,21 +86,15 @@ export default function CreateBoard({
     }
 
     const handleEditSubmit = (e : FormEvent) => {
-      e.preventDefault();
+      e.preventDefault()
 
-      // let reqImages = images.map((image, index) => {
-      //   return {
-      //     url : image,
-      //     position : String(index),
-      //   }
-      // })
       let data = {
         "contents" : contents,
-        // "images" : reqImages,
         'type' : "question" // 일단 고정
       }
 
-      editBoard(data);
+      editBoard(data)
+      router.push('/')
     }
 
 
@@ -112,13 +107,12 @@ export default function CreateBoard({
           setImages={setImages}
           count={count}
           setCount={setCount}
-          contents={contents}
           setContents={setContents}
           currentUser={currentUser}
-          createBoard={createBoard}
           handleSubmit={handleSubmit}
           handleEditSubmit={handleEditSubmit}
           isEdit={isEdit}
+          defaultData={defaultData}
       />
     </>
 
