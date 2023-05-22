@@ -1,14 +1,16 @@
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BoardDetailUI from './boardDetail.presenter'
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/router'
 import { useMutation, useQueryClient, useQuery} from 'react-query';
 import { SERVER_URL } from "@/util/constant"
-import useFetchDetailData from '@/src/hooks/useFetchDetailData';
-import Loader from "./boardDetail.loader"
 import { fetcher } from '@/util/queryClient';
+import { BoardDetailProps } from './boardDetail.type';
+
+import useBoard from '@/src/hooks/useBoard';
 
 import Header from '../../commons/layout/header';
+
 type CommentData = {
     list : {
         xPosition : string;
@@ -39,19 +41,13 @@ type CommentSelectData = {
 export default function BoardDetail({
     token,
     user
-} : {
-    token : string;
-    user : {nickname : string};
-}) {
-    const [page, setPage] = useState<number>(1);
-    const [isNewComments, setIsNewComments] = useState<boolean>(false);
-    const router = useRouter();
-    const queryClient = useQueryClient();
-    const {data, isError} = useFetchDetailData({
-        queryKey : "getDetail",
-        id : router.query.id,
-        token,
-    })
+} : BoardDetailProps
+) {
+    const [page, setPage] = useState<number>(1)
+    const [isNewComments, setIsNewComments] = useState<boolean>(false)
+    const router = useRouter()
+    const queryClient = useQueryClient()
+    const {data, isError} = useBoard(token, Number(router.query.id))
     const { mutate : addComments } = useMutation("addComments", async (data : any) => {
         try {
             const res = await axios.post(`${SERVER_URL}/api/v1/articles/${router.query.id}/comments`,
@@ -129,10 +125,9 @@ export default function BoardDetail({
             token={token}
         />
         <BoardDetailUI
-            data={data}
+            boardData={data}
             handleMoveEdit={handleMoveEdit}
             addComments={addComments}
-            user={user}
             commentsData={commentsData}
             setPage={setPage}
             page={page}

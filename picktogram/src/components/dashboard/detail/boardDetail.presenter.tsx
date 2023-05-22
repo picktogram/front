@@ -1,48 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { DetailResponce } from './boardDetail.type'
+import { BoardDetailUIProps } from './boardDetail.type'
+
 import * as S from "./boardDetail.styles"
+
 import Carousel from '@/src/components/commons/carousel';
 import BoardModal from "@/src/components/commons/boardModal"
-import { InfiniteData, UseMutateFunction } from 'react-query';
 import Pagination from '@/src/components/commons/Pagination/Pagination.container';
 import NewCommentsModal from './components/newCommentsModal';
 import ProfileImage from '../../commons/profileImage';
 
-
 export default function BoardDetailUI({
-    data,
+    boardData,
     handleMoveEdit,
     addComments,
-    user,
     commentsData,
     setPage,
     page,
     isNewComments,
     handleNewComments
-    } : {
-        data : DetailResponce;
-        handleMoveEdit : React.MouseEventHandler<HTMLButtonElement>
-        addComments : UseMutateFunction<any, unknown, any, unknown>;
-        user : {nickname : string};
-        commentsData :  {
-            list : {
-                xPosition : string;
-                yPosition : string;
-                id : number;
-                writerId : number;
-                contents : string;
-            }[];
-            page : number;
-            totalPage : number;
-            hasMore : boolean;
-        } | undefined;
-        setPage :  React.Dispatch<React.SetStateAction<number>>;
-        page : number
-        isNewComments : boolean;
-        handleNewComments : any;
-    }) {
+    } : BoardDetailUIProps
+    ) {
 
-    const [images, setImage] = useState<string[]>(data.images.map(e => e.url));
+    const [images, setImage] = useState<string[]>(boardData.images.map((e : any) => e.url));
     const [count, setCount] = useState<number>(0);
     const [isShow, setIsShow] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>('');
@@ -80,11 +59,11 @@ export default function BoardDetailUI({
         <S.UserBox>
             <S.UserInfo>
                 <ProfileImage
-                    profileImage={data?.writer.profileImage}
+                    profileImage={boardData?.writer.profileImage}
                     isCircle={true}
                 />
                 <S.Username>
-                    {data?.writer.nickname}
+                    {boardData?.writer.nickname}
                 </S.Username>
             </S.UserInfo>
             <S.UserMenu onClick={() => setIsShow(!isShow)}>
@@ -110,7 +89,7 @@ export default function BoardDetailUI({
         {/* contents wrapper */}
 
         <S.ContentsBox>
-            <S.Contents>{data?.contents}</S.Contents>
+            <S.Contents>{boardData?.contents}</S.Contents>
             {isNewComments && <NewCommentsModal handleNewComments={handleNewComments} />}
             <S.CommentInput onSubmit={(e) => e.preventDefault()}>
                     <input type='text' onChange={(e) => setInputValue(e.currentTarget.value)} value={inputValue}/>
@@ -118,10 +97,10 @@ export default function BoardDetailUI({
                         let data = {
                             parentId : null,
                             contents : inputValue,
-                            xPosition : '0', // 일단 고정
-                            yPosition : '0', // 일단 고정
+                            xPosition : null,
+                            yPosition : null
                         }
-                        setInputValue("");
+                        setInputValue('');
                         addComments(data);
                     }}
                         disabled={!inputValue}
@@ -139,14 +118,7 @@ export default function BoardDetailUI({
             </S.CommentsBox>
         </S.ContentsBox>
     {/* comment wrapper */}
-
-
   </S.Container>
   )
 }
 
-
-// "parentId": 0,
-//   "contents": "string",
-//   "xPosition": 0,
-//   "yPosition": 0
