@@ -159,7 +159,7 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
                     </button>
                 </CommentForm>
                 <CommentList>
-                    {!boardDetail?.comments.length && (
+                    {!boardComments?.list.length && (
                         <div>댓글이 없습니다.</div>
                     )}
                     {boardComments?.list?.map((comment) => (
