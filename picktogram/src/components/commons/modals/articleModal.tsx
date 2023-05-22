@@ -4,14 +4,55 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { tokenState } from '@/state/tokenState'
 import { useQuery } from 'react-query';
 import { isBusinessErrorGuard } from 'picktogram-server-apis/config/errors';
+import { fetcher } from '@/util/queryClient';
+import { AxiosError } from 'axios';
+import { useRouter } from 'next/router'
 
 import * as Apis from "picktogram-server-apis/api/functional";
+import styled from '@emotion/styled'
+import useDate from '@/src/hooks/useDate';
 
 import Modal from '@/src/components/commons/Modal'
-import styled from '@emotion/styled'
 import ProfileImage from '../profileImage';
-import useDate from '@/src/hooks/useDate';
 import Carousel from '../carousel';
+import Pagination from '../Pagination/Pagination.container';
+
+type CommentData = {
+    list : {
+        xPosition : string;
+        yPosition : string;
+        id : number;
+        writerId : number;
+        writer : {
+            profileImage : string;
+            id : number;
+            nickname : string;
+        }
+        contents : string;
+    }[];
+    count : number;
+    totalResult : number;
+    totalPage : number;
+    page : number
+}
+
+type CommentSelectData = {
+    list : {
+        xPosition : string;
+        yPosition : string;
+        id : number;
+        writerId : number;
+        writer : {
+            profileImage : string;
+            id : number;
+            nickname : string;
+        }
+        contents : string;
+    }[];
+    page : number;
+    totalPage : number;
+    hasMore : boolean;
+}
 
 type ArticleModalProps = {
     articleId : number;
@@ -24,15 +65,17 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
     setShowArticle,
     showArticle
 }) => {
+    const router = useRouter()
     const token = useRecoilValue(tokenState)
     const [images, setImages] = useState<string[]>([])
     const [count, setCount] = useState<number>(0)
+    const [page, setPage] = useState<number>(1)
 
     const onClose = () => {
         setShowArticle(false)
     }
 
-    const {data : boardDetail} = useQuery(['boardDetail', articleId, token], async () => {
+    const {data : boardDetail} = useQuery(['fetchBoardDetail', articleId, token], async () => {
         try {
             if(!token) return null
             const response = await Apis.api.v1.articles.getOneDetailArticle({
@@ -52,6 +95,27 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
 
         } catch (error) {
             console.log(error)
+        }
+    })
+
+    // have to convert Nestia SDK
+    const {data : boardComment} = useQuery<CommentData, AxiosError, CommentSelectData>(['fetchCommentsDetail', articleId, page], () => fetcher({
+        method : 'get',
+        path : `/api/v1/articles/${articleId}/comments?limit=10&page=${page}`,
+        headers : {
+            Authorization : token
+        }
+    }),
+    {
+        staleTime : 5000,
+        keepPreviousData : true,
+        select : (data) => {
+            return {
+                list : data.list,
+                page : data.page,
+                totalPage : data.totalPage,
+                hasMore : data.totalPage > page
+            }
         }
     })
 
@@ -86,12 +150,30 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
                     {!boardDetail?.comments.length && (
                         <div>댓글이 없습니다.</div>
                     )}
-                    {boardDetail?.comments.map((comment) => (
-                        <Comment>
-                            {comment.contents}
-                        </Comment>
+                    {boardComment?.list?.map((comment) => (
+                        <div style={{display : 'flex', columnGap : '1rem', alignItems : 'center'}}>
+                            <ProfileImage
+                                isCircle={true}
+                                width={25}
+                                height={25}
+                                profileImage={comment.writer.profileImage}
+                                onClick={() => router.push(`/user/profile/${comment.writer.id}`)}
+                            />
+                            <div>
+                                {comment.writer.nickname}
+                            </div>
+                            <Comment>
+                                {comment.contents}
+                            </Comment>
+                        </div>
+
                     ))}
                 </CommentList>
+                <Pagination
+                    page={page}
+                    setPage={setPage}
+                    totalPage={boardComment?.totalPage}
+                />
             </RightSide>
         </Container>
     )
@@ -118,10 +200,8 @@ const Container = styled.div`
 const LeftSide = styled.div`
     width: 100%;
     padding: 20px;
-`
-
-const ImageBox = styled.div`
-
+    display: flex;
+    justify-content: center;
 `
 
 const RightSide = styled(LeftSide)`
