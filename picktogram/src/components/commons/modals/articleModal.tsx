@@ -100,16 +100,11 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
 }) => {
     const router = useRouter()
     const myId = useRecoilValue(myIdState)
-    const queryClient = useQueryClient()
-
     const [images, setImages] = useState<string[]>([])
     const [count, setCount] = useState<number>(0)
     const [page, setPage] = useState<number>(1)
     const [isMine, setIsMine] = useState<boolean>(false)
     const [inputValue, setInputValue] = useState<string>('')
-
-    const [reply, setReply] = useState<string>('')
-
     const { data : boardDetail } = useBoard(token, articleId)
 
     //have to convert Nestia SDK
@@ -160,17 +155,6 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
         addComment(data);
     }, [inputValue, setInputValue, addComment])
 
-    const onAddReply = useCallback((parentId : number) => {
-        let data = {
-            parentId : parentId,
-            contents : reply,
-            xPosition : null,
-            yPosition : null
-        }
-        setReply('')
-        addComment(data)
-    }, [reply, setReply, addComment])
-
     const bodyContent = (
         <Container>
             <LeftSide>
@@ -209,6 +193,7 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
                     commentsData={boardComments}
                     page={page}
                     setPage={setPage}
+                    addComment={addComment}
                 />
             </RightSide>
         </Container>
