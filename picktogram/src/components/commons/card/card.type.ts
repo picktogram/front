@@ -7,4 +7,5 @@ export interface CardProps {
     data : BoardData;
     setShowArticle? : React.Dispatch<SetStateAction<boolean>>;
     showArticle? : boolean;
+    token : string;
 }

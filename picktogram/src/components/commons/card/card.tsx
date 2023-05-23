@@ -17,6 +17,7 @@ export default function Card({
   isLast,
   newLimit,
   data,
+  token
 } : CardProps
 ) {
     const cardRef = useRef<any>(null);
@@ -28,7 +29,6 @@ export default function Card({
     const [showArticle, setShowArticle] = useState<boolean>(false)
 
     const date = useDate(data.createdAt)
-    const token = useRecoilValue(tokenState)
 
     const { mutate : followArticle } = useMutation<{
       data : boolean
@@ -106,7 +106,7 @@ export default function Card({
           }
         </S.CardContainer>
         {/* 게시글 모달창 */}
-        <ArticleModal articleId={data?.id} showArticle={showArticle} setShowArticle={setShowArticle} />
+        <ArticleModal articleId={data?.id} showArticle={showArticle} setShowArticle={setShowArticle} token={token} />
       </>
 
     )

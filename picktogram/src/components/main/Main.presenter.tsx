@@ -67,6 +67,7 @@ export default function MainUI({
                     isLast={index === page.list.length -1}
                     newLimit={handleNextPage}
                     data={post}
+                    token={token}
                   />
                 </>
               ))}

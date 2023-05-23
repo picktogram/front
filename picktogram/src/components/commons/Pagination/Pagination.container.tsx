@@ -7,7 +7,7 @@ export default function Pagination({
     page
 } : {
     totalPage : number | undefined;
-    setPage : React.Dispatch<React.SetStateAction<number>>;
+    setPage : React.Dispatch<React.SetStateAction<number>>
     page : number;
 }) {
   const total = totalPage ? totalPage : 0
@@ -46,9 +46,8 @@ export default function Pagination({
                     id={String(startPage + i)}
                     isCurrent={startPage + i === page}
                     onClick={handleClick}
-                  //   aria-current={page === i + 1 ? "page" : null}
                   >
-                  {startPage + i}
+                    {startPage + i}
                   </S.Number>
             ))}
         </S.Numbers>
