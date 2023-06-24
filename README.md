@@ -33,6 +33,10 @@ npm run dev
 * Emotion
 * Nestia SDK를 이용한 통신 (백엔드와의 연동 방식)
 
+## 📓 학습 내용
+
+https://sunrise-push-ffa.notion.site/Picktogram-3437f9ef750b43e78ca09c3aae0df46d
+
 ## 📌 주요 기능
 * Nestia SDK
 
@@ -57,6 +61,8 @@ npm run dev
     * 게시글은 무한 스크롤을 통해 제공합니다.
   
     * 댓글은 페이지네이션을 통해 제공합니다.
+    
+    * 특정 게시글 확인 이후 뒤로가면 기존 스크롤이 유지됩니다. 
       
 * 게시글 / 댓글 작성
 
