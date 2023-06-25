@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { BoardDetailUIProps } from './boardDetail.type'
 
 import * as S from "./boardDetail.styles"
@@ -8,6 +8,7 @@ import BoardModal from "@/src/components/commons/boardModal"
 import Pagination from '@/src/components/commons/Pagination/Pagination.container';
 import NewCommentsModal from './components/newCommentsModal';
 import ProfileImage from '../../commons/profileImage';
+import useImageRef from '@/src/hooks/useImageRef';
 
 export default function BoardDetailUI({
     boardData,
@@ -26,7 +27,13 @@ export default function BoardDetailUI({
     const [isShow, setIsShow] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>('');
 
-    const isServer = typeof window === undefined;
+    const {ref, handlePosition, xPos, yPos} = useImageRef()
+
+    const handleClickImage = useCallback((e : React.MouseEvent<HTMLDivElement>) => {
+        handlePosition(e)
+        console.log('xPos', xPos)
+        console.log('yPos', yPos)
+    }, [handlePosition, xPos, yPos])
 
     // 런타임 에러 때문에
     const [commentList, setCommentList] = useState<{
@@ -56,7 +63,7 @@ export default function BoardDetailUI({
 
   return (
     <S.Container>
-        <S.ImageWrapper>
+        <S.ImageWrapper ref={ref} onClick={(e) => handleClickImage(e)}>
             {
                 images.length > 0 && (
                     <S.ImagesBox>
