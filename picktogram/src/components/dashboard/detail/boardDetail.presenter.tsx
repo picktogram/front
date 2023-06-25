@@ -56,7 +56,16 @@ export default function BoardDetailUI({
 
   return (
     <S.Container>
-        <S.UserBox>
+        <S.ImageWrapper>
+            {
+                images.length > 0 && (
+                    <S.ImagesBox>
+                        <Carousel images={images} setImages={setImage} count={count} setCount={setCount} />
+                    </S.ImagesBox>
+                )
+            }
+        </S.ImageWrapper>
+        <S.UserWrapper>
             <S.UserInfo>
                 <ProfileImage
                     profileImage={boardData?.writer.profileImage}
@@ -65,59 +74,54 @@ export default function BoardDetailUI({
                 <S.Username>
                     {boardData?.writer.nickname}
                 </S.Username>
+                <S.UserMenu onClick={() => setIsShow(!isShow)}>
+                    <i className="ri-menu-line"></i>
+                </S.UserMenu>
+                {isShow && (
+                    <S.BoardModalWrapper>
+                        <BoardModal handleMoveEdit={handleMoveEdit} />
+                    </S.BoardModalWrapper>
+                )}
             </S.UserInfo>
-            <S.UserMenu onClick={() => setIsShow(!isShow)}>
-                <i className="ri-menu-line"></i>
-            </S.UserMenu>
-            {isShow && (
-                <S.BoardModalWrapper>
-                    <BoardModal handleMoveEdit={handleMoveEdit} />
-                </S.BoardModalWrapper>
-            )}
+
             {/* <button onClick={handleMoveEdit}>수정하기</button> */}
-        </S.UserBox>
+
+            <S.ContentsBox>
+                <S.Contents>{boardData?.contents}</S.Contents>
+                {isNewComments && <NewCommentsModal handleNewComments={handleNewComments} />}
+                <S.CommentInput onSubmit={(e) => e.preventDefault()}>
+                        <S.Input type='text' onChange={(e) => setInputValue(e.currentTarget.value)} value={inputValue}/>
+                        <S.Button onClick={() => {
+                            let data = {
+                                parentId : null,
+                                contents : inputValue,
+                                xPosition : null,
+                                yPosition : null
+                            }
+                            setInputValue('');
+                            addComments(data);
+                        }}
+                            disabled={!inputValue}
+                        >
+                            등록
+                        </S.Button>
+                </S.CommentInput>
+                <S.CommentsBox>
+                    { commentList.list.map((comment) => (
+                        <S.Comments key={comment.id}>
+                                {comment.contents}
+                        </S.Comments>
+                    ))}
+                    <Pagination totalPage={commentList.totalPage} setPage={setPage} page={page} />
+                </S.CommentsBox>
+            </S.ContentsBox>
+        </S.UserWrapper>
         {/* user wrapper */}
 
-        {
-            images.length > 0 && (
-                <S.ImagesBox>
-                    <Carousel images={images} setImages={setImage} count={count} setCount={setCount} />
-                </S.ImagesBox>
-            )
-        }
 
-        {/* contents wrapper */}
 
-        <S.ContentsBox>
-            <S.Contents>{boardData?.contents}</S.Contents>
-            {isNewComments && <NewCommentsModal handleNewComments={handleNewComments} />}
-            <S.CommentInput onSubmit={(e) => e.preventDefault()}>
-                    <input type='text' onChange={(e) => setInputValue(e.currentTarget.value)} value={inputValue}/>
-                    <button onClick={() => {
-                        let data = {
-                            parentId : null,
-                            contents : inputValue,
-                            xPosition : null,
-                            yPosition : null
-                        }
-                        setInputValue('');
-                        addComments(data);
-                    }}
-                        disabled={!inputValue}
-                    >
-                        등록
-                    </button>
-            </S.CommentInput>
-            <S.CommentsBox>
-                { commentList.list.map((comment) => (
-                    <S.Comments key={comment.id}>
-                            {comment.contents}
-                    </S.Comments>
-                ))}
-                <Pagination totalPage={commentList.totalPage} setPage={setPage} page={page} />
-            </S.CommentsBox>
-        </S.ContentsBox>
-    {/* comment wrapper */}
+
+
   </S.Container>
   )
 }

@@ -2,28 +2,33 @@ import styled from '@emotion/styled'
 
 export const Container = styled.div`
     position: relative;
-    width: 1200px;
+    height: 100%;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid black;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 `
 
-export const UserBox = styled.div`
+export const ImageWrapper = styled.div`
   width: 100%;
-  height: 75px;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 1rem;
+  justify-content: center;
   align-items: center;
-  border-bottom: 1px solid black;
+`
+
+export const UserWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 export const UserInfo = styled.div`
   width: 100%;
   display: flex;
   column-gap: 1rem;
   align-items: center;
+  padding: 16px;
+  border: 1px solid black;
 `
 
 export const Username = styled.span`
@@ -54,8 +59,9 @@ export const ImagesBox = styled.div`
 `
 
 export const ContentsBox = styled.div`
-  padding: 1rem;
-  min-height: 500px;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 2fr .25fr 1fr;
   border: 1px solid black;
   background-color: #3f3f3f;
   color : white;
@@ -88,17 +94,25 @@ export const CommentInput = styled.form`
    width: 90%;
    margin: 0 auto;
    display: grid;
+   place-items: center;
    column-gap: 1rem;
    grid-template-columns: 85% 15%;
 
-   & input {
-      border: none;
-      background-color: gray;
-      border-radius: 20px;
-      height: 25px;
-      padding: 1rem;
-      color: white;
-   }
 
+`
 
+export const Input = styled.input`
+  width: 100%;
+  border: none;
+  background-color: gray;
+  border-radius: 20px;
+  height: 25px;
+  padding: 1rem;
+  color: white;
+`
+
+export const Button = styled.button`
+  border-radius: 20px;
+  min-width: 100px;
+  padding: 20px;
 `
