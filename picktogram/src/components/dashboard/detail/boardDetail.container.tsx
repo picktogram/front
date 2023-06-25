@@ -5,9 +5,10 @@ import { useRouter } from 'next/router'
 import { useMutation, useQueryClient, useQuery} from 'react-query';
 import { SERVER_URL } from "@/util/constant"
 import { fetcher } from '@/util/queryClient';
-import { BoardDetailProps } from './boardDetail.type';
+import { BoardDetailProps, CommentBodyData} from './boardDetail.type';
 
 import useBoard from '@/src/hooks/useBoard';
+import * as Apis from "picktogram-server-apis/api/functional";
 
 import Header from '../../commons/layout/header';
 
@@ -48,24 +49,29 @@ export default function BoardDetail({
     const router = useRouter()
     const queryClient = useQueryClient()
     const {data, isError} = useBoard(token, Number(router.query.id))
-    const { mutate : addComments } = useMutation("addComments", async (data : any) => {
+    const { mutate : addComments } = useMutation(['addComment', router.query.id], async (data : CommentBodyData) => {
         try {
-            const res = await axios.post(`${SERVER_URL}/api/v1/articles/${router.query.id}/comments`,
-                JSON.stringify(data),
-                {
+            const res = await Apis.api.v1.articles.comments.writeComment({
+                host : SERVER_URL as string,
                 headers : {
-                    'Authorization' : token,
-                    'Content-Type': 'application/json',
+                    Authorization : token
+                }},
+                Number(router.query.id),
+                {
+                    contents : data?.contents,
+                    parentId : data?.parentId,
+                    xPosition : data?.xPosition,
+                    yPosition : data?.yPosition,
                 }
-            });
-            return res;
+            )
+            return res
         } catch (err) {
             throw err
         }
     }, {
         onSuccess: (data) => {
             console.log('onSuccess', data);
-            setIsNewComments(true);
+            // setIsNewComments(true);
         },
     });
 

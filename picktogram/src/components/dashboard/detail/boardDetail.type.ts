@@ -7,7 +7,15 @@ type ImageData = {
     url : string;
 }
 
-export  type DetailResponce = {
+export interface CommentData {
+    contents : string;
+    parentId? : number | null | undefined
+    xPosition? : number | `${number}` | null | undefined;
+    yPosition? : number | `${number}` | null | undefined;
+    ImageId : number;
+}
+
+export type DetailResponce = {
     id: number;
     contents: string;
     images: ImageData[];
