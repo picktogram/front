@@ -9,10 +9,25 @@ export const Container = styled.div`
 `
 
 export const ImageWrapper = styled.div`
+  position : relative;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+`
+
+export const InputOnImages = styled.div<{
+  xPos : number;
+  yPos : number;
+}>`
+  position: absolute;
+  left: ${(props) => props.xPos};
+  top: ${(props) => props.yPos};
+  width: 200px;
+  height: 200px;
+  background-color: black;
+  padding: 20px;
+  color: white;
 `
 
 export const UserWrapper = styled.div`
@@ -51,6 +66,7 @@ export const UserMenu = styled.button`
 `
 
 export const ImagesBox = styled.div`
+  position: relative;
   width: 100%;
   min-height: 500px;
   display: flex;

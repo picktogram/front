@@ -1,22 +1,32 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function useImageRef () {
-    const ref = useRef(null)
+    const ref = useRef<any>(null)
     const [x, setX] = useState<number>(0)
     const [y, setY] = useState<number>(0)
+    const [isOpen, setIsOpen] = useState<boolean>(false)
 
-    const handlePosition = useCallback(<T extends React.MouseEvent>(e : T) => {
-        if(!ref) return
+    const handleClose = () => {
+        setIsOpen(false)
+    }
 
-        setX(e.pageX)
-        setY(e.pageY)
+    const handlePosition = <T extends React.MouseEvent>(e : T) => {
+        setX(e.nativeEvent.offsetX)
+        setY(e.nativeEvent.offsetY)
+        setIsOpen((prev) => !prev)
+    }
 
-    }, [ref])
+    const handleSubmit = <T extends any>(onsubmit : (arg? : T) => void) => {
+        onsubmit()
+    }
 
     return {
-        ref,
-        handlePosition,
         xPos : x,
         yPos : y,
+        isOpen,
+        ref,
+        handlePosition,
+        handleClose,
+        handleSubmit,
     }
 }

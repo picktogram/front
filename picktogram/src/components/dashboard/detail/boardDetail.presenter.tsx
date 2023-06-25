@@ -27,13 +27,10 @@ export default function BoardDetailUI({
     const [isShow, setIsShow] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>('');
 
-    const {ref, handlePosition, xPos, yPos} = useImageRef()
+    const {ref, handlePosition, xPos, yPos, isOpen, handleClose, handleSubmit } = useImageRef()
 
-    const handleClickImage = useCallback((e : React.MouseEvent<HTMLDivElement>) => {
-        handlePosition(e)
-        console.log('xPos', xPos)
-        console.log('yPos', yPos)
-    }, [handlePosition, xPos, yPos])
+    // console.log(xPos, yPos)
+    console.log(isOpen)
 
     // 런타임 에러 때문에
     const [commentList, setCommentList] = useState<{
@@ -63,14 +60,39 @@ export default function BoardDetailUI({
 
   return (
     <S.Container>
-        <S.ImageWrapper ref={ref} onClick={(e) => handleClickImage(e)}>
+        <S.ImageWrapper >
             {
                 images.length > 0 && (
-                    <S.ImagesBox>
+                    <S.ImagesBox onClick={!isOpen ? handlePosition : () => {}} >
                         <Carousel images={images} setImages={setImage} count={count} setCount={setCount} />
+                        {
+                            isOpen && (
+                                <div
+                                    ref={ref}
+                                    style={{
+                                        width : '200px',
+                                        height : '200px',
+                                        position: 'absolute',
+                                        left: xPos,
+                                        top: yPos,
+                                        backgroundColor : 'black',
+                                        zIndex : '2000'
+                                    }}
+                                    onClick={() => console.log('클릭')}
+                                >
+                                    <input
+                                        type="text"
+                                        placeholder="댓글을 입력해주세요."
+                                    />
+                                    <button onClick={handleClose}>x</button>
+                                </div>
+
+                            )
+                        }
                     </S.ImagesBox>
                 )
             }
+
         </S.ImageWrapper>
         <S.UserWrapper>
             <S.UserInfo>

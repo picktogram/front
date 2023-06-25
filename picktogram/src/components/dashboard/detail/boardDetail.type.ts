@@ -7,7 +7,7 @@ type ImageData = {
     url : string;
 }
 
-export interface CommentData {
+export interface CommentBodyData {
     contents : string;
     parentId? : number | null | undefined
     xPosition? : number | `${number}` | null | undefined;
