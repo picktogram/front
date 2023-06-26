@@ -6,6 +6,15 @@ export default function useImageRef () {
     const [y, setY] = useState<number>(0)
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
+    useEffect(() => {
+        window.addEventListener('resize', () => {
+            setIsOpen(false)
+        })
+        return () => {
+            window.removeEventListener('resize', () => {})
+        }
+    }, [setIsOpen])
+
     const handleClose = () => {
         setIsOpen(false)
     }

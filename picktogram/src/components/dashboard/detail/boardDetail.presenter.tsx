@@ -63,7 +63,7 @@ export default function BoardDetailUI({
         <S.ImageWrapper >
             {
                 images.length > 0 && (
-                    <S.ImagesBox onClick={!isOpen ? handlePosition : () => {}} >
+                    <S.ImagesBox onClick={handlePosition} >
                         <Carousel images={images} setImages={setImage} count={count} setCount={setCount} />
                         {
                             isOpen && (
@@ -78,7 +78,7 @@ export default function BoardDetailUI({
                                         backgroundColor : 'black',
                                         zIndex : '2000'
                                     }}
-                                    onClick={() => console.log('클릭')}
+                                    onClick={(e) => e.stopPropagation()}
                                 >
                                     <input
                                         type="text"
