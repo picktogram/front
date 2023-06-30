@@ -1,63 +1,80 @@
 import React, { Dispatch, SetStateAction } from "react";
 import styled from "@emotion/styled"
 
+interface ICarouselProps {
+    images : {url : string; id : number}[]
+    count : number;
+    setCount : Dispatch<SetStateAction<number>>;
+    currentId : React.MutableRefObject<number>;
+    isNew? : boolean;
+}
+
 export default function Carousel ({
      images,
-     setImages,
      count,
      setCount,
+     currentId,
      isNew = false
-    } : {
-         images : string[]
-         setImages : Dispatch<SetStateAction<string[]>>
-         count : number;
-         setCount : Dispatch<SetStateAction<number>>;
-         isNew? : boolean
-    }) {
-
+    } : ICarouselProps
+    ) {
 
     const nextImage = () => {
-        setCount((prev) => (prev === images.length - 1 ? prev : prev + 1));
+        setCount((prev) => {
+            if(prev === images.length - 1) {
+                return prev
+            } else {
+                currentId.current = images[prev + 1].id
+                return prev + 1
+            }
+        })
     };
 
     const prevImage = () => {
-        setCount((prev) => (prev === 0 ? prev : prev - 1));
+        setCount((prev) => {
+            if(prev === 0) {
+                return prev
+            } else {
+                currentId.current = images[prev - 1].id
+                return prev - 1
+            }
+        })
     };
 
-    const deleteHandler = (imgUrl : string, isNew : boolean) => {
-        if(!isNew) return
+    // const deleteHandler = (imgUrl : string, isNew : boolean) => {
+    //     if(!isNew) return
 
-        const currentIndex = images.indexOf(imgUrl)
-        let newImages = [...images];
-        newImages.splice(currentIndex, 1);
-        setImages(newImages);
-        setCount(currentIndex - 1);
-    }
+    //     const currentIndex = images.indexOf(imgUrl)
+    //     let newImages = [...images];
+    //     newImages.splice(currentIndex, 1);
+    //     setImages(newImages);
+    //     setCount(currentIndex - 1);
+    // }
 
     return (
         <CarouselContainer>
-        {images.length > 0 &&
-            <>
-                <LeftArrow onClick={prevImage}>
-                    <i className="ri-arrow-left-line"></i>
-                </LeftArrow>
-                <ImageBox index={count}>
-                    {
-                    images?.map((image, index) => (
-                        <img
-                            src={image}
-                            style={{width: "100%", flex : "1 0 100%"}}
-                            key={index}
-                            onClick={() => deleteHandler(image, isNew)}
-                        />
-                    ))}
-                </ImageBox>
-                <RightArrow onClick={nextImage}>
-                    <i className="ri-arrow-right-line"></i>
-                </RightArrow>
-            </>
-        }
-    </CarouselContainer>
+            {images.length > 0 &&
+                <>
+                    <LeftArrow onClick={prevImage}>
+                        <i className="ri-arrow-left-line"></i>
+                    </LeftArrow>
+                    <ImageBox index={count}>
+                        {
+                            images?.map((image, index) => (
+                                <img
+                                    src={image.url}
+                                    style={{width: "100%", flex : "1 0 100%"}}
+                                    key={index}
+                                    // onClick={() => deleteHandler(image.url, isNew)}
+                                />
+                            ))
+                        }
+                    </ImageBox>
+                    <RightArrow onClick={nextImage}>
+                        <i className="ri-arrow-right-line"></i>
+                    </RightArrow>
+                </>
+            }
+        </CarouselContainer>
     )
 
 }
@@ -72,15 +89,13 @@ const CarouselContainer = styled.div`
 `
 
 const ImageBox = styled.div<{index : number}>`
-  width: 100%;
-  /* height: 500px; */
-  height: 100%;
+  height: 1000px;
   display: flex;
   transform: ${(props) => `translateX(-${props.index * 100}%)`};
   transition: transform .3s ease;
 
   & img {
-    object-fit: contain;
+    object-fit: cover;
   }
 `
 const LeftArrow = styled.div`

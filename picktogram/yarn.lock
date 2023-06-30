@@ -5766,10 +5766,10 @@ path-type@^4.0.0:
   resolved "https://registry.npmjs.org/path-type/-/path-type-4.0.0.tgz"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-picktogram-server-apis@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/picktogram-server-apis/-/picktogram-server-apis-0.0.10.tgz#17e7f26f8e2c327107089d1ffb4919073e3657a7"
-  integrity sha512-B2qhI3MZkRJSomW4qRe5fcjJyHp211qCQC1/Voc5c19JOyGjUJ1zeA2zKElrS0uNhVL/vV1vfvtyw1+6bag6nQ==
+picktogram-server-apis@^0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/picktogram-server-apis/-/picktogram-server-apis-0.0.12.tgz#3e15f3ea5627c62b68f940638932d0af7cc5f5f4"
+  integrity sha512-zPSZZtndoP3Ube3QwSjxi8RZuUN1VMtFBqUbKtH0FXSbH9MCWe3yY6vHAR4LrAeTDaWnKhDPG49fwjg2wXXPdw==
   dependencies:
     "@nestia/fetcher" "^1.0.1"
     typia "^3.6.8"

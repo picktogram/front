@@ -44,11 +44,11 @@ export default function BoardDetail({
     user
 } : BoardDetailProps
 ) {
-    const [page, setPage] = useState<number>(1)
-    const [isNewComments, setIsNewComments] = useState<boolean>(false)
     const router = useRouter()
     const queryClient = useQueryClient()
     const {data, isError} = useBoard(token, Number(router.query.id))
+    const [page, setPage] = useState<number>(1)
+
     const { mutate : addComments } = useMutation(['addComment', router.query.id], async (data : CommentBodyData) => {
         try {
             const res = await Apis.api.v1.articles.comments.writeComment({
@@ -62,6 +62,7 @@ export default function BoardDetail({
                     parentId : data?.parentId,
                     xPosition : data?.xPosition,
                     yPosition : data?.yPosition,
+                    imageId : data?.imageId,
                 }
             )
             return res
@@ -70,8 +71,7 @@ export default function BoardDetail({
         }
     }, {
         onSuccess: (data) => {
-            console.log('onSuccess', data);
-            // setIsNewComments(true);
+            queryClient.invalidateQueries(['getComments', page, router.query.id ])
         },
     });
 
@@ -115,11 +115,37 @@ export default function BoardDetail({
         router.push(`/dashboard/${router.query.id}/edit`);
     }
 
-    const handleNewComments = () => {
-        setIsNewComments(false);
-        setPage(1);
-        queryClient.invalidateQueries(['getComments', 1]);
+    const handleComment = ({
+        parentId,
+        contents,
+        xPosition,
+        yPosition,
+        imageId,
+        onSuccess
+    } : {
+        parentId? : number;
+        contents : string;
+        xPosition? : number;
+        yPosition? : number;
+        imageId : number;
+        onSuccess? : () => void;
+    }) => {
+        let data = {
+            parentId,
+            contents,
+            xPosition,
+            yPosition,
+            imageId,
+        }
+        try {
+            void addComments(data)
+            onSuccess?.()
+        } catch (error) {
+            console.log(error)
+        }
+
     }
+
 
     if(isError) {
         return <div>Error...</div>
@@ -133,12 +159,10 @@ export default function BoardDetail({
         <BoardDetailUI
             boardData={data}
             handleMoveEdit={handleMoveEdit}
-            addComments={addComments}
             commentsData={commentsData}
             setPage={setPage}
             page={page}
-            isNewComments={isNewComments}
-            handleNewComments={handleNewComments}
+            handleComment={handleComment}
         />
 
     </>

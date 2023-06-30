@@ -12,7 +12,7 @@ export interface CommentBodyData {
     parentId? : number | null | undefined
     xPosition? : number | `${number}` | null | undefined;
     yPosition? : number | `${number}` | null | undefined;
-    ImageId : number;
+    imageId? : number;
 }
 
 export type DetailResponce = {
@@ -36,7 +36,6 @@ export interface BoardDetailProps {
 export interface BoardDetailUIProps {
     boardData : any;
     handleMoveEdit : React.MouseEventHandler<HTMLButtonElement>;
-    addComments : UseMutateFunction<any, unknown, any, unknown>;
     commentsData :  {
         list : {
             xPosition : string;
@@ -50,7 +49,6 @@ export interface BoardDetailUIProps {
         hasMore : boolean;
     } | undefined;
     setPage :  React.Dispatch<React.SetStateAction<number>>;
-    page : number
-    isNewComments : boolean;
-    handleNewComments : any;
+    page : number;
+    handleComment : (arg? : any) => void;
 }

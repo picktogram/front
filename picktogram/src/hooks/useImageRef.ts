@@ -20,8 +20,14 @@ export default function useImageRef () {
     }
 
     const handlePosition = <T extends React.MouseEvent>(e : T) => {
-        setX(e.nativeEvent.offsetX)
-        setY(e.nativeEvent.offsetY)
+        if(!isOpen) {
+            setX(e.nativeEvent.offsetX)
+            setY(e.nativeEvent.offsetY)
+        } else {
+            setX(0)
+            setY(0)
+        }
+
         setIsOpen((prev) => !prev)
     }
 

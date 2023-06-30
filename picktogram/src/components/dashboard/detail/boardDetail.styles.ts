@@ -2,15 +2,14 @@ import styled from '@emotion/styled'
 
 export const Container = styled.div`
     position: relative;
-    height: 100%;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    margin: auto;
+    width: 1600px;
+    height: 1300px;
+    display: flex;
 `
 
 export const ImageWrapper = styled.div`
   position : relative;
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -67,17 +66,12 @@ export const UserMenu = styled.button`
 
 export const ImagesBox = styled.div`
   position: relative;
-  width: 100%;
-  min-height: 500px;
-  display: flex;
-  flex-direction: row;
-  /* background-color: black; */
 `
 
 export const ContentsBox = styled.div`
   width: 100%;
-  display: grid;
-  grid-template-rows: 2fr .25fr 1fr;
+  display: flex;
+  flex-direction: column;
   border: 1px solid black;
   background-color: #3f3f3f;
   color : white;
@@ -85,19 +79,17 @@ export const ContentsBox = styled.div`
 
 export const Contents = styled.div`
   padding: 1rem;
+  min-height: 700px;
   margin-bottom: 1.5rem;
   border-bottom : 1px solid lightgray;
 `
 
 export const CommentsBox = styled.div`
    width: 90%;
-   height: auto;
-   max-height: 1800px;
+   min-height: 400px;
    margin: 0 auto;
    padding: 1rem;
    margin-bottom: 1.5rem;
-
-
 `
 export const Comments = styled.div`
   width: 100%;
@@ -113,8 +105,6 @@ export const CommentInput = styled.form`
    place-items: center;
    column-gap: 1rem;
    grid-template-columns: 85% 15%;
-
-
 `
 
 export const Input = styled.input`
