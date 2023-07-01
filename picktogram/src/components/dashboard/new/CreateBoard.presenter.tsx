@@ -17,7 +17,8 @@ export default function CreateBoardUI({
     handleSubmit,
     handleEditSubmit,
     isEdit,
-    defaultData
+    defaultData,
+    handelDelelte
 } : CreateBoardUIProps
 ) {
   return (
@@ -41,8 +42,27 @@ export default function CreateBoardUI({
             <div>업로드한 이미지를 클릭하여 삭제할 수 있습니다.</div>
             {!isEdit && <Dropzone images={images} setImages={setImages} token={token} setCount={setCount} />}
             {isEdit && <div></div> }
-            {!isEdit && <Carousel images={images} count={count} setCount={setCount} setImages={setImages} />}
-            {isEdit && <Carousel images={defaultData?.images.length ? defaultData?.images : images} count={count} setCount={setCount} setImages={setImages} />}
+            <div
+              style={{
+                display : 'flex',
+                columnGap : '1rem',
+                flexWrap : 'wrap'
+              }}
+            >
+              {
+                images.map((url) => (
+                    <img
+                      src={url}
+                      style={{
+                        width : '300px',
+                        height : '300px',
+                        objectFit : 'cover'
+                      }}
+                      onClick={() => handelDelelte(url)}
+                    />
+                ))
+              }
+            </div>
           </S.ImageBox>
           <S.Button type='submit'>{isEdit ? "수정" : "게시"}</S.Button>
         </S.Wrapper>

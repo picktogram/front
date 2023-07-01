@@ -42,16 +42,6 @@ export default function Carousel ({
         })
     };
 
-    // const deleteHandler = (imgUrl : string, isNew : boolean) => {
-    //     if(!isNew) return
-
-    //     const currentIndex = images.indexOf(imgUrl)
-    //     let newImages = [...images];
-    //     newImages.splice(currentIndex, 1);
-    //     setImages(newImages);
-    //     setCount(currentIndex - 1);
-    // }
-
     return (
         <CarouselContainer>
             {images.length > 0 &&
@@ -71,7 +61,6 @@ export default function Carousel ({
                                         objectFit : 'cover'
                                     }}
                                     key={index}
-                                    // onClick={() => deleteHandler(image.url, isNew)}
                                 />
                             ))
                         }

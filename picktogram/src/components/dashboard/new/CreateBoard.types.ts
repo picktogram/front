@@ -18,4 +18,5 @@ export interface CreateBoardUIProps {
     handleEditSubmit : React.FormEventHandler<HTMLFormElement>;
     isEdit? : boolean;
     defaultData? : any;
+    handelDelelte : (value : string) => void;
 }

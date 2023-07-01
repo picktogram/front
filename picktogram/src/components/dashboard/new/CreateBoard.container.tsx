@@ -97,6 +97,13 @@ export default function CreateBoard({
       router.push('/')
     }
 
+     const handelDelelte = (imgUrl : string) => {
+        const currentIndex = images.indexOf(imgUrl)
+        let newImages = [...images];
+        newImages.splice(currentIndex, 1);
+        setImages(newImages);
+        setCount(currentIndex - 1);
+    }
 
   return (
     <>
@@ -113,6 +120,7 @@ export default function CreateBoard({
           handleEditSubmit={handleEditSubmit}
           isEdit={isEdit}
           defaultData={defaultData}
+          handelDelelte={handelDelelte}
       />
     </>
 

@@ -66,7 +66,7 @@ export const ImageBox = styled.div`
   flex-direction: column;
   row-gap: 1rem;
   border-radius: 15px;
-  padding: 1rem 0 0 1rem;
+  padding: 1rem;
   background-color: rgb(233, 233, 233);
 `
 
