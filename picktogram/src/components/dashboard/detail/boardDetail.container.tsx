@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import axios, { AxiosError } from 'axios';
-import { IBoardDetailProps, ICommentBodyData, ICommentData, ICommentSelectData, ICommentSubmitData} from './boardDetail.type';
+import React, { useState } from 'react'
+import { IBoardDetailProps, ICommentBodyData,  ICommentSubmitData} from './boardDetail.type';
 import { useRouter } from 'next/router'
-import { useMutation, useQueryClient, useQuery} from 'react-query';
+import { useMutation, useQueryClient, useInfiniteQuery} from 'react-query';
 import { SERVER_URL } from "@/util/constant"
-import { fetcher } from '@/util/queryClient';
 
 import * as Apis from "picktogram-server-apis/api/functional";
 import useBoard from '@/src/hooks/useBoard';
@@ -44,11 +42,15 @@ export default function BoardDetail({
         }
     }, {
         onSuccess: () => {
-            queryClient.invalidateQueries(['fetchComments', page, router.query.id ])
+            queryClient.invalidateQueries(['fetchComments', router.query.id ])
         },
     });
 
-    const {data : commentsData }= useQuery(['fetchComments', page, router.query.id], async () => {
+    const {
+            data : commentsData,
+            fetchNextPage : fetchNextCommentsData,
+            hasNextPage : ishasNextComments
+        } = useInfiniteQuery(['fetchComments', router.query.id] , async ({pageParam = 1}) => {
         try {
             const res = await Apis.api.v1.articles.comments.readComments({
                 host : SERVER_URL as string,
@@ -58,8 +60,8 @@ export default function BoardDetail({
             },
                 Number(router.query.id),
                 {
-                    limit : 4,
-                    page,
+                    limit : 7,
+                    page : pageParam
                 }
             )
 
@@ -68,31 +70,14 @@ export default function BoardDetail({
             console.log(error)
         }
     }, {
-        keepPreviousData : true,
-        select : (data) => {
-            if(!data) return
-            return {
-                list : data?.list,
-                page : data?.page,
-                totalPage : data?.totalPage,
-                hasMore : data?.totalPage > page
-            }
-        }
+        getNextPageParam : (lastPage) => {
+            return lastPage?.page == lastPage?.totalPage ? undefined : Number(lastPage?.page) + 1;
+        },
     })
 
-    useEffect(() => {
-        if (commentsData?.hasMore) {
-            queryClient.prefetchQuery(['fetchComments', page + 1, router.query.id], () =>
-                fetcher({
-                    method : 'get',
-                    path : `/api/v1/articles/${router.query.id}/comments?limit=4&page=${page + 1}`,
-                    headers : {
-                        Authorization : token
-                    },
-                })
-            );
-          }
-    },[commentsData, page, queryClient])
+    const handleNextCommentData = () => {
+        fetchNextCommentsData()
+    }
 
     const handleMoveEdit = () => {
         router.push(`/dashboard/${router.query.id}/edit`);
@@ -134,11 +119,11 @@ export default function BoardDetail({
         />
         <BoardDetailUI
             boardData={data}
-            handleMoveEdit={handleMoveEdit}
             commentsData={commentsData}
-            setPage={setPage}
-            page={page}
+            ishasNextComments={ishasNextComments}
             handleComment={handleComment}
+            handleMoveEdit={handleMoveEdit}
+            handleNextCommentData={handleNextCommentData}
         />
     </>
 

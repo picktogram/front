@@ -1,5 +1,5 @@
 import React, { MouseEventHandler, useEffect, useMemo, useState } from 'react';
-import { CommentModalProps } from '../boardDetail.type'
+import { CommentModalProps, ICommentData } from '../boardDetail.type'
 
 import * as S from '../boardDetail.styles'
 
@@ -9,7 +9,12 @@ const CommentModal : React.FC<CommentModalProps> = ({
     hoverInfo
 }) => {
     const filteredCommentData = useMemo(() => {
-        return commentsData?.list.filter((comment) => comment.xPosition && comment.yPosition && currentId == comment.imageId)
+        let newCommentData : ICommentData = []
+        commentsData?.pages.map((page) => {
+            const filtered = page?.list.filter((comment) => comment.xPosition && comment.yPosition && currentId == comment.imageId)
+            if(filtered) newCommentData = [...newCommentData, ...filtered]
+        })
+        return newCommentData
     }, [commentsData, currentId])
 
     return (

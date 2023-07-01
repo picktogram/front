@@ -1,4 +1,6 @@
+import { PaginationResponseType } from "picktogram-server-apis/common/interceptors/transform.interceptor";
 import { CommentType, Merge, UserType } from "picktogram-server-apis/types";
+import { InfiniteData } from "react-query";
 
 type ImageData = {
     id : number;
@@ -30,20 +32,9 @@ export interface IDetailResponce  {
     };
 }
 
-export interface ICommentData  {
-    list : {
-        xPosition : string;
-        yPosition : string;
-        id : number;
-        writerId : number;
-        contents : string;
-        imageId : number;
-    }[];
-    count : number;
-    totalResult : number;
-    totalPage : number;
-    page : number;
-}
+export type ICommentData = Merge<CommentType.RootComment, {
+    writer: UserType.Profile;
+}>[]
 
 export interface ICommentSelectData {
     list: Merge<CommentType.RootComment, {
@@ -63,11 +54,11 @@ export interface IBoardDetailProps {
 
 export interface BoardDetailUIProps {
     boardData : any;
-    commentsData :  ICommentSelectData | undefined;
-    page : number;
-    setPage :  React.Dispatch<React.SetStateAction<number>>;
+    commentsData :  InfiniteData<PaginationResponseType<CommentType.CommentsByArcile> | undefined> | undefined;
+    ishasNextComments : boolean | undefined;
     handleMoveEdit : React.MouseEventHandler<HTMLButtonElement>;
     handleComment : (arg : ICommentSubmitData) => void;
+    handleNextCommentData : () => void;
 }
 
 export interface InputRemoteControlProps {
@@ -80,7 +71,7 @@ export interface InputRemoteControlProps {
 }
 
 export interface CommentModalProps {
-    commentsData : ICommentSelectData | undefined;
+    commentsData : InfiniteData<PaginationResponseType<CommentType.CommentsByArcile> | undefined> | undefined;
     currentId : number;
     hoverInfo : {
         id : string;

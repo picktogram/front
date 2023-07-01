@@ -79,23 +79,42 @@ export const ContentsBox = styled.div`
 
 export const Contents = styled.div`
   padding: 1rem;
-  min-height: 700px;
+  height: 300px;
   margin-bottom: 1.5rem;
   border-bottom : 1px solid lightgray;
 `
 
 export const CommentsBox = styled.div`
-   width: 90%;
-   min-height: 400px;
+   width: 100%;
+   height: 800px;
    margin: 0 auto;
    padding: 1rem;
    margin-bottom: 1.5rem;
+   overflow-y: scroll;
+   &::-webkit-scrollbar {
+        opacity: 0;
+    }
+`
+
+export const AddBtn = styled.button`
+  background-color: transparent;
+  font-size: 16px;
+  color: lightgray;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    color : gray
+  }
 `
 export const Comments = styled.div`
   width: 100%;
   padding: 1rem;
   margin-bottom: 1.5rem;
   border-bottom : 1px solid lightgray;
+  display: flex;
+  column-gap: 1rem;
+  align-items: center;
 `
 
 export const CommentInput = styled.form`
