@@ -115,6 +115,7 @@ const UserUI = ({
                         <React.Fragment key={page.page}>
                             {page.list.map((post , index : number) => (
                                 <Card
+                                    token={token}
                                     key={post.id}
                                     isLast={index === page.list.length - 1}
                                     newLimit={handleNextPage}

@@ -158,12 +158,12 @@ const ArticleModal : React.FC<ArticleModalProps> = ({
     const bodyContent = (
         <Container>
             <LeftSide>
-                <Carousel
+                {/* <Carousel
                     images={images}
                     setImages={setImages}
                     count={count}
                     setCount={setCount}
-                />
+                /> */}
             </LeftSide>
             <RightSide>
                 <UserInfo>
