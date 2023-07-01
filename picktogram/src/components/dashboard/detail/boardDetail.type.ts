@@ -73,4 +73,8 @@ export interface InputRemoteControlProps {
 export interface CommentModalProps {
     commentsData : ICommentSelectData | undefined;
     currentId : number;
+    hoverInfo : {
+        id : string;
+        isHover : boolean;
+    };
 }

@@ -21,13 +21,15 @@ export default function BoardDetailUI({
     } : BoardDetailUIProps
     ) {
     const currentId = useRef<number>(boardData?.images[0]?.id)
-    const [count, setCount] = useState<number>(0);
-    const [isShow, setIsShow] = useState<boolean>(false);
-    const [inputValue, setInputValue] = useState<string>('');
+    const [count, setCount] = useState<number>(0)
+    const [isShow, setIsShow] = useState<boolean>(false)
+    const [hoverInfo, setHoverInfo] = useState<{id : string; isHover : boolean}>({
+        id : '',
+        isHover : false,
+    })
+    const [inputValue, setInputValue] = useState<string>('')
 
     const {ref, handlePosition, xPos, yPos, isOpen, handleClose, handleSubmit } = useImageRef()
-
-    console.log(xPos, yPos)
 
     const [commentList, setCommentList] = useState<ICommentSelectData>({
         list : [],
@@ -41,7 +43,6 @@ export default function BoardDetailUI({
             setCommentList(commentsData)
         }
     }, [commentsData])
-
 
   return (
         <S.Container>
@@ -66,6 +67,7 @@ export default function BoardDetailUI({
                           <CommentModal
                             commentsData={commentsData}
                             currentId={currentId.current}
+                            hoverInfo={hoverInfo}
                           />
                         </S.ImagesBox>
                     )
@@ -108,11 +110,23 @@ export default function BoardDetailUI({
                             </S.Button>
                     </S.CommentInput>
                     <S.CommentsBox>
-                        { commentList.list.map((comment) => (
-                            <S.Comments key={comment.id}>
-                                    {comment.contents}
-                            </S.Comments>
-                        ))}
+                        {
+                            commentList.list.map((comment) => (
+                                <S.Comments
+                                    key={comment.id}
+                                    id={String(comment.id)}
+                                    onMouseOver={(e) => setHoverInfo({
+                                        id : e.currentTarget.id,
+                                        isHover : true,
+                                    })}
+                                    onMouseOut={() => setHoverInfo({
+                                        id : '',
+                                        isHover : false,
+                                    })}>
+                                        {comment.contents}
+                                </S.Comments>
+                            ))
+                        }
                         <Pagination totalPage={commentList.totalPage} setPage={setPage} page={page} />
                     </S.CommentsBox>
                 </S.ContentsBox>

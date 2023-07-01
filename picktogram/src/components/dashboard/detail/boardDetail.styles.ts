@@ -174,7 +174,7 @@ export const CommentOnImage = styled.div<{
   z-index : 10000px;
   overflow : hidden;
   background-color : ${(props) => props.isOpen ? 'lightgray' : 'black'};;
-  transition : .3s;
+  transition : width .3s, background-color .3s;
 
   &:hover {
     transform : scale(1.2)
