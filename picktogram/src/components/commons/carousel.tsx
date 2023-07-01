@@ -17,7 +17,6 @@ export default function Carousel ({
      isNew = false
     } : ICarouselProps
     ) {
-
     const nextImage : MouseEventHandler<HTMLDivElement> = (e) => {
         e.stopPropagation()
         setCount((prev) => {
@@ -58,7 +57,7 @@ export default function Carousel ({
                                         width: "100%",
                                         height : '100%',
                                         flex : "1 0 100%",
-                                        objectFit : 'cover'
+                                        objectFit : 'fill'
                                     }}
                                     key={index}
                                 />
