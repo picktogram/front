@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { BoardDetailUIProps } from './boardDetail.type'
+import { BoardDetailUIProps, ICommentSelectData } from './boardDetail.type'
 
 import * as S from "./boardDetail.styles"
 
@@ -9,6 +9,7 @@ import Pagination from '@/src/components/commons/Pagination/Pagination.container
 import NewCommentsModal from './components/newCommentsModal';
 import ProfileImage from '../../commons/profileImage';
 import useImageRef from '@/src/hooks/useImageRef';
+import InputRemoteControl from './components/inputRemoteControl';
 
 export default function BoardDetailUI({
     boardData,
@@ -29,18 +30,7 @@ export default function BoardDetailUI({
 
     console.log(xPos, yPos)
 
-    const [commentList, setCommentList] = useState<{
-        list : {
-            xPosition : string;
-            yPosition : string;
-            id : number;
-            writerId : number;
-            contents : string;
-        }[];
-        page : number;
-        totalPage : number;
-        hasMore : boolean;
-    }>({
+    const [commentList, setCommentList] = useState<ICommentSelectData>({
         list : [],
         page : 0,
         totalPage : 0,
@@ -66,44 +56,14 @@ export default function BoardDetailUI({
                                 setCount={setCount}
                                 currentId={currentId}
                             />
-                            {
-                                isOpen && (
-                                    <div
-                                        ref={ref}
-                                        style={{
-                                            width : '200px',
-                                            height : '200px',
-                                            position: 'absolute',
-                                            left: xPos,
-                                            top: yPos,
-                                            backgroundColor : 'black',
-                                            zIndex : '2000'
-                                        }}
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        <input
-                                            type="text"
-                                            placeholder="댓글을 입력해주세요."
-                                            value={modalInputValue}
-                                            onChange={(e) => setModalInputValue(e.target.value)}
-                                        />
-                                        <button onClick={handleClose}>x</button>
-                                        <button onClick={() => handleComment({
-                                            parentId : null,
-                                            contents : modalInputValue,
-                                            xPosition : xPos ? xPos : null,
-                                            yPosition : yPos ? yPos : null,
-                                            imageId : currentId.current,
-                                            onSuccess: () => {
-                                                setModalInputValue('')
-                                                handleClose()
-                                            }
-                                        })}
-                                        disabled={!modalInputValue}
-                                        >댓글 달기</button>
-                                    </div>
-                                )
-                            }
+                           <InputRemoteControl
+                                isOpen={isOpen}
+                                xPos={xPos}
+                                yPos={yPos}
+                                handleComment={handleComment}
+                                currentId={currentId.current}
+                                handleClose={handleClose}
+                           />
                         </S.ImagesBox>
                     )
                 }

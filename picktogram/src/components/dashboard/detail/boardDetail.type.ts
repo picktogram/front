@@ -1,5 +1,3 @@
-import { UseMutateFunction } from "react-query";
-
 type ImageData = {
     id : number;
     depth : 1;
@@ -7,7 +5,7 @@ type ImageData = {
     url : string;
 }
 
-export interface CommentBodyData {
+export interface ICommentBodyData {
     contents : string;
     parentId? : number | null | undefined
     xPosition? : number | `${number}` | null | undefined;
@@ -15,7 +13,11 @@ export interface CommentBodyData {
     imageId? : number;
 }
 
-export type DetailResponce = {
+export type ICommentSubmitData = ICommentBodyData & {
+    onSuccess? : () => void
+}
+
+export interface IDetailResponce  {
     id: number;
     contents: string;
     images: ImageData[];
@@ -26,7 +28,23 @@ export type DetailResponce = {
     };
 }
 
-export interface BoardDetailProps {
+export interface ICommentData  {
+    list : {
+        xPosition : string;
+        yPosition : string;
+        id : number;
+        writerId : number;
+        contents : string;
+    }[];
+    count : number;
+    totalResult : number;
+    totalPage : number;
+    page : number;
+}
+
+export type ICommentSelectData = Omit<ICommentData, 'count' | 'totalResult'> & { hasMore : boolean }
+
+export interface IBoardDetailProps {
     token : string;
     user : {
         nickname : string
@@ -35,20 +53,18 @@ export interface BoardDetailProps {
 
 export interface BoardDetailUIProps {
     boardData : any;
-    handleMoveEdit : React.MouseEventHandler<HTMLButtonElement>;
-    commentsData :  {
-        list : {
-            xPosition : string;
-            yPosition : string;
-            id : number;
-            writerId : number;
-            contents : string;
-        }[];
-        page : number;
-        totalPage : number;
-        hasMore : boolean;
-    } | undefined;
-    setPage :  React.Dispatch<React.SetStateAction<number>>;
+    commentsData :  ICommentSelectData | undefined;
     page : number;
-    handleComment : (arg? : any) => void;
+    setPage :  React.Dispatch<React.SetStateAction<number>>;
+    handleMoveEdit : React.MouseEventHandler<HTMLButtonElement>;
+    handleComment : (arg : ICommentSubmitData) => void;
+}
+
+export interface InputRemoteControlProps {
+    isOpen : boolean;
+    xPos : number;
+    yPos : number;
+    currentId : number;
+    handleClose : () => void;
+    handleComment : (arg : ICommentSubmitData) => void;
 }

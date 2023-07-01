@@ -1,55 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import BoardDetailUI from './boardDetail.presenter'
 import axios, { AxiosError } from 'axios';
+import { IBoardDetailProps, ICommentBodyData, ICommentData, ICommentSelectData, ICommentSubmitData} from './boardDetail.type';
 import { useRouter } from 'next/router'
 import { useMutation, useQueryClient, useQuery} from 'react-query';
 import { SERVER_URL } from "@/util/constant"
 import { fetcher } from '@/util/queryClient';
-import { BoardDetailProps, CommentBodyData} from './boardDetail.type';
 
-import useBoard from '@/src/hooks/useBoard';
 import * as Apis from "picktogram-server-apis/api/functional";
+import useBoard from '@/src/hooks/useBoard';
 
 import Header from '../../commons/layout/header';
-
-type CommentData = {
-    list : {
-        xPosition : string;
-        yPosition : string;
-        id : number;
-        writerId : number;
-        contents : string;
-    }[];
-    count : number;
-    totalResult : number;
-    totalPage : number;
-    page : number
-}
-
-type CommentSelectData = {
-    list : {
-        xPosition : string;
-        yPosition : string;
-        id : number;
-        writerId : number;
-        contents : string;
-    }[];
-    page : number;
-    totalPage : number;
-    hasMore : boolean;
-}
+import BoardDetailUI from './boardDetail.presenter'
 
 export default function BoardDetail({
     token,
     user
-} : BoardDetailProps
+} : IBoardDetailProps
 ) {
     const router = useRouter()
     const queryClient = useQueryClient()
     const {data, isError} = useBoard(token, Number(router.query.id))
     const [page, setPage] = useState<number>(1)
 
-    const { mutate : addComments } = useMutation(['addComment', router.query.id], async (data : CommentBodyData) => {
+    const { mutate : addComments } = useMutation(['addComment', router.query.id], async (data : ICommentBodyData) => {
         try {
             const res = await Apis.api.v1.articles.comments.writeComment({
                 host : SERVER_URL as string,
@@ -70,22 +43,18 @@ export default function BoardDetail({
             throw err
         }
     }, {
-        onSuccess: (data) => {
+        onSuccess: () => {
             queryClient.invalidateQueries(['getComments', page, router.query.id ])
         },
     });
 
-    const { data : commentsData } = useQuery<CommentData, AxiosError, CommentSelectData>(['getComments', page, router.query.id ], () => fetcher({
+    const { data : commentsData } = useQuery<ICommentData, AxiosError, ICommentSelectData>(['getComments', page, router.query.id ], () => fetcher({
         method : 'get',
-        path : `/api/v1/articles/${router.query.id}/comments?limit=10&page=${page}`,
+        path : `/api/v1/articles/${router.query.id}/comments?limit=4&page=${page}`,
         headers : {
             Authorization : token
         },
     }), {
-        onSuccess : (data) => {
-            console.log('success getCommets', data);
-        },
-        staleTime: 5000,
         keepPreviousData: true,
         select : (data) => {
             return {
@@ -122,14 +91,8 @@ export default function BoardDetail({
         yPosition,
         imageId,
         onSuccess
-    } : {
-        parentId? : number;
-        contents : string;
-        xPosition? : number;
-        yPosition? : number;
-        imageId : number;
-        onSuccess? : () => void;
-    }) => {
+    } : ICommentSubmitData
+    ) => {
         let data = {
             parentId,
             contents,
@@ -164,7 +127,6 @@ export default function BoardDetail({
             page={page}
             handleComment={handleComment}
         />
-
     </>
 
   )

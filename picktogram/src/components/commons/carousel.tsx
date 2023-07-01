@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, MouseEventHandler, SetStateAction } from "react";
 import styled from "@emotion/styled"
 
 interface ICarouselProps {
@@ -18,7 +18,8 @@ export default function Carousel ({
     } : ICarouselProps
     ) {
 
-    const nextImage = () => {
+    const nextImage : MouseEventHandler<HTMLDivElement> = (e) => {
+        e.stopPropagation()
         setCount((prev) => {
             if(prev === images.length - 1) {
                 return prev
@@ -29,7 +30,8 @@ export default function Carousel ({
         })
     };
 
-    const prevImage = () => {
+    const prevImage : MouseEventHandler<HTMLDivElement> = (e) => {
+        e.stopPropagation()
         setCount((prev) => {
             if(prev === 0) {
                 return prev
@@ -62,7 +64,12 @@ export default function Carousel ({
                             images?.map((image, index) => (
                                 <img
                                     src={image.url}
-                                    style={{width: "100%", flex : "1 0 100%"}}
+                                    style={{
+                                        width: "100%",
+                                        height : '100%',
+                                        flex : "1 0 100%",
+                                        objectFit : 'cover'
+                                    }}
                                     key={index}
                                     // onClick={() => deleteHandler(image.url, isNew)}
                                 />
@@ -89,14 +96,10 @@ const CarouselContainer = styled.div`
 `
 
 const ImageBox = styled.div<{index : number}>`
-  height: 1000px;
+  height: 1300px;
   display: flex;
   transform: ${(props) => `translateX(-${props.index * 100}%)`};
   transition: transform .3s ease;
-
-  & img {
-    object-fit: cover;
-  }
 `
 const LeftArrow = styled.div`
     position: absolute;

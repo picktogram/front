@@ -122,3 +122,39 @@ export const Button = styled.button`
   min-width: 100px;
   padding: 20px;
 `
+
+export const RemoteControl = styled.div<{
+  xPos : number;
+  yPos : number;
+}>`
+  width: 500px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  column-gap: 16px;
+  position: absolute;
+  left: ${(props) => `${props.xPos}px`};
+  top: ${(props) => `${props.yPos}px`};
+  z-index: 100;
+  background-color : black;
+  border-radius : 20px;
+`
+
+export const RemoteCancelBtn = styled.button`
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  border-radius: 50%;
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+  border: none;
+
+  &:hover {
+    background-color: gray;
+  }
+`
