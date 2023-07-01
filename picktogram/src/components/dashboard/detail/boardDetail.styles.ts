@@ -124,8 +124,8 @@ export const Button = styled.button`
 `
 
 export const RemoteControl = styled.div<{
-  xPos : number;
-  yPos : number;
+  xPos : number | string;
+  yPos : number | string;
 }>`
   width: 500px;
   padding: 30px;
@@ -156,5 +156,27 @@ export const RemoteCancelBtn = styled.button`
 
   &:hover {
     background-color: gray;
+  }
+`
+
+export const CommentOnImage = styled.div<{
+  isOpen : boolean;
+  xPos : number | string;
+  yPos : number | string;
+}>`
+  width: ${(props) => props.isOpen ? '300px' : '20px'};
+  height: ${(props) => props.isOpen ? 'auto' : '20px'};
+  border-radius: 20px;
+  padding: 1rem;
+  position: absolute;
+  left: ${(props) => `${props.xPos}px`};
+  top: ${(props) => `${props.yPos}px`};
+  z-index : 10000px;
+  overflow : hidden;
+  background-color : ${(props) => props.isOpen ? 'lightgray' : 'black'};;
+  transition : .3s;
+
+  &:hover {
+    transform : scale(1.2)
   }
 `

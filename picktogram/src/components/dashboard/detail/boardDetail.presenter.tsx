@@ -6,10 +6,10 @@ import * as S from "./boardDetail.styles"
 import Carousel from '@/src/components/commons/carousel';
 import BoardModal from "@/src/components/commons/boardModal"
 import Pagination from '@/src/components/commons/Pagination/Pagination.container';
-import NewCommentsModal from './components/newCommentsModal';
 import ProfileImage from '../../commons/profileImage';
 import useImageRef from '@/src/hooks/useImageRef';
 import InputRemoteControl from './components/inputRemoteControl';
+import CommentModal from './components/commentModal';
 
 export default function BoardDetailUI({
     boardData,
@@ -20,11 +20,10 @@ export default function BoardDetailUI({
     handleComment
     } : BoardDetailUIProps
     ) {
-    const currentId = useRef<number>(boardData?.images[0].id)
+    const currentId = useRef<number>(boardData?.images[0]?.id)
     const [count, setCount] = useState<number>(0);
     const [isShow, setIsShow] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>('');
-    const [modalInputValue, setModalInputValue] = useState<string>('')
 
     const {ref, handlePosition, xPos, yPos, isOpen, handleClose, handleSubmit } = useImageRef()
 
@@ -64,6 +63,10 @@ export default function BoardDetailUI({
                                 currentId={currentId.current}
                                 handleClose={handleClose}
                            />
+                          <CommentModal
+                            commentsData={commentsData}
+                            currentId={currentId.current}
+                          />
                         </S.ImagesBox>
                     )
                 }

@@ -35,6 +35,7 @@ export interface ICommentData  {
         id : number;
         writerId : number;
         contents : string;
+        imageId : number;
     }[];
     count : number;
     totalResult : number;
@@ -67,4 +68,9 @@ export interface InputRemoteControlProps {
     currentId : number;
     handleClose : () => void;
     handleComment : (arg : ICommentSubmitData) => void;
+}
+
+export interface CommentModalProps {
+    commentsData : ICommentSelectData | undefined;
+    currentId : number;
 }
