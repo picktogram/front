@@ -60,32 +60,33 @@ https://sunrise-push-ffa.notion.site/Picktogram-3437f9ef750b43e78ca09c3aae0df46d
 
     * 게시글은 무한 스크롤을 통해 제공합니다.
   
-    * 댓글은 페이지네이션을 통해 제공합니다.
+    * 댓글은 더보기 버튼을 통해 추가됩니다.
     
     * 특정 게시글 확인 이후 뒤로가면 기존 스크롤이 유지됩니다. 
       
 * 게시글 / 댓글 작성
 
   ![이미지 업로드 과정](https://github.com/picktogram/front/assets/77627957/cc02743c-0fbd-4182-9aa1-2323cbe24ae9)
-
-  
+ 
   * 이미지 업로드 기능을 제공합니다.
+
+  ![픽토그램 이미지 위 댓글 달기 시현](https://github.com/picktogram/front/assets/77627957/00b27492-117a-4382-89e0-65f20d09113c)
+
+  * 게시글 이미지 위의 특정 좌표에 할당되는 댓글을 작성할 수 있습니다.
+  * 이미지 위의 댓글은 클릭하거나 마우스를 올리는 것으로 확인 할 수 있습니다.
+  * 일반적인 댓글 작성도 가능합니다. 이 경우에는 이미지 위에 해당 댓글은 표시되지 않습니다.
     
   ![image](https://github.com/picktogram/front/assets/77627957/9c63d118-088b-4dfb-9665-5677b8a1f172)
 
-  * 댓글이 없는 게시글을 추천합니다. 페이지네이션으로 제공됩니다.
- 
-  
-    
+  * 댓글이 없는 게시글을 추천합니다. 페이지네이션 형태로 제공됩니다.
+
   * 게시글과 댓글 작성 빈도로 측정되는 점수가 있습니다. 이를 활용한 추천 유저 기능을 추가할 예정입니다.
- 
-  * 디자이너가 게시한 게시글의 이미지를 활용한 보다 적극적인 댓글 기능을 추가할 예정입니다. (ex. 이미지의 특정 위치에 댓글을 추가하여 의견 제공하기)
   
 * 팔로우 / 언팔로우
   
   ![image](https://github.com/picktogram/front/assets/77627957/c52429e4-74d8-4856-809b-849ad3bdab8d)
 
-  * 날 팔로우한 유저를 추천합니다. 페이지네이션으로 제공됩니다.
+  * 날 팔로우한 유저를 추천합니다. 페이지네이션 형태로 제공됩니다.
 
 ## Pages
 
@@ -102,3 +103,8 @@ https://sunrise-push-ffa.notion.site/Picktogram-3437f9ef750b43e78ca09c3aae0df46d
 
 ![image](https://github.com/picktogram/front/assets/77627957/b8d04f76-7d7a-49b2-a0ce-5137cc792f7a)
 * 다른 유저의 페이지
+
+### Board Page
+![image](https://github.com/picktogram/front/assets/77627957/f3bf2221-c71b-4174-a094-06681699b6bf)
+
+
