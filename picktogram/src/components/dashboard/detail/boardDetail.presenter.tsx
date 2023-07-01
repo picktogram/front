@@ -111,7 +111,7 @@ export default function BoardDetailUI({
                     </S.CommentInput>
                     <S.CommentsBox>
                         {
-                            commentList.list.map((comment) => (
+                            commentList?.list.map((comment) => (
                                 <S.Comments
                                     key={comment.id}
                                     id={String(comment.id)}
@@ -127,7 +127,7 @@ export default function BoardDetailUI({
                                 </S.Comments>
                             ))
                         }
-                        <Pagination totalPage={commentList.totalPage} setPage={setPage} page={page} />
+                        <Pagination totalPage={commentList?.totalPage} setPage={setPage} page={page} />
                     </S.CommentsBox>
                 </S.ContentsBox>
             </S.UserWrapper>

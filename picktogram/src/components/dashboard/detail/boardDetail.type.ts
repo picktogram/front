@@ -1,3 +1,5 @@
+import { CommentType, Merge, UserType } from "picktogram-server-apis/types";
+
 type ImageData = {
     id : number;
     depth : 1;
@@ -43,7 +45,14 @@ export interface ICommentData  {
     page : number;
 }
 
-export type ICommentSelectData = Omit<ICommentData, 'count' | 'totalResult'> & { hasMore : boolean }
+export interface ICommentSelectData {
+    list: Merge<CommentType.RootComment, {
+        writer: UserType.Profile;
+    }>[];
+    page: number;
+    totalPage: number;
+    hasMore: boolean;
+}
 
 export interface IBoardDetailProps {
     token : string;

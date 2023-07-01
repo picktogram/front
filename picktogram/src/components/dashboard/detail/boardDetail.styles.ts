@@ -165,7 +165,7 @@ export const CommentOnImage = styled.div<{
   yPos : number | string;
 }>`
   width: ${(props) => props.isOpen ? '300px' : '20px'};
-  height: ${(props) => props.isOpen ? 'auto' : '20px'};
+  max-height: ${(props) => props.isOpen ? '100px' : '20px'};
   border-radius: 20px;
   padding: 1rem;
   position: absolute;
@@ -174,7 +174,7 @@ export const CommentOnImage = styled.div<{
   z-index : 10000px;
   overflow : hidden;
   background-color : ${(props) => props.isOpen ? 'lightgray' : 'black'};;
-  transition : width .3s, background-color .3s;
+  transition : all .3s ease-out;
 
   &:hover {
     transform : scale(1.2)

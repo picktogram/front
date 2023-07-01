@@ -44,34 +44,48 @@ export default function BoardDetail({
         }
     }, {
         onSuccess: () => {
-            queryClient.invalidateQueries(['getComments', page, router.query.id ])
+            queryClient.invalidateQueries(['fetchComments', page, router.query.id ])
         },
     });
 
-    const { data : commentsData } = useQuery<ICommentData, AxiosError, ICommentSelectData>(['getComments', page, router.query.id ], () => fetcher({
-        method : 'get',
-        path : `/api/v1/articles/${router.query.id}/comments?limit=4&page=${page}`,
-        headers : {
-            Authorization : token
-        },
-    }), {
-        keepPreviousData: true,
+    const {data : commentsData }= useQuery(['fetchComments', page, router.query.id], async () => {
+        try {
+            const res = await Apis.api.v1.articles.comments.readComments({
+                host : SERVER_URL as string,
+                headers : {
+                    Authorization : token
+                }
+            },
+                Number(router.query.id),
+                {
+                    limit : 4,
+                    page,
+                }
+            )
+
+            return res.data
+        } catch (error) {
+            console.log(error)
+        }
+    }, {
+        keepPreviousData : true,
         select : (data) => {
+            if(!data) return
             return {
-                list: data.list,
-                page : data.page,
-                totalPage : data.totalPage,
-                hasMore: data.totalPage > page
-            };
-        },
+                list : data?.list,
+                page : data?.page,
+                totalPage : data?.totalPage,
+                hasMore : data?.totalPage > page
+            }
+        }
     })
 
     useEffect(() => {
         if (commentsData?.hasMore) {
-            queryClient.prefetchQuery(['getComments', page + 1, router.query.id], () =>
+            queryClient.prefetchQuery(['fetchComments', page + 1, router.query.id], () =>
                 fetcher({
                     method : 'get',
-                    path : `/api/v1/articles/${router.query.id}/comments?limit=10&page=${page + 1}`,
+                    path : `/api/v1/articles/${router.query.id}/comments?limit=4&page=${page + 1}`,
                     headers : {
                         Authorization : token
                     },
@@ -108,7 +122,6 @@ export default function BoardDetail({
         }
 
     }
-
 
     if(isError) {
         return <div>Error...</div>
