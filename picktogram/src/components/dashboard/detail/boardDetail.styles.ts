@@ -192,10 +192,13 @@ export const CommentOnImage = styled.div<{
   top: ${(props) => `${props.yPos}px`};
   z-index : 10000px;
   overflow : hidden;
-  background-color : ${(props) => props.isOpen ? 'lightgray' : 'black'};;
+  background-color : ${(props) => props.isOpen ? '#3f3f3f' : 'black'};
+  color : ${(props) => props.isOpen ? 'white' : '3f3f3f'};
+  opacity : ${(props) => props.isOpen ? '1' : '0.2'};
   transition : all .3s ease-out;
 
   &:hover {
-    transform : scale(1.2)
+    transform : scale(1.2);
+    opacity: 1;
   }
 `
