@@ -12,6 +12,7 @@ import useDate from '@/src/hooks/useDate'
 
 import CardModal from './cardModal';
 import ArticleModal from '../modals/articleModal'
+import ProfileImage from '../profileImage'
 
 export default function Card({
   isLast,
@@ -59,7 +60,7 @@ export default function Card({
       }, [isLast]);
 
 
-    const handleClick : any = () => {
+    const handleClick = () => {
       if(data) {
         savePos();
         router.push(`/dashboard/${data?.id}`)
@@ -70,7 +71,11 @@ export default function Card({
       <>
         <S.CardContainer ref={cardRef} >
           <S.UserInfo>
-            <S.ProfileImage background={data.writer.profileImage}/>
+            <ProfileImage
+              profileImage={data?.writer.profileImage}
+              isCircle={true}
+              onClick={() => router.push(`/user/profile/${data?.writer.id}`)}
+            />
             <div style={{display : 'flex', flexDirection : 'column'}}>
               <h2 style={{cursor : 'pointer'}} onClick={() => router.push(`/user/profile/${data.writer.id}`)}>{data.writer.nickname}</h2>
               <div>
@@ -85,7 +90,10 @@ export default function Card({
             <div>{data.contents}</div>
             {
               data.thumbnail?.length ? (
-                <S.ImageBox background={data.thumbnail} />
+                <S.ImageBox
+                    background={data.thumbnail}
+                    onClick={() => handleClick()}
+                  />
               ) : (
                 <div>{''}</div>
               )

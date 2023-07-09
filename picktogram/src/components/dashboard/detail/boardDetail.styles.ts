@@ -63,6 +63,7 @@ export const UserNickname = styled.span`
 `
 export const Username = styled.span`
   font-size: 1.4rem;
+  white-space: nowrap;
 `
 
 export const BoardModalWrapper = styled.div`
@@ -126,6 +127,7 @@ export const Comments = styled.div`
   display: flex;
   column-gap: 1rem;
   align-items: center;
+  white-space: nowrap;
 `
 
 export const CommentInput = styled.form`

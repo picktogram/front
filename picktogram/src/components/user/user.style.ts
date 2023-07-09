@@ -70,7 +70,8 @@ export const UserIntroduce = styled.div`
 `
 
 export const UserArticle = styled.div`
-    min-height: 400px;
+    /* min-height: 400px; */
+    height: auto;
     display: flex;
     flex-direction: column;
     gap: 1rem;

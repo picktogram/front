@@ -6,6 +6,7 @@ import { fetcher } from '@/util/queryClient'
 import { UserData } from '@/src/auth/tokens'
 import useCurrentUser from '@/src/hooks/useCurrentUser'
 import { mediaQuery } from '@/styles/media'
+import ProfileImage from '../../commons/profileImage'
 
 type UserMainProfileProps = {
     user : UserData;
@@ -66,7 +67,12 @@ export default function UserMainProfile({
     return (
         <Container>
             <UserInfoWrapper>
-                <UserIcon background={userData?.profileImage}/>
+                <ProfileImage
+                    isCircle={true}
+                    width={100}
+                    height={100}
+                    profileImage={userData?.profileImage}
+                />
                 <UserProfile>
                     <UserName>{user.nickname}</UserName>
                     <UserReputation>{reputationData?.sum}점</UserReputation>

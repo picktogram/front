@@ -11,6 +11,7 @@ import UserFollowees from './components/userFollowees';
 import UserCoverImage from './components/userCoverImage'
 import Card from '../commons/card/card';
 import * as S from './user.style'
+import ProfileImage from '../commons/profileImage';
 
 const UserUI = ({
     user,
@@ -71,8 +72,10 @@ const UserUI = ({
                     coverImage={user?.coverImage}
                 />
                 <S.UserInfo>
-                    <S.ProfileImage
-                        background={user?.profileImage}
+                    <ProfileImage
+                        height={120}
+                        width={120}
+                        profileImage={user?.profileImage}
                     />
                     <S.UserName>{user?.name}</S.UserName>
                     <S.UserNickName>{user?.nickname && user?.name}</S.UserNickName>
@@ -104,7 +107,7 @@ const UserUI = ({
                     <div style={{display : 'flex', flexDirection : 'column', rowGap : '1rem', alignItems : 'center'}}>
                         <div>작성한 글이 없습니다.</div>
                         {isSame && (
-                                <div>
+                                <div style={{display : 'flex', flexDirection : 'column', rowGap : '1rem'}}>
                                     <div>글을 작성해보세요.</div>
                                     <S.Button onClick={() => router.push("/dashboard/new")}>게시글 작성</S.Button>
                                 </div>

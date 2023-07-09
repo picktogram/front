@@ -4,6 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import Image from 'next/image'
 import styled from '@emotion/styled'
 import useImageUpload from '@/src/hooks/useImageUpload';
+import ProfileImage from './profileImage';
 
 interface ImageUploadProps {
     token : string;
@@ -82,13 +83,9 @@ const ImageUpload : React.FC<ImageUploadProps> = ({
                 {
                     image ? (
                         <div>
-                            {/* <Image
-                                src={image}
-                                height={100}
-                                width={100}
-                                alt='Uploaded Image'
-                            /> */}
-                            {image}
+                            <ProfileImage
+                                profileImage={image}
+                            />
                         </div>
                     ) : (
                         <Label>{label}</Label>

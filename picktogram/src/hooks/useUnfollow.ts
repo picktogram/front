@@ -18,7 +18,7 @@ export default function useUnfollow(userId : number, refetchFn? : () => void) {
     {
         onSuccess : (data) => {
             refetchFn?.()
-            toast.success('unfollow success')
+            toast.success('팔로우를 끊었습니다.')
         },
         onError : (error) => {
             console.log(error.message)

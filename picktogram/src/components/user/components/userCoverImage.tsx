@@ -24,6 +24,7 @@ const ImageBox = styled.div<{
     background-color: white;
     background-image: url(${(props) => props.background ? props.background : ''});
     background-size: cover;
+    background-position: center;
     display: ${(props) => props.background ? 'block' : 'none'};
 `
 

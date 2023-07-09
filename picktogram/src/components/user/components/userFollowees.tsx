@@ -7,6 +7,7 @@ import styled from '@emotion/styled'
 import ProfileImage from '../../commons/profileImage';
 import Pagination from '../../commons/Pagination/Pagination.container';
 import useFollowees from '@/src/hooks/useFollowees';
+import NoDataIndicator from '../../commons/NoDataIndicator';
 
 const Container = styled.div`
     padding: 1rem;
@@ -50,20 +51,14 @@ const UserFollowees : React.FC<UserFolloweesProps> = ({
     const [page, setPage] = useState<number>(1)
     const { data : followees} = useFollowees(token, Number(router.query.id), page)
 
-
-    if(!followees?.list.length) {
-        return (
-            <Container>
-            <h2>팔로워</h2>
-            <div>팔로워가 없습니다. 다양한 활동을 통해 팔로워를 늘려보세요.</div>
-        </Container>
-        )
-    }
-
     return (
         <Container>
             <h2>팔로워</h2>
-            {followees.list.map((followee) => (
+            <NoDataIndicator
+                data={followees ? followees : {count : 0}}
+                title='팔로워가 없습니다. 다양한 활동을 통해 팔로워를 늘려보세요.'
+            />
+            {followees?.list.map((followee) => (
                 <Followee>
                     <ProfileImage profileImage={followee?.profileImage} isCircle={true}/>
                     <Name>
@@ -74,7 +69,7 @@ const UserFollowees : React.FC<UserFolloweesProps> = ({
                     </Button>
                 </Followee>
             ))}
-            <Pagination totalPage={followees.totalPage} page={page} setPage={setPage}/>
+            <Pagination totalPage={followees?.totalPage} page={page} setPage={setPage}/>
         </Container>
     );
 };

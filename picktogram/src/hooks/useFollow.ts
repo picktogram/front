@@ -18,7 +18,7 @@ export default function useFollow (userId : number, refetchFn? : () => void) {
     {
         onSuccess : (data) => {
             refetchFn?.()
-            toast.success('follow success')
+            toast.success('팔로우 했습니다.')
         },
         onError : (error) => {
            console.log(error.message)

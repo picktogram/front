@@ -104,7 +104,7 @@ const LeftArrow = styled.div`
     font-weight: 700;
     z-index: 1;
     cursor: pointer;
-    opacity: 0;
+    opacity: 0.1;
     color: white;
     background-color: rgba(0,0,0,0.6);
     transition: all .4s ease-in-out;
@@ -126,7 +126,7 @@ const RightArrow = styled.div`
     font-weight: 700;
     z-index: 1;
     cursor: pointer;
-    opacity: 0;
+    opacity: 0.1;
     color: white;
     background-color: rgba(0,0,0,0.6);
     transition: all .4s ease-in-out;

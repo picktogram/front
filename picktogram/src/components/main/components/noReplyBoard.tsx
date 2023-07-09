@@ -10,6 +10,7 @@ import styled from '@emotion/styled'
 
 import Pagination from '../../commons/Pagination/Pagination.container';
 import NoDataIndicator from '../../commons/NoDataIndicator';
+import ProfileImage from '../../commons/profileImage';
 
 type NoReplyProps = {
     user : UserData;
@@ -59,7 +60,11 @@ export default function NoReplyBoard({
                 {
                     noReply?.list.map((board) => (
                         <NoReply key={board.id} >
-                            <ProfileImage background={board.writer.profileImage} />
+                            {/* <ProfileImage background={board.writer.profileImage} /> */}
+                            <ProfileImage
+                                isCircle={true}
+                                profileImage={board?.writer?.profileImage}
+                            />
                             <Name>
                                 {board.writer.nickname}
                             </Name>
@@ -120,16 +125,4 @@ const VisitButton = styled.button`
     border-radius: 20px;
     color : white;
     text-align: center;
-`
-
-const ProfileImage = styled.div<{
-    background : string | null | undefined
-}>`
-    width: 50px;
-    height: 50px;
-    background-image: url(${(props) => props.background ? props.background : '/images/placeholder.png'});
-    background-size: cover;
-    background-repeat: no-repeat;
-    border: 1px solid lightgray;
-    border-radius: 50%;
 `
