@@ -5,6 +5,7 @@ Picktogram은 디자이너를 위한 SNS 서비스입니다.
 AWS EC2를 통해 배포하였습니다. 
 http://3.34.219.42:3000
 
+## 
 
 로컬에서 실행하려면 아래 순서를 따르면 됩니다.
 
@@ -56,21 +57,24 @@ https://sunrise-push-ffa.notion.site/Picktogram-3437f9ef750b43e78ca09c3aae0df46d
 
 * 게시글 / 댓글 조회
 
-    ![무한스크롤11](https://github.com/picktogram/front/assets/77627957/cea3f3e7-e207-4251-9b61-500f09af965a)
+    ![ezgif com-video-to-gif](https://github.com/picktogram/front/assets/77627957/611c178b-8559-4fd5-bf97-1b3804519ae6)
+
 
     * 게시글은 무한 스크롤을 통해 제공합니다.
   
     * 댓글은 더보기 버튼을 통해 추가됩니다.
     
-    * 특정 게시글 확인 이후 뒤로가면 기존 스크롤이 유지됩니다. 
+    * 특정 게시글 확인 이후 뒤로가면 기존 스크롤이 유지됩니다.
+      
       
 * 게시글 / 댓글 작성
 
-  ![이미지 업로드 과정](https://github.com/picktogram/front/assets/77627957/cc02743c-0fbd-4182-9aa1-2323cbe24ae9)
- 
-  * 이미지 업로드 기능을 제공합니다.
+  ![ezgif com-video-to-gif (2)](https://github.com/picktogram/front/assets/77627957/9a2024ce-0dd9-40ea-a20d-7b43aead9311)
 
-  ![픽토그램 이미지 위 댓글 달기 시현](https://github.com/picktogram/front/assets/77627957/00b27492-117a-4382-89e0-65f20d09113c)
+ 
+  * 게시글 작성 과정에서 이미지 업로드 기능을 제공합니다.
+
+   ![ezgif com-video-to-gif (1)](https://github.com/picktogram/front/assets/77627957/566307dd-e770-45ea-a66f-08451e287678)
 
   * 게시글 이미지 위의 특정 좌표에 할당되는 댓글을 작성할 수 있습니다.
   * 이미지 위의 댓글은 클릭하거나 마우스를 올리는 것으로 확인 할 수 있습니다.
@@ -78,15 +82,31 @@ https://sunrise-push-ffa.notion.site/Picktogram-3437f9ef750b43e78ca09c3aae0df46d
     
   ![image](https://github.com/picktogram/front/assets/77627957/9c63d118-088b-4dfb-9665-5677b8a1f172)
 
-  * 댓글이 없는 게시글을 추천합니다. 페이지네이션 형태로 제공됩니다.
 
-  * 게시글과 댓글 작성 빈도로 측정되는 점수가 있습니다. 이를 활용한 추천 유저 기능을 추가할 예정입니다.
+  * 댓글이 없는 게시글을 추천합니다. 페이지네이션 형태로 제공됩니다.
+    
   
 * 팔로우 / 언팔로우
   
   ![image](https://github.com/picktogram/front/assets/77627957/c52429e4-74d8-4856-809b-849ad3bdab8d)
 
   * 날 팔로우한 유저를 추천합니다. 페이지네이션 형태로 제공됩니다.
+    
+ 
+* 유저 프로필 수정
+
+  ![ezgif com-video-to-gif (3)](https://github.com/picktogram/front/assets/77627957/4f0508cd-ddc9-49fb-9b26-ea53a0280a7d)
+
+
+  * 커버 이미지를 수정할 수 있습니다.
+  * 프로필 이미지를 수정할 수 있습니다.
+  * 소개글을 수정할 수 있습니다.
+
+
+ * 게시글과 댓글 작성 빈도로 측정되는 점수가 있습니다. 이를 활용한 추천 유저 기능을 추가할 예정입니다.
+ * 대댓글 기능을 추가할 예정입니다.
+ * 게시글 검색 기능을 추가할 예정입니다.
+
 
 ## Pages
 
@@ -105,6 +125,7 @@ https://sunrise-push-ffa.notion.site/Picktogram-3437f9ef750b43e78ca09c3aae0df46d
 * 다른 유저의 페이지
 
 ### Board Page
-![image](https://github.com/picktogram/front/assets/77627957/f3bf2221-c71b-4174-a094-06681699b6bf)
+![image](https://github.com/picktogram/front/assets/77627957/2c67b693-dc88-4a48-9887-4c44c9619111)
+
 
 
