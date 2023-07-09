@@ -2,7 +2,7 @@ import React, { Dispatch, MouseEventHandler, SetStateAction } from "react";
 import styled from "@emotion/styled"
 
 interface ICarouselProps {
-    images : {url : string; id : number}[]
+    images : {url : string; id : number}[] | undefined;
     count : number;
     setCount : Dispatch<SetStateAction<number>>;
     currentId : React.MutableRefObject<number>;
@@ -17,6 +17,9 @@ export default function Carousel ({
      isNew = false
     } : ICarouselProps
     ) {
+    if(!images) {
+        return null
+    }
     const nextImage : MouseEventHandler<HTMLDivElement> = (e) => {
         e.stopPropagation()
         setCount((prev) => {
@@ -71,7 +74,6 @@ export default function Carousel ({
             }
         </CarouselContainer>
     )
-
 }
 
 const CarouselContainer = styled.div`

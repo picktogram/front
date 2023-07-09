@@ -15,6 +15,7 @@ const BasicProfileImage = styled.div<ProfileImageProps>`
     height : ${(props) => props.height ? `${props.height}px` : '50px'};
     background-image : url(${(props) => props.profileImage ? props.profileImage : '/images/placeholder.png'});
     background-repeat : no-repeat;
+    background-position : center;
     background-size : cover;
     border : 1px solid lightgray;
     border-radius : ${(props) => props.isCircle ? '50%' : ''};

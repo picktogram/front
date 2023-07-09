@@ -30,18 +30,19 @@ const InputRemoteControl : React.FC<InputRemoteControlProps>= ({
                 onChange={(e) => setModalInputValue(e.target.value)}
             />
             <S.RemoteCancelBtn onClick={handleClose}>x</S.RemoteCancelBtn>
-            <S.Button onClick={() => handleComment({
-                parentId : null,
-                contents : modalInputValue,
-                xPosition : xPos ? xPos : null,
-                yPosition : yPos ? yPos : null,
-                imageId : currentId,
-                onSuccess: () => {
-                    setModalInputValue('')
-                    handleClose()
-                }
-            })}
-            disabled={!modalInputValue}
+            <S.Button
+                onClick={() => handleComment({
+                    parentId : null,
+                    contents : modalInputValue,
+                    xPosition : xPos ? xPos : null,
+                    yPosition : yPos ? yPos : null,
+                    imageId : currentId,
+                    onSuccess: () => {
+                        setModalInputValue('')
+                        handleClose()
+                    }
+                })}
+                disabled={!modalInputValue}
             >등록</S.Button>
         </S.RemoteControl>
     );

@@ -3,13 +3,11 @@ import { BoardDetailUIProps, ICommentSelectData } from './boardDetail.type'
 
 import * as S from "./boardDetail.styles"
 
-import Carousel from '@/src/components/commons/carousel';
 import BoardModal from "@/src/components/commons/boardModal"
-import Pagination from '@/src/components/commons/Pagination/Pagination.container';
 import ProfileImage from '../../commons/profileImage';
 import useImageRef from '@/src/hooks/useImageRef';
-import InputRemoteControl from './components/inputRemoteControl';
-import CommentModal from './components/commentModal';
+
+import ImageControlBox from './components/ImageControlBox';
 
 export default function BoardDetailUI({
     boardData,
@@ -20,8 +18,6 @@ export default function BoardDetailUI({
     handleNextCommentData
     } : BoardDetailUIProps
     ) {
-    console.log('ishasNextComments', ishasNextComments)
-    const currentId = useRef<number>(boardData?.images[0]?.id)
     const [count, setCount] = useState<number>(0)
     const [isShow, setIsShow] = useState<boolean>(false)
     const [hoverInfo, setHoverInfo] = useState<{id : string; isHover : boolean}>({
@@ -29,56 +25,44 @@ export default function BoardDetailUI({
         isHover : false,
     })
     const [inputValue, setInputValue] = useState<string>('')
-
-    const {ref, handlePosition, xPos, yPos, isOpen, handleClose, handleSubmit } = useImageRef()
-
+    const { handlePosition, xPos, yPos, isOpen, handleClose } = useImageRef()
 
     return (
             <S.Container>
-                <S.ImageWrapper >
-                    {
-                        boardData?.images.length > 0 && (
-                            <S.ImagesBox onClick={handlePosition} >
-                                <Carousel
-                                    images={boardData?.images}
-                                    count={count}
-                                    setCount={setCount}
-                                    currentId={currentId}
-                                />
-                            <InputRemoteControl
-                                    isOpen={isOpen}
-                                    xPos={xPos}
-                                    yPos={yPos}
-                                    handleComment={handleComment}
-                                    currentId={currentId.current}
-                                    handleClose={handleClose}
-                            />
-                            <CommentModal
-                                commentsData={commentsData}
-                                currentId={currentId.current}
-                                hoverInfo={hoverInfo}
-                            />
-                            </S.ImagesBox>
-                        )
-                    }
-                </S.ImageWrapper>
-                <S.UserWrapper>
+               <ImageControlBox
+                    commentsData={commentsData}
+                    count={count}
+                    setCount={setCount}
+                    handleClose={handleClose}
+                    handleComment={handleComment}
+                    handlePosition={handlePosition}
+                    hoverInfo={hoverInfo}
+                    images={boardData?.images}
+                    isOpen={isOpen}
+                    xPos={xPos}
+                    yPos={yPos}
+               />
+                <S.ContentsWrapper
+                    isNoImage={boardData?.images?.length}
+                >
                     <S.UserInfo>
                         <ProfileImage
                             profileImage={boardData?.writer.profileImage}
+                            width={80}
+                            height={80}
                             isCircle={true}
                         />
-                        <S.Username>
+                        <S.UserNickname>
                             {boardData?.writer.nickname}
-                        </S.Username>
-                        <S.UserMenu onClick={() => setIsShow(!isShow)}>
+                        </S.UserNickname>
+                        {/* <S.UserMenu onClick={() => setIsShow(!isShow)}>
                             <i className="ri-menu-line"></i>
-                        </S.UserMenu>
-                        {isShow && (
+                        </S.UserMenu> */}
+                        {/* {isShow && (
                             <S.BoardModalWrapper>
                                 <BoardModal handleMoveEdit={handleMoveEdit} />
                             </S.BoardModalWrapper>
-                        )}
+                        )} */}
                     </S.UserInfo>
                     <S.ContentsBox>
                         <S.Contents>{boardData?.contents}</S.Contents>
@@ -96,7 +80,6 @@ export default function BoardDetailUI({
                                         contents : inputValue,
                                         xPosition : xPos ? xPos : null,
                                         yPosition : yPos ? yPos : null,
-                                        imageId : currentId.current,
                                         onSuccess: () => setInputValue(''),
                                     })}
                                     disabled={!inputValue}
@@ -145,7 +128,7 @@ export default function BoardDetailUI({
                             </S.AddBtn>
                         </S.CommentsBox>
                     </S.ContentsBox>
-                </S.UserWrapper>
+                </S.ContentsWrapper>
         </S.Container>
     )
 }

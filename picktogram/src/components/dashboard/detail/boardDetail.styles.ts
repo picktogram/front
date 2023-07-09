@@ -1,11 +1,16 @@
 import styled from '@emotion/styled'
+import { mediaQuery } from '@/styles/media';
 
 export const Container = styled.div`
     position: relative;
-    margin: auto;
+    margin:  0 auto;
     width: 2000px;
     height: 1300px;
     display: flex;
+    border-bottom: 1px solid lightgray;
+    @media screen and (max-width : 2100px) {
+      border-top : 1px solid lightgray;
+    }
 `
 
 export const ImageWrapper = styled.div`
@@ -29,12 +34,17 @@ export const InputOnImages = styled.div<{
   color: white;
 `
 
-export const UserWrapper = styled.div`
-  width: 100%;
+export const ContentsWrapper = styled.div<{
+  isNoImage : number | undefined;
+}>`
+  width: 75%;
+  width: ${(props) => props.isNoImage ? '75%' : '50%'};
+  margin: ${(props) => props.isNoImage ? 'none' : '0 auto'};
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: white;
 `
 export const UserInfo = styled.div`
   width: 100%;
@@ -42,12 +52,19 @@ export const UserInfo = styled.div`
   column-gap: 1rem;
   align-items: center;
   padding: 16px;
-  border: 1px solid black;
+  border-bottom: 1px solid lightgray;
+`
+export const UserNickname = styled.span`
+  position: relative;
+  top: -20px;
+  left: -10px;
+  font-weight: 800;
+  font-size: 1.4rem;
+`
+export const Username = styled.span`
+  font-size: 1.4rem;
 `
 
-export const Username = styled.span`
-  font-size: 1.2rem;
-`
 export const BoardModalWrapper = styled.div`
   position: absolute;
   top: 100px;
@@ -72,9 +89,6 @@ export const ContentsBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
-  background-color: #3f3f3f;
-  color : white;
 `
 
 export const Contents = styled.div`
@@ -86,11 +100,12 @@ export const Contents = styled.div`
 
 export const CommentsBox = styled.div`
    width: 100%;
-   height: 800px;
+   height: 770px;
    margin: 0 auto;
    padding: 1rem;
    margin-bottom: 1.5rem;
    overflow-y: scroll;
+
    &::-webkit-scrollbar {
         opacity: 0;
     }
@@ -99,13 +114,9 @@ export const CommentsBox = styled.div`
 export const AddBtn = styled.button`
   background-color: transparent;
   font-size: 16px;
-  color: lightgray;
+  color: gray;
   border: none;
   cursor: pointer;
-
-  &:hover {
-    color : gray
-  }
 `
 export const Comments = styled.div`
   width: 100%;
@@ -118,35 +129,37 @@ export const Comments = styled.div`
 `
 
 export const CommentInput = styled.form`
-   width: 90%;
+   width: 100%;
    margin: 0 auto;
    display: grid;
    place-items: center;
    column-gap: 1rem;
-   grid-template-columns: 85% 15%;
+   grid-template-columns: 70% 30%;
+   padding-left: 1rem;
 `
 
 export const Input = styled.input`
   width: 100%;
-  border: none;
-  background-color: gray;
-  border-radius: 20px;
-  height: 25px;
+  height: 80px;
+  border-radius : 10px;
+  border: 1px solid lightgray;
   padding: 1rem;
-  color: white;
+  font-size: 1.2rem;
 `
 
 export const Button = styled.button`
   border-radius: 20px;
-  min-width: 100px;
-  padding: 20px;
+  padding: 30px 40px;
+  font-size: 1rem;
+  text-align: center;
+  white-space: nowrap;
 `
 
 export const RemoteControl = styled.div<{
   xPos : number | string;
   yPos : number | string;
 }>`
-  width: 500px;
+  width: 800px;
   padding: 30px;
   display: flex;
   align-items: center;

@@ -1,5 +1,5 @@
 import { PaginationResponseType } from "picktogram-server-apis/common/interceptors/transform.interceptor";
-import { CommentType, Merge, UserType } from "picktogram-server-apis/types";
+import { ArticleType, CommentType, Merge, UserType } from "picktogram-server-apis/types";
 import { InfiniteData } from "react-query";
 
 type ImageData = {
@@ -52,8 +52,9 @@ export interface IBoardDetailProps {
     }
 }
 
+//
 export interface BoardDetailUIProps {
-    boardData : any;
+    boardData : ArticleType.DetailArticle | null | undefined;
     commentsData :  InfiniteData<PaginationResponseType<CommentType.CommentsByArcile> | undefined> | undefined;
     ishasNextComments : boolean | undefined;
     handleMoveEdit : React.MouseEventHandler<HTMLButtonElement>;
