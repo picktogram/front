@@ -42,8 +42,8 @@ export const fetcher : FetcherFn = async ({
     const result = await responce.data.data
     return result
   } catch (error) {
-      console.log(error)
-      // throw error
+      // console.log(error)
+      throw error
   }
 }
 

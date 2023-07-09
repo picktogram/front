@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { SERVER_URL } from '@/util/constant'
 import { toast } from 'react-hot-toast'
 import { ErrorMessage } from '@hookform/error-message';
+import { isBusinessErrorGuard } from 'picktogram-server-apis/config/errors';
 
 import styled from '@emotion/styled'
 import * as Apis from 'picktogram-server-apis/api/functional';
@@ -114,14 +115,18 @@ const registerModal = () => {
                 }
             )
 
+            if (isBusinessErrorGuard(response)) {
+                toast.error(response.data)
+                return;
+            }
+
             console.log(response)
             reset()
             onClose()
-            toast.success('register success!')
+            toast.success('회원가입에 성공했습니다.')
 
         } catch (error) {
             console.log(error)
-            toast.error('register failed')
         }
     }
 
