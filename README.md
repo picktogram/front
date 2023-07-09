@@ -118,14 +118,15 @@ https://sunrise-push-ffa.notion.site/Picktogram-3437f9ef750b43e78ca09c3aae0df46d
 
 
 ### User Page
-![image](https://github.com/picktogram/front/assets/77627957/4acaf7b9-9a7e-4a55-8f39-d7c6cebcaf49)
-* 나의 페이지
+![image](https://github.com/picktogram/front/assets/77627957/63dcacef-49cf-4d1b-a813-e207f3ca6e33)
+* 마이 페이지
 
-![image](https://github.com/picktogram/front/assets/77627957/b8d04f76-7d7a-49b2-a0ce-5137cc792f7a)
+![image](https://github.com/picktogram/front/assets/77627957/27494782-674c-4b3b-8cad-1ee7289fe708)
 * 다른 유저의 페이지
 
 ### Board Page
-![image](https://github.com/picktogram/front/assets/77627957/2c67b693-dc88-4a48-9887-4c44c9619111)
+![image](https://github.com/picktogram/front/assets/77627957/333de402-f62e-44c2-9c95-f023138e5f7d)
+
 
 
 
