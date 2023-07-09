@@ -9,6 +9,7 @@ import * as Apis from "picktogram-server-apis/api/functional";
 import styled from '@emotion/styled'
 
 import Pagination from '../../commons/Pagination/Pagination.container';
+import NoDataIndicator from '../../commons/NoDataIndicator';
 
 type NoReplyProps = {
     user : UserData;
@@ -50,6 +51,10 @@ export default function NoReplyBoard({
             <h2 style={{fontSize : '1.3rem'}}>
                 방문하시고 댓글을 달아보세요!
             </h2>
+            <NoDataIndicator
+                data={noReply ? noReply : {count : 0}}
+                title='추천 게시글이 없습니다.'
+            />
             <NoReplys>
                 {
                     noReply?.list.map((board) => (

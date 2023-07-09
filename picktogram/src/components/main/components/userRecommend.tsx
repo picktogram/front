@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 import useAcquaintance from '@/src/hooks/useAcquaintance';
 
 import Pagination from '@/src/components/commons/Pagination/Pagination.container';
+import NoDataIndicator from '../../commons/NoDataIndicator';
 
 type UserRecommendProps = {
   user : UserData;
@@ -20,11 +21,17 @@ export default function UserRecommend({
   const queryClient = useQueryClient()
   const acquaintanceData = useAcquaintance(token, page)
 
+  console.log(acquaintanceData)
+
   return (
     <Container>
       <h2 style={{marginBottom : '1rem'}}>
         추천 유저
       </h2>
+      <NoDataIndicator
+        data={acquaintanceData ? acquaintanceData : {count : 0}}
+        title='추천 유저가 없습니다.'
+      />
       <Acquaintance>
         {
           acquaintanceData?.list.map((acquaintance : any) => (
